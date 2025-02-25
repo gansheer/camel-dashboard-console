@@ -2,7 +2,7 @@
 plugin:
   name: ""
   description: ""
-  image: "quay.io/cmiranda/camel-openshift-console-plugin:latest"
+  image: "quay.io/camel-tooling/camel-openshift-console-plugin:latest"
   imagePullPolicy: Always
   replicas: 1
   port: 9443
@@ -58,7 +58,7 @@ plugin:
 #   namespace: "plugin-camel-openshift-console-plugin"
 #   envs:
 #     JAVA_APP_JAR: /deployments/quarkus-run.jar
-#   image: cmiranda/service-proxy:1.0.0-SNAPSHOT
+#   image: camel-tooling/service-proxy:1.0.0-SNAPSHOT
 #   openjdk17:
 #     builderImage: registry.access.redhat.com/ubi8/openjdk-17
 #   ports:

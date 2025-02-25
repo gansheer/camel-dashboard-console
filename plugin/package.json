@@ -2,7 +2,7 @@
     "name": "camel-openshift-console-plugin",
     "version": "0.0.1",
     "private": true,
-    "repository": "git@github.com:cmiranda/camel-openshift-console-plugin.git",
+    "repository": "git@github.com:camel-tooling/camel-openshift-console-plugin.git",
     "license": "Apache-2.0",
     "scripts": {
         "clean": "rm -rf dist",
