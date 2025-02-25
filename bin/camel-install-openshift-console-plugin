@@ -1,7 +1,7 @@
 #!/bin/bash
 TOKEN=""
 SERVER=""
-IMAGE="quay.io/cmiranda/camel-openshift-console-plugin:latest"
+IMAGE="quay.io/camel-tooling/camel-openshift-console-plugin:latest"
 while [[ $# -gt 0 ]]; do
   case $1 in
     --token)
@@ -42,4 +42,4 @@ EXISTING_PROJECT=`oc get projects | grep plugin-camel-openshift-console-plugin`
 if [ -z "$EXISTING_PROJECT" ]; then
   oc new-project plugin-camel-openshift-console-plugin
 fi
-helm upgrade -i camel-openshift-console-plugin charts/openshift-console-plugin --namespace plugin-camel-openshift-console-plugin --set plugin.image=quay.io/cmiranda/camel-openshift-console-plugin:latest
+helm upgrade -i camel-openshift-console-plugin charts/openshift-console-plugin --namespace plugin-camel-openshift-console-plugin --set plugin.image=quay.io/camel-tooling/camel-openshift-console-plugin:latest

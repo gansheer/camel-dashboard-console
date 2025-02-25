@@ -17,8 +17,8 @@
 # incompatibilities among Linux distros.
 #
 
-IMAGE_NAME_PLUGIN=quay.io/cmiranda/camel-openshift-console-plugin
-IMAGE_NAME_SERVICE_PROXY=quay.io/cmiranda/camel-openshift-console-service-proxy
+IMAGE_NAME_PLUGIN=quay.io/camel-tooling/camel-openshift-console-plugin
+IMAGE_NAME_SERVICE_PROXY=quay.io/camel-tooling/camel-openshift-console-service-proxy
 
 plugin:
 	cd plugin && yarn build && yarn install
