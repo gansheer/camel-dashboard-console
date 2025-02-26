@@ -19,7 +19,7 @@ import ApplicationsCPUGraph from '../components/ApplicationsCPUGraph';
 import ApplicationsMemoryGraph from '../components/ApplicationsMemoryGraph';
 
 export const CamelPage: React.FC<CamelHomePageProps> = ({ match }) => {
-    const { t } = useTranslation('plugin__console-plugin-template');
+    const { t } = useTranslation('plugin__camel-openshift-console-plugin');
     const { ns } = match?.params || {};
 
     const [activeNamespace, setActiveNamespace] = useState(ns || null);

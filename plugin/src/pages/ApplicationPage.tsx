@@ -25,7 +25,7 @@ import './camel.css';
 import { consoleFetchJSON } from '@openshift-console/dynamic-plugin-sdk';
 
 export const ApplicationPage: React.FC<ApplicationPageProps> = ( {match} ) => {
-  const { t } = useTranslation('plugin__console-plugin-template');
+  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   const { ns, kind, name } = match?.params || {};
   const [selectedNamespace] = useState<string>(ns || 'all-namespaces');
   const [selectedName] = useState<string>(name || '');
