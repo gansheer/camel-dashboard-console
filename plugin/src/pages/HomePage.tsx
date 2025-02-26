@@ -11,7 +11,7 @@ import {
 import './camel.css';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-import { NamespaceBar } from '@openshift-console/dynamic-plugin-sdk';
+import { NamespaceBar, useActiveNamespace } from '@openshift-console/dynamic-plugin-sdk';
 import ApplicationList from '../components/ApplicationList';
 import { Application } from '../types';
 import { fetchCronJobs, fetchDeployments, fetchDeploymentConfigs, populateAdddionalInfo } from '../services/CamelService';
@@ -20,17 +20,24 @@ import ApplicationsMemoryGraph from '../components/ApplicationsMemoryGraph';
 
 export const CamelPage: React.FC<CamelHomePageProps> = ({ match }) => {
     const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+    // Remove ns ?
     const { ns } = match?.params || {};
+    console.log(">> HomePage.ns "+ ns)
 
-    const [activeNamespace, setActiveNamespace] = useState(ns || null);
+    const [activeNamespace, setActiveNamespace] = useActiveNamespace();
     const [applications, setApplications] = useState<Application[]>([]);
 
     const matching = (left: Application, right: Application): boolean => {
         return left.metadata.name === right.metadata.name && left.metadata.namespace === right.metadata.namespace && left.kind === right.kind;
     }
 
+
+    console.log(">> HomePage.activeNamespace "+ activeNamespace)
     useEffect(() => {
-        fetchDeployments(activeNamespace).then((apps: Application[]) => {
+        console.log(">> HomePage.fetch with "+ activeNamespace)
+        const resolvedNamespace = activeNamespace === '#ALL_NS#' ? undefined : activeNamespace;
+        
+        fetchDeployments(resolvedNamespace).then((apps: Application[]) => {
             apps.forEach(app => {
                 setApplications((existing: Application[]) => {
                     return [...existing.filter(e => !matching(e, app)), app];
@@ -43,7 +50,7 @@ export const CamelPage: React.FC<CamelHomePageProps> = ({ match }) => {
             })
         });
 
-        fetchDeploymentConfigs(activeNamespace).then((apps: Application[]) => {
+        fetchDeploymentConfigs(resolvedNamespace).then((apps: Application[]) => {
             apps.forEach(app => {
                 setApplications((existing: Application[]) => {
                     return [...existing.filter(e => !matching(e, app)), app];
@@ -56,7 +63,7 @@ export const CamelPage: React.FC<CamelHomePageProps> = ({ match }) => {
             })
         });
 
-        fetchCronJobs(activeNamespace).then((apps: Application[]) => {
+        fetchCronJobs(resolvedNamespace).then((apps: Application[]) => {
             apps.forEach(app => {
                 setApplications((existing: Application[]) => {
                     return [...existing.filter(e => !matching(e, app)), app];
