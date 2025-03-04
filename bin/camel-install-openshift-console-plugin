@@ -2,6 +2,7 @@
 TOKEN=""
 SERVER=""
 IMAGE="quay.io/camel-tooling/camel-openshift-console-plugin:latest"
+NAMESPACE="camel-tooling"
 while [[ $# -gt 0 ]]; do
   case $1 in
     --token)
@@ -14,12 +15,30 @@ while [[ $# -gt 0 ]]; do
       shift # past argument
       shift # past value
       ;;
+    --image)
+      IMAGE="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    --namespace)
+      NAMESPACE="$2"
+      shift # past argument
+      shift # past value
+      ;;
     --token=*)
       TOKEN=`echo $1 | sed -e 's/^[^=]*=//g'`
       shift # past argument
       ;;
     --server=*)
       SERVER=`echo $1 | sed -e 's/^[^=]*=//g'`
+      shift # past argument
+      ;;
+    --image=*)
+      IMAGE=`echo $1 | sed -e 's/^[^=]*=//g'`
+      shift # past argument
+      ;;
+    --namespace=*)
+      NAMESPACE=`echo $1 | sed -e 's/^[^=]*=//g'`
       shift # past argument
       ;;
     -*|--*)
@@ -38,8 +57,8 @@ if [ -n "$TOKEN" ] && [ -n "$SERVER" ]; then
   oc login --token=$TOKEN --server=$SERVER
 fi
 
-EXISTING_PROJECT=`oc get projects | grep plugin-camel-openshift-console-plugin`
+EXISTING_PROJECT=`oc get projects | grep $NAMESPACE`
 if [ -z "$EXISTING_PROJECT" ]; then
-  oc new-project plugin-camel-openshift-console-plugin
+  oc new-project $NAMESPACE
 fi
-helm upgrade -i camel-openshift-console-plugin charts/openshift-console-plugin --namespace plugin-camel-openshift-console-plugin --set plugin.image=quay.io/camel-tooling/camel-openshift-console-plugin:latest
+helm upgrade -i camel-openshift-console-plugin charts/openshift-console-plugin --namespace $NAMESPACE --set plugin.image=$IMAGE
