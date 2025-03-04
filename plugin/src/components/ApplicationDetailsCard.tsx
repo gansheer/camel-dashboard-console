@@ -69,6 +69,7 @@ const ApplicationDetailsCard: React.FC<{ application: Application }> = ({ applic
         return "Failed";
     }
 
+    // FIXME: Rework service-proxy
     function checkMetricsEndpointStatus(application: Application) {
         const metricsProxyUrl = (app) => `/api/proxy/plugin/camel-openshift-console-plugin/service-proxy/metrics/${app.metadata.namespace}/${app.metadata.name}/`
         consoleFetch(metricsProxyUrl(application)).then((res) => {
@@ -78,6 +79,7 @@ const ApplicationDetailsCard: React.FC<{ application: Application }> = ({ applic
         });
     }
 
+    // FIXME: Rework service-proxy
     function checkInfoEndpointStatus(application: Application) {
         const infoEndpoint = (app) => `/api/proxy/plugin/camel-openshift-console-plugin/service-proxy/info/${app.metadata.namespace}/${app.metadata.name}/`
         consoleFetchJSON(infoEndpoint(application)).then((res) => {
@@ -87,6 +89,7 @@ const ApplicationDetailsCard: React.FC<{ application: Application }> = ({ applic
         });
     }
 
+    // FIXME: Rework service-proxy
     function checkProduiEndpointStatus(application: Application) {
         const produiProxyUrl = (app) => `/api/proxy/plugin/camel-openshift-console-plugin/service-proxy/produi/${app.metadata.namespace}/${app.metadata.name}/`
         consoleFetchJSON(produiProxyUrl(application)).then((res) => {

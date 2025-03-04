@@ -51,6 +51,7 @@ export const ApplicationPage: React.FC<ApplicationPageProps> = ( {match} ) => {
     }
   }, [application]);
 
+  // FIXME: Rework service-proxy
   function checkProdui(application: Application) {
     const produiProxyUrl = (app) => `/api/proxy/plugin/camel-openshift-console-plugin/service-proxy/produi/${app.metadata.namespace}/${app.metadata.name}/`
     consoleFetchJSON(produiProxyUrl(application)).then((res) => {
