@@ -80,6 +80,7 @@ endif
 # =========================
 #
 
+# TODO licence, format, and lint-fix
 
 #---
 #
@@ -93,6 +94,19 @@ endif
 plugin-setup: yarn
 	@echo "####### Setup $(PLUGIN_NAME) ..."
 	cd plugin && yarn install
+
+#---
+#
+#@ plugin-lint
+#
+#== Executes linting of all source code
+#
+#=== Calls: setup
+#
+#---
+plugin-lint: plugin-setup
+	@echo "####### Linter $(PLUGIN_NAME) ..."
+	cd plugin && yarn lint
 
 #---
 #
