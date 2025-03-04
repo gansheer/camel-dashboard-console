@@ -1,4 +1,4 @@
-import { K8sModel as K8sKind }  from '@openshift-console/dynamic-plugin-sdk';
+import { K8sModel as K8sKind } from '@openshift-console/dynamic-plugin-sdk';
 
 export const DeploymentModel: K8sKind = {
   label: 'Deployment',

@@ -1,28 +1,23 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import {
-  Card,
-  CardBody,
-  CardTitle,
-} from '@patternfly/react-core';
+import { Card, CardBody, CardTitle } from '@patternfly/react-core';
 import { Application } from '../types';
 import ApplicationsCPUGraph from './ApplicationsCPUGraph';
 import ApplicationsMemoryGraph from './ApplicationsMemoryGraph';
 import ApplicationsGcPauseGraph from './ApplicationsGcPauseGraph';
 import ApplicationsGcOverheadGraph from './ApplicationsGcOverheadGraph';
 
-const ApplicationMetricsCard: React.FC<{application: Application }> = ({ application }) => {
-
+const ApplicationMetricsCard: React.FC<{ application: Application }> = ({ application }) => {
   const [applications, setApplications] = useState<Application[]>([]);
   useEffect(() => {
-    const newApplications: Application[] = [application]; 
+    const newApplications: Application[] = [application];
     setApplications(newApplications);
   }, [application]);
 
   return (
     <Card>
       <CardTitle>Metrics</CardTitle>
-      {applications &&
+      {applications && (
         <CardBody>
           <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
             {/* First Row */}
@@ -44,7 +39,7 @@ const ApplicationMetricsCard: React.FC<{application: Application }> = ({ applica
             </div>
           </div>
         </CardBody>
-    }
+      )}
     </Card>
   );
 };

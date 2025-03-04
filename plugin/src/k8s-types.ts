@@ -6,8 +6,8 @@ import {
   K8sVerb,
   Selector,
   MatchLabels,
-  K8sModel
-}  from '@openshift-console/dynamic-plugin-sdk';
+  K8sModel,
+} from '@openshift-console/dynamic-plugin-sdk';
 
 import { JSONSchema7 } from 'json-schema';
 

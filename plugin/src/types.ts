@@ -1,11 +1,18 @@
-import { K8sResourceCommon } from "@openshift-console/dynamic-plugin-sdk";
-import { CronJobKind, DeploymentCondition, DeploymentKind, DeploymentConfigKind, PodSpec, PodTemplate } from "k8s-types";
+import { K8sResourceCommon } from '@openshift-console/dynamic-plugin-sdk';
+import {
+  CronJobKind,
+  DeploymentCondition,
+  DeploymentKind,
+  DeploymentConfigKind,
+  PodSpec,
+  PodTemplate,
+} from 'k8s-types';
 
 export type Snapshot = {
- name: string;
- x: string;
- y: number;
-}
+  name: string;
+  x: string;
+  y: number;
+};
 
 export type Metrics = {
   cpu?: Snapshot[];
@@ -14,9 +21,8 @@ export type Metrics = {
   gcOverhead?: Snapshot[];
 };
 
-
 export type Application = {
-  kind? : string;
+  kind?: string;
   cpu?: string;
   memory?: string;
   exchangesTotal?: string;
@@ -75,7 +81,7 @@ export function deploymentToApplication(deployment: DeploymentKind): Application
       ...deployment.status,
     },
   };
-};
+}
 
 export function deploymentConfigToApplication(deployment: DeploymentConfigKind): Application {
   return {
@@ -96,25 +102,25 @@ export function deploymentConfigToApplication(deployment: DeploymentConfigKind):
       ...deployment.status,
     },
   };
-};
+}
 
 export function cronjobToApplication(cronjob: CronJobKind): Application {
-    return {
-      kind: 'CronJob',
-      metadata: {
-        ...cronjob.metadata,
-      },
-      cronSpec: {
-        ...cronjob.spec.jobTemplate.spec,
-      },
-      metrics: {
-        cpu: [],
-        memory: [],
-        gcPause: [],
-        gcOverhead: [],
-      },
-      cronStatus: {
-        ...cronjob.status,
-      },
-    };
+  return {
+    kind: 'CronJob',
+    metadata: {
+      ...cronjob.metadata,
+    },
+    cronSpec: {
+      ...cronjob.spec.jobTemplate.spec,
+    },
+    metrics: {
+      cpu: [],
+      memory: [],
+      gcPause: [],
+      gcOverhead: [],
+    },
+    cronStatus: {
+      ...cronjob.status,
+    },
   };
+}

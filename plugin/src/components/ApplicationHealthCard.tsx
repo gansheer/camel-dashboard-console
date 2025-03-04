@@ -1,9 +1,5 @@
 import * as React from 'react';
-import {
-  Card,
-  CardBody,
-  CardTitle,
-} from '@patternfly/react-core';
+import { Card, CardBody, CardTitle } from '@patternfly/react-core';
 import { Application } from '../types';
 import ApplicationVolumeHealthCard from './ApplicationVolumeHealthCard';
 import ApplicationJobHealthCard from './ApplicationJobHealthCard';
@@ -11,8 +7,6 @@ import ApplicationInitContainerHealthCard from './ApplicationInitContainerHealth
 import ApplicationProbeHealthCard from './ApplicationProbeHealthCard';
 
 const ApplicationHealthCard: React.FC<{ application: Application }> = ({ application }) => {
-
-
   return (
     <Card>
       <CardTitle>Health</CardTitle>

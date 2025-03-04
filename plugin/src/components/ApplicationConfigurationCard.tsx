@@ -1,21 +1,17 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import {
-  Card,
-  CardBody,
-  CardTitle,
-  Text,
-  TextContent,
-  Tooltip
-} from '@patternfly/react-core';
+import { Card, CardBody, CardTitle, Text, TextContent, Tooltip } from '@patternfly/react-core';
 import { Application } from '../types';
-import { extractEnvironmentVariables, extractMountedConfigMaps, extractMountedSecrets } from '../utils';
+import {
+  extractEnvironmentVariables,
+  extractMountedConfigMaps,
+  extractMountedSecrets,
+} from '../utils';
 import { ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 
-const ApplicationConfigurationCard: React.FC<{application: Application }> = ({ application }) => {
-
+const ApplicationConfigurationCard: React.FC<{ application: Application }> = ({ application }) => {
   type Description = {
-    [key: string]: string
+    [key: string]: string;
   };
 
   const [envVars, setEnvVars] = useState({});
@@ -27,9 +23,9 @@ const ApplicationConfigurationCard: React.FC<{application: Application }> = ({ a
   useEffect(() => {
     Object.entries(envVars).forEach(([key, _]) => {
       fetchCamelConfigInfo(envVarToProperty(key)).then((description) => {
-        setDescriptions(prevDescriptions => ({
+        setDescriptions((prevDescriptions) => ({
           ...prevDescriptions,
-          [key]: description
+          [key]: description,
         }));
       });
     });
@@ -42,7 +38,6 @@ const ApplicationConfigurationCard: React.FC<{application: Application }> = ({ a
       setConfigMaps(extractMountedConfigMaps(application));
     }
   }, [application]);
-
 
   function descriptionSafe(key: string): string {
     return descriptions && descriptions[key] ? descriptions[key] : key;
@@ -58,10 +53,9 @@ const ApplicationConfigurationCard: React.FC<{application: Application }> = ({ a
   }
   */
 
-
   async function fetchCamelConfigInfo(propertyName: string): Promise<string> {
     // Split the property to find the last segment which is usually the actual property name
-   // const envVarName = propertyToEnvVar(propertyName);
+    // const envVarName = propertyToEnvVar(propertyName);
 
     // Fetch the Camel configuration guide page
     const response = await fetch('https://quarkus.io/guides/all-config');
@@ -88,13 +82,14 @@ const ApplicationConfigurationCard: React.FC<{application: Application }> = ({ a
 
         if (keyCell && descriptionCell && keyCell.textContent.includes(propertyName)) {
           // If the config key matches the property name, get the description
-          info = descriptionCell.textContent.split('\n')
+          info =
+            descriptionCell.textContent
+              .split('\n')
               .filter((line) => !line.startsWith(propertyName))
               .filter((line) => !line.startsWith('Environment Variable'))
               .filter((line) => !line.startsWith('Show more'))
-              .join('\n') + ' \n'
-              'Defaults to (' + typeCell.textContent.trim() + '): ' + defaultCell.textContent.trim();
-
+              .join('\n') + ' \n';
+          'Defaults to (' + typeCell.textContent.trim() + '): ' + defaultCell.textContent.trim();
         }
       });
     });
@@ -105,22 +100,20 @@ const ApplicationConfigurationCard: React.FC<{application: Application }> = ({ a
     <Card>
       <CardTitle>Configuration</CardTitle>
       <CardBody>
-        {application &&
+        {application && (
           <TextContent>
             <Text component="p">Name: {application.metadata.name}</Text>
             <Text component="p">Environment Variables:</Text>
             <ul>
-              {Object.entries(envVars).map(
-                ([key, value]) => (
-                  <li key={key}>
-                    <Tooltip content={descriptionSafe(key)}>
-                      <>
+              {Object.entries(envVars).map(([key, value]) => (
+                <li key={key}>
+                  <Tooltip content={descriptionSafe(key)}>
+                    <>
                       <strong>{key}:</strong> {value}
-                      </>
-                    </Tooltip>
-                  </li>
-                )
-              )}
+                    </>
+                  </Tooltip>
+                </li>
+              ))}
             </ul>
             <Text component="p">Secrets:</Text>
             <ul>
@@ -131,7 +124,8 @@ const ApplicationConfigurationCard: React.FC<{application: Application }> = ({ a
                     kind="Secret"
                     name={secret}
                     namespace={application.metadata.namespace}
-                    linkTo={true}/>
+                    linkTo={true}
+                  />
                 </li>
               ))}
             </ul>
@@ -144,16 +138,16 @@ const ApplicationConfigurationCard: React.FC<{application: Application }> = ({ a
                     kind="ConfigMap"
                     name={configMap}
                     namespace={application.metadata.namespace}
-                    linkTo={true}/>
+                    linkTo={true}
+                  />
                 </li>
               ))}
             </ul>
           </TextContent>
-      }
+        )}
       </CardBody>
     </Card>
   );
 };
 
 export default ApplicationConfigurationCard;
-
