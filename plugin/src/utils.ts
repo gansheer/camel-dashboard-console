@@ -1,4 +1,4 @@
-import { Application } from "types";
+import { Application } from 'types';
 
 export function extractEnvironmentVariables(application: Application): Record<string, string> {
   const envVars: Record<string, string> = {};
@@ -18,7 +18,9 @@ export function extractEnvironmentVariables(application: Application): Record<st
   return envVars;
 }
 
-export function extractSecretEnvironmentVariables(application: Application): Record<string, string> {
+export function extractSecretEnvironmentVariables(
+  application: Application,
+): Record<string, string> {
   const secretEnvVars: Record<string, string> = {};
 
   // Check if the application has secret references
@@ -40,7 +42,9 @@ export function extractSecretEnvironmentVariables(application: Application): Rec
   return secretEnvVars;
 }
 
-export function extractConfigMapEnvironmentVariables(application: Application): Record<string, string> {
+export function extractConfigMapEnvironmentVariables(
+  application: Application,
+): Record<string, string> {
   const configMapEnvVars: Record<string, string> = {};
 
   // Check if the application has secret references
@@ -88,7 +92,6 @@ export function extractMountedConfigMaps(application: Application): string[] {
 
   return mountedConfigMaps;
 }
-
 
 export function extractProbes(application: Application) {
   const probes = {

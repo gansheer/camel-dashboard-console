@@ -10,7 +10,7 @@ import {
   ToolbarToggleGroup,
   Select,
   SelectOption,
-  Spinner
+  Spinner,
 } from '@patternfly/react-core';
 import ExpandIcon from '@patternfly/react-icons/dist/esm/icons/expand-icon';
 import PauseIcon from '@patternfly/react-icons/dist/esm/icons/pause-icon';
@@ -21,8 +21,11 @@ import { Application } from '../types';
 import { PodKind } from '../k8s-types';
 import { fetchApplicationPods, fetchPodsLogs } from '../services/CamelService';
 
-const ApplicationLogViewer: React.FC<{ application: Application, containerName?: string, active?: boolean}> = ({ application, containerName, active }) => {
-
+const ApplicationLogViewer: React.FC<{
+  application: Application;
+  containerName?: string;
+  active?: boolean;
+}> = ({ application, containerName, active }) => {
   const [pods, setPods] = React.useState<PodKind[]>([]);
   const [podNames, setPodNames] = React.useState([]);
 
@@ -48,25 +51,28 @@ const ApplicationLogViewer: React.FC<{ application: Application, containerName?:
 
   React.useEffect(() => {
     if (application && application.metadata) {
-      fetchApplicationPods(application.metadata.namespace, application.metadata.name).then((newPods: PodKind[]) => {
-        if (newPods) {
-          setPods(newPods);
-        }
-      });
+      fetchApplicationPods(application.metadata.namespace, application.metadata.name).then(
+        (newPods: PodKind[]) => {
+          if (newPods) {
+            setPods(newPods);
+          }
+        },
+      );
     }
   }, [application]);
 
   React.useEffect(() => {
     if (pods && pods.length > 0) {
-      setPodNames(pods.map(pod => pod.metadata.name));
-      fetchPodsLogs(application.metadata.namespace, pods[0].metadata.name, containerName).then(logs => {
-        if (logs) {
-          setContent(logs.split('\n'));
-        }
-      });
+      setPodNames(pods.map((pod) => pod.metadata.name));
+      fetchPodsLogs(application.metadata.namespace, pods[0].metadata.name, containerName).then(
+        (logs) => {
+          if (logs) {
+            setContent(logs.split('\n'));
+          }
+        },
+      );
     }
   }, [pods]);
-
 
   React.useEffect(() => {
     if (content.length === 0) {
@@ -74,14 +80,13 @@ const ApplicationLogViewer: React.FC<{ application: Application, containerName?:
     }
     setTimer(
       window.setInterval(() => {
-        setItemCount(itemCount => itemCount + 1);
-      }, 10)
+        setItemCount((itemCount) => itemCount + 1);
+      }, 10),
     );
     return () => {
       window.clearInterval(timer);
     };
   }, [active, content]);
-
 
   React.useEffect(() => {
     if (itemCount > content.length) {
@@ -102,18 +107,15 @@ const ApplicationLogViewer: React.FC<{ application: Application, containerName?:
     }
   }, [isPaused, buffer]);
 
-
   const onPodSelect = (event) => {
-    setIsPodDropdownOpen(false); 
+    setIsPodDropdownOpen(false);
   };
 
   const onPodToggle = (event) => {
     setIsPodDropdownOpen(!isPodDropdownOpen);
   };
 
-
-  const onExpandClick = _event => {
-  };
+  const onExpandClick = (_event) => {};
 
   const onDownloadClick = () => {
     const element = document.createElement('a');
@@ -139,21 +141,23 @@ const ApplicationLogViewer: React.FC<{ application: Application, containerName?:
 
   const PodSelectionDropdown = () => (
     <ToolbarItem>
-      <Select
-        onSelect={onPodSelect}
-        onToggle={onPodToggle}
-        isOpen={isPodDropdownOpen}>
-        {podNames && podNames.map(name => <SelectOption key={name} value={name}>{name}</SelectOption>)}
+      <Select onSelect={onPodSelect} onToggle={onPodToggle} isOpen={isPodDropdownOpen}>
+        {podNames &&
+          podNames.map((name) => (
+            <SelectOption key={name} value={name}>
+              {name}
+            </SelectOption>
+          ))}
       </Select>
     </ToolbarItem>
-  )
+  );
 
   const leftAlignedToolbarGroup = (
     <React.Fragment>
       <ToolbarToggleGroup toggleIcon={<EllipsisVIcon />} breakpoint="md">
         {podNames && podNames.length > 1 && <PodSelectionDropdown />}
         <ToolbarItem variant="search-filter">
-          <LogViewerSearch onFocus={_e => setIsPaused(true)} placeholder="Search" />
+          <LogViewerSearch onFocus={(_e) => setIsPaused(true)} placeholder="Search" />
         </ToolbarItem>
       </ToolbarToggleGroup>
       <ToolbarItem>
@@ -174,7 +178,11 @@ const ApplicationLogViewer: React.FC<{ application: Application, containerName?:
         </ToolbarItem>
         <ToolbarItem>
           <Tooltip position="top" content={<div>Expand</div>}>
-            <Button onClick={onExpandClick} variant="plain" aria-label="View log viewer in full screen">
+            <Button
+              onClick={onExpandClick}
+              variant="plain"
+              aria-label="View log viewer in full screen"
+            >
               <ExpandIcon />
             </Button>
           </Tooltip>
@@ -185,25 +193,28 @@ const ApplicationLogViewer: React.FC<{ application: Application, containerName?:
 
   return (
     <>
-    {renderData 
-        ? <LogViewer id="application-log-viewer"
-      data={renderData}
-      theme="dark"
-      scrollToRow={currentItemCount}
-      innerRef={logViewerRef}
-      height={isFullScreen ? '100%' : 600}
-      isTextWrapped={false}
-      hasLineNumbers={true}
-      toolbar={
-      <Toolbar>
-        <ToolbarContent>
-          <ToolbarGroup>{leftAlignedToolbarGroup}</ToolbarGroup>
-          <ToolbarGroup>{rightAlignedToolbarGroup}</ToolbarGroup>
-        </ToolbarContent>
-      </Toolbar>
-    }/>
-      : <Spinner aria-label='Loading logs'/>
-    }
+      {renderData ? (
+        <LogViewer
+          id="application-log-viewer"
+          data={renderData}
+          theme="dark"
+          scrollToRow={currentItemCount}
+          innerRef={logViewerRef}
+          height={isFullScreen ? '100%' : 600}
+          isTextWrapped={false}
+          hasLineNumbers={true}
+          toolbar={
+            <Toolbar>
+              <ToolbarContent>
+                <ToolbarGroup>{leftAlignedToolbarGroup}</ToolbarGroup>
+                <ToolbarGroup>{rightAlignedToolbarGroup}</ToolbarGroup>
+              </ToolbarContent>
+            </Toolbar>
+          }
+        />
+      ) : (
+        <Spinner aria-label="Loading logs" />
+      )}
     </>
   );
 };

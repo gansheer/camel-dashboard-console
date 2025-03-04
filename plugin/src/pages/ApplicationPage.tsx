@@ -24,7 +24,7 @@ import ApplicationProdUiCard from '../components/ApplicationProdUiCard';
 import './camel.css';
 import { consoleFetchJSON } from '@openshift-console/dynamic-plugin-sdk';
 
-export const ApplicationPage: React.FC<ApplicationPageProps> = ( {match} ) => {
+export const ApplicationPage: React.FC<ApplicationPageProps> = ({ match }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   const { ns, kind, name } = match?.params || {};
   const [selectedNamespace] = useState<string>(ns || 'all-namespaces');
@@ -40,9 +40,11 @@ export const ApplicationPage: React.FC<ApplicationPageProps> = ( {match} ) => {
   };
 
   useEffect(() => {
-    fetchApplicationWithMetrics(selectedKind, selectedNamespace, selectedName).then((app: Application) => {
-      setApplication(app);
-    })
+    fetchApplicationWithMetrics(selectedKind, selectedNamespace, selectedName).then(
+      (app: Application) => {
+        setApplication(app);
+      },
+    );
   }, [selectedNamespace, selectedKind, selectedName]);
 
   useEffect(() => {
@@ -53,10 +55,13 @@ export const ApplicationPage: React.FC<ApplicationPageProps> = ( {match} ) => {
 
   // FIXME: Rework service-proxy
   function checkProdui(application: Application) {
-    const produiProxyUrl = (app) => `/api/proxy/plugin/camel-openshift-console-plugin/service-proxy/produi/${app.metadata.namespace}/${app.metadata.name}/`
-    consoleFetchJSON(produiProxyUrl(application)).then((res) => {
-      setProduiAvailable(true);
-    }).catch((err) => {
+    const produiProxyUrl = (app) =>
+      `/api/proxy/plugin/camel-openshift-console-plugin/service-proxy/produi/${app.metadata.namespace}/${app.metadata.name}/`;
+    consoleFetchJSON(produiProxyUrl(application))
+      .then((res) => {
+        setProduiAvailable(true);
+      })
+      .catch((err) => {
         setProduiAvailable(false);
       });
   }
@@ -64,11 +69,15 @@ export const ApplicationPage: React.FC<ApplicationPageProps> = ( {match} ) => {
   return (
     <>
       <Helmet>
-        <title data-test="camel-page-title">{selectedNamespace} - {selectedName}</title>
+        <title data-test="camel-page-title">
+          {selectedNamespace} - {selectedName}
+        </title>
       </Helmet>
       <Page>
         <PageSection variant="light">
-          <Title headingLevel="h1">{t('Dashboard')} - {selectedName}</Title>
+          <Title headingLevel="h1">
+            {t('Dashboard')} - {selectedName}
+          </Title>
         </PageSection>
         <PageSection variant="light">
           <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
@@ -107,21 +116,21 @@ export const ApplicationPage: React.FC<ApplicationPageProps> = ( {match} ) => {
                 </PageSection>
               </TabContent>
             </Tab>
-            {application && application.url && produiAvailable &&
-            <Tab eventKey={5} title={<TabTitleText>Prod UI</TabTitleText>}>
-              <TabContent id="5" title="Prod UI">
-                <PageSection variant="light">
-                  <ApplicationProdUiCard application={application}/>
-                </PageSection>
-              </TabContent>
-            </Tab>
-            }
+            {application && application.url && produiAvailable && (
+              <Tab eventKey={5} title={<TabTitleText>Prod UI</TabTitleText>}>
+                <TabContent id="5" title="Prod UI">
+                  <PageSection variant="light">
+                    <ApplicationProdUiCard application={application} />
+                  </PageSection>
+                </TabContent>
+              </Tab>
+            )}
           </Tabs>
         </PageSection>
       </Page>
-      </>
+    </>
   );
-}
+};
 
 type ApplicationPageProps = {
   match: RMatch<{

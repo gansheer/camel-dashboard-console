@@ -50,7 +50,4 @@ const theme = {
   },
 };
 
-export const graphTheme = getCustomTheme(
-  ChartThemeColor.multiUnordered,
-  theme,
-);
+export const graphTheme = getCustomTheme(ChartThemeColor.multiUnordered, theme);

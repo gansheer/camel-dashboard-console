@@ -16,91 +16,109 @@ import { ConfigMapKind, PersistentVolumeClaimKind, SecretKind, Volume } from 'k8
 import { ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 
 const ApplicationHealthCard: React.FC<{ application: Application }> = ({ application }) => {
-
-  const [volumes, setVolumes] = useState(application && application.spec ? application.spec.volumes : []);
+  const [volumes, setVolumes] = useState(
+    application && application.spec ? application.spec.volumes : [],
+  );
   const [volumeStatus, setVolumeStatus] = useState({});
 
   useEffect(() => {
-    setVolumes(application && application.spec && application.spec.volumes ? application.spec.volumes : []);
+    setVolumes(
+      application && application.spec && application.spec.volumes ? application.spec.volumes : [],
+    );
   }, [application]);
 
   useEffect(() => {
     if (application && application.metadata) {
-      volumes.forEach(volume => {
+      volumes.forEach((volume) => {
         const kind = volumeKind(volume);
         switch (kind) {
           case 'ConfigMap':
-            fetchConfigMap(application.metadata.namespace, volume.name).then((configMap: ConfigMapKind) => {
-              updateVolumeStatus(volume.name, configMap ?  "Succeeded" : "Pending");
-            });
+            fetchConfigMap(application.metadata.namespace, volume.name).then(
+              (configMap: ConfigMapKind) => {
+                updateVolumeStatus(volume.name, configMap ? 'Succeeded' : 'Pending');
+              },
+            );
             break;
           case 'Secret':
             fetchSecret(application.metadata.namespace, volume.name).then((secret: SecretKind) => {
-              updateVolumeStatus(volume.name, secret ?  "Succeeded" : "Pending");
+              updateVolumeStatus(volume.name, secret ? 'Succeeded' : 'Pending');
             });
             break;
           case 'PersistentVolumeClaim':
-            fetchPvc(application.metadata.namespace, volume.name).then((pvc: PersistentVolumeClaimKind) => {
-              updateVolumeStatus(volume.name, pvc ?  "Succeeded" : "Pending");
-            });
+            fetchPvc(application.metadata.namespace, volume.name).then(
+              (pvc: PersistentVolumeClaimKind) => {
+                updateVolumeStatus(volume.name, pvc ? 'Succeeded' : 'Pending');
+              },
+            );
             break;
           default:
-          console.log('Unknown volume kind: ' + kind);
+            console.log('Unknown volume kind: ' + kind);
         }
       });
     }
   }, [volumes]);
 
   const updateVolumeStatus = (name: string, status: string) => {
-    setVolumeStatus(prevStatus => ({
+    setVolumeStatus((prevStatus) => ({
       ...prevStatus,
       [name]: status,
     }));
-  } 
+  };
 
   useEffect(() => {
-    //just for refresh 
+    //just for refresh
   }, [volumeStatus]);
-
 
   return (
     <Card>
       <CardTitle>Volumes</CardTitle>
       <CardBody>
         <List isPlain isBordered>
-          {application && application.spec && application.spec.volumes && application.spec.volumes.map(volume => (
-            <ListItem key={volume.name}>  
-              <ResourceLink
-                key={volume.name}
-                kind={volumeKind(volume)}
-                name={volume.name}
-                namespace={application.metadata.namespace}
-                linkTo={true}/>
-              <TextContent>
-                <Text component="p">Kind: {volumeKind(volume)} </Text>
-              </TextContent>
-              <TextContent>
-                {application.spec.containers.filter((container) => container.volumeMounts.filter((volumeMount) => volumeMount.name === volume.name).length > 0).map((container) => (
-                  <li key={container.name}>
-                    <TextContent>
-                      Container: {container.name}
-                      {container.volumeMounts.filter((volumeMount) => volumeMount.name === volume.name).map((volumeMount) => (
+          {application &&
+            application.spec &&
+            application.spec.volumes &&
+            application.spec.volumes.map((volume) => (
+              <ListItem key={volume.name}>
+                <ResourceLink
+                  key={volume.name}
+                  kind={volumeKind(volume)}
+                  name={volume.name}
+                  namespace={application.metadata.namespace}
+                  linkTo={true}
+                />
+                <TextContent>
+                  <Text component="p">Kind: {volumeKind(volume)} </Text>
+                </TextContent>
+                <TextContent>
+                  {application.spec.containers
+                    .filter(
+                      (container) =>
+                        container.volumeMounts.filter(
+                          (volumeMount) => volumeMount.name === volume.name,
+                        ).length > 0,
+                    )
+                    .map((container) => (
+                      <li key={container.name}>
                         <TextContent>
-                          Path: {volumeMount.mountPath}
+                          Container: {container.name}
+                          {container.volumeMounts
+                            .filter((volumeMount) => volumeMount.name === volume.name)
+                            .map((volumeMount) => (
+                              <TextContent>Path: {volumeMount.mountPath}</TextContent>
+                            ))}
                         </TextContent>
-                      ))}
-                    </TextContent>
-                  </li>
-                ))}
-              </TextContent>
-              <TextContent>
-                Status:
-                <Status
-                  title={volumeStatus[volume.name] ? volumeStatus[volume.name] : "Pending"}
-                  status={volumeStatus[volume.name] ? volumeStatus[volume.name] : "Pending"} />
-              </TextContent>
-            </ListItem>
-          ))}
+                      </li>
+                    ))}
+                </TextContent>
+                <TextContent>
+                  Status:
+                  <Status
+                    title={volumeStatus[volume.name] ? volumeStatus[volume.name] : 'Pending'}
+                    status={volumeStatus[volume.name] ? volumeStatus[volume.name] : 'Pending'}
+                  />
+                </TextContent>
+              </ListItem>
+            ))}
         </List>
       </CardBody>
     </Card>
