@@ -34,17 +34,4 @@ jobs:
           java-version: 17
           distribution: 'temurin'
           cache: 'maven'
-      - name: Build Service Proxy
-        run: cd service-proxy && mvn package
-      - name: Build Serivce Proxy Image
-        uses: docker/build-push-action@v3
-        with:
-          context: ./service-proxy
-          file: ./service-proxy/src/main/docker/Dockerfile.jvm
-          push: true
-          tags: camel-tooling/camel-openshift-console-service-proxy:{{ github.ref_name }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_ROBOT_TOKEN }}
 

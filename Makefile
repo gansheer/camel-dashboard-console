@@ -32,7 +32,6 @@ VERSION := $(subst -SNAPSHOT,-$(DATETIMESTAMP),$(VERSION))
 
 # DEPRECATED
 IMAGE_NAME_PLUGIN=quay.io/camel-tooling/camel-openshift-console-plugin
-IMAGE_NAME_SERVICE_PROXY=quay.io/camel-tooling/camel-openshift-console-service-proxy
 
 #
 # =======================
@@ -124,15 +123,6 @@ plugin-build-dev: plugin-setup
 	@echo "####### Building $(PLUGIN) ..."
 	cd plugin && yarn build-dev
 
-# Deprecated - to remove
-service-proxy:
-	cd service-proxy && mvn clean install
-
-# Deprecated - to remove
-service-proxy-image: service-proxy
-	podman build -t $(IMAGE_NAME_SERVICE_PROXY):latest service-proxy -f service-proxy/src/main/docker/Dockerfile.jvm
-
-
 #---
 #
 #@ plugin-image
@@ -147,14 +137,6 @@ service-proxy-image: service-proxy
 #---
 plugin-image: podman
 	podman build -t $(CUSTOM_PLUGIN_IMAGE):latest plugin
-
-
-# Deprecated to remove or refactor
-images: plugin-image service-proxy-image
-
-# Deprecated to remove or refactor
-push-service-proxy: service-proxy-image
-	podman push $(IMAGE_NAME_SERVICE_PROXY):latest
 
 #---
 #
@@ -171,11 +153,7 @@ push-service-proxy: service-proxy-image
 push-plugin: podman
 	podman push --tls-verify=false $(CUSTOM_PLUGIN_IMAGE):latest 
 
-# Deprecated to remove or refactor
-push: push-plugin push-service-proxy
-
-
-.PHONY: plugin-setup plugin-build plugin-build-dev plugin-image push-plugin
+.PHONY: plugin-setup plugin-build plugin-build-dev plugin-image
 
 #
 # ============================
@@ -197,15 +175,6 @@ push: push-plugin push-service-proxy
 #---
 deploy-plugin: oc helm
 	./bin/camel-install-openshift-console-plugin
-
-# Deprecated to remove
-deploy-proxy:
-	cd service-proxy && \
-	mvn clean install && \
-	camel deploy openshift --image-build --namespace plugin-camel-openshift-console-plugin
-
-# Deprecated to remove or refactor
-deploy: deploy-plugin deploy-proxy
 
 #---
 #
