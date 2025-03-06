@@ -38,7 +38,7 @@ export const ApplicationList: React.FC<ApplicationListProps> = ({ apps }) => {
   };
 
   const applicationUrl = (app) =>
-    `/camel/application/${app.metadata.namespace}/${app.kind}/${app.metadata.name}`;
+    `/camel/ns/${app.metadata.namespace}/application/${app.kind}/${app.metadata.name}`;
 
   const [sortedApplications, setSortedApplications] = useState([]);
   const [sortColumn, setSortColumn] = useState('name'); // Default sorting column

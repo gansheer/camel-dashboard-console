@@ -17,6 +17,12 @@ import {
 import ApplicationsCPUGraph from '../components/ApplicationsCPUGraph';
 import ApplicationsMemoryGraph from '../components/ApplicationsMemoryGraph';
 
+type CamelHomePageProps = {
+  match: RMatch<{
+    ns?: string;
+  }>;
+};
+
 export const CamelPage: React.FC<CamelHomePageProps> = ({ match }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   // Remove ns ?
@@ -116,10 +122,5 @@ export const CamelPage: React.FC<CamelHomePageProps> = ({ match }) => {
   );
 };
 
-type CamelHomePageProps = {
-  match: RMatch<{
-    ns?: string;
-  }>;
-};
 
 export default CamelPage;

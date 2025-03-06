@@ -16,9 +16,10 @@
   {
     "type": "console.page/route",
     "properties": {
-      "exact": true,
-      "path": "/camel/application/:ns/:kind/:name",
+      "exact": false,
+      "path": "/camel/ns/:ns/application/:kind/:name",
       "component": { "$codeRef": "ApplicationPage" }
+      
     }
   },
   {

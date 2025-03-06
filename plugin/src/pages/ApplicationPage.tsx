@@ -24,7 +24,17 @@ import ApplicationProdUiCard from '../components/ApplicationProdUiCard';
 import './camel.css';
 import { consoleFetchJSON } from '@openshift-console/dynamic-plugin-sdk';
 
+type ApplicationPageProps = {
+  match: RMatch<{
+    ns?: string;
+    kind?: string;
+    name?: string;
+  }>;
+};
+
 export const ApplicationPage: React.FC<ApplicationPageProps> = ({ match }) => {
+  console.log(">>>>ApplicationPage.match<<<<");
+  console.log(match);
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   const { ns, kind, name } = match?.params || {};
   const [selectedNamespace] = useState<string>(ns || 'all-namespaces');
@@ -132,12 +142,5 @@ export const ApplicationPage: React.FC<ApplicationPageProps> = ({ match }) => {
   );
 };
 
-type ApplicationPageProps = {
-  match: RMatch<{
-    ns?: string;
-    kind?: string;
-    name?: string;
-  }>;
-};
 
 export default ApplicationPage;
