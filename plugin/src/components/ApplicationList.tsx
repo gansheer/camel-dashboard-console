@@ -6,8 +6,6 @@ import { Application } from '../types';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
 import {
   Button,
-  Select,
-  SelectOption,
   Spinner,
   TextInputGroup,
   TextInputGroupMain,
@@ -20,6 +18,7 @@ import {
 } from '@patternfly/react-core';
 import { FilterIcon, SearchIcon, TimesIcon } from '@patternfly/react-icons';
 import { METADATA_ANNOTATION_CAMEL_VERSION } from '../const';
+import { BasicSelect } from './BasicSelect';
 
 interface ApplicationListProps {
   apps: Application[];
@@ -59,7 +58,6 @@ export const ApplicationList: React.FC<ApplicationListProps> = ({ apps }) => {
   //
   // Filtering
   //
-  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [categoryValue, setCategoryValue] = useState('');
   const showClearButton = !!categoryValue;
   const showUtilities = showClearButton;
@@ -73,14 +71,7 @@ export const ApplicationList: React.FC<ApplicationListProps> = ({ apps }) => {
     setCategoryValue(value);
   };
 
-  const onCategoryToggle = () => {
-    setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
-  };
 
-  const onCategorySelect = (event, selection) => {
-    setSelectedCategory(selection);
-    setIsCategoryDropdownOpen(false);
-  };
 
   const filterWithSelection = (app: Application) => {
     if (!(categoryValue && setSelectedCategory)) {
@@ -100,28 +91,33 @@ export const ApplicationList: React.FC<ApplicationListProps> = ({ apps }) => {
   };
 
   const buildCategoryDropdown = () => {
-    const categoryMenuItems = [
-      <SelectOption key="name" value="Name">
-        Name
-      </SelectOption>,
-      <SelectOption key="namespace" value="Namespace">
-        Namespace
-      </SelectOption>,
-      <SelectOption key="kind" value="Kind">
-        Kind
-      </SelectOption>,
-    ];
+    const options = [
+      {
+        value: 'name',
+        children: 'Name',
+      },
+      {
+        value: 'namespace',
+        children: 'Namespace',
+      },
+      {
+        value: 'kind',
+        children: 'Kind',
+      },
+    ]
 
+    
     return (
       <ToolbarItem>
-        <Select
-          selections={selectedCategory}
-          onSelect={onCategorySelect}
-          onToggle={onCategoryToggle}
-          isOpen={isCategoryDropdownOpen}
-        >
-          {categoryMenuItems}
-        </Select>
+        <BasicSelect
+          id="duration-dropdown"
+          width={200}
+          placeholder={'Select a Category'}
+          options={options}
+          selected={selectedCategory}
+          setSelected={(value) => setSelectedCategory(value)}
+        />
+
       </ToolbarItem>
     );
   };

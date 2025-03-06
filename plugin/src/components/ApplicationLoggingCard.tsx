@@ -21,9 +21,7 @@ import {
   PageSection,
   TabTitleText,
 } from '@patternfly/react-core';
-import FilterIcon from '@patternfly/react-icons/dist/esm/icons/filter-icon';
-import { SearchIcon } from '@patternfly/react-icons/dist/esm/icons/search-icon';
-import { TimesIcon } from '@patternfly/react-icons/dist/esm/icons/times-icon';
+import { FilterIcon, SearchIcon, TimesIcon } from '@patternfly/react-icons';
 import { Table, Tbody, Td, Thead, Tr, Th } from '@patternfly/react-table';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -61,7 +59,7 @@ const ApplicationLoggingCard: React.FC<{ application: Application; active?: bool
     setInputValue('');
   };
 
-  const handleInputChange = (value: string, event: React.FormEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.FormEvent<HTMLInputElement> ,value: string) => {
     //get text from event and set it to inputValue
     if (event && event.currentTarget && event.currentTarget.value) {
       setInputValue(event.currentTarget.value);

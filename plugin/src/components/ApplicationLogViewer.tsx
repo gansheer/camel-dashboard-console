@@ -12,11 +12,7 @@ import {
   SelectOption,
   Spinner,
 } from '@patternfly/react-core';
-import ExpandIcon from '@patternfly/react-icons/dist/esm/icons/expand-icon';
-import PauseIcon from '@patternfly/react-icons/dist/esm/icons/pause-icon';
-import PlayIcon from '@patternfly/react-icons/dist/esm/icons/play-icon';
-import EllipsisVIcon from '@patternfly/react-icons/dist/esm/icons/ellipsis-v-icon';
-import DownloadIcon from '@patternfly/react-icons/dist/esm/icons/download-icon';
+import { ExpandIcon, PauseIcon, PlayIcon, EllipsisVIcon, DownloadIcon } from '@patternfly/react-icons';
 import { Application } from '../types';
 import { PodKind } from '../k8s-types';
 import { fetchApplicationPods, fetchPodsLogs } from '../services/CamelService';
