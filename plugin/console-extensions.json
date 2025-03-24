@@ -1,8 +1,10 @@
 [
- {
-    "type": "console.flag/hookProvider",
+  {
+    "type": "console.page/route",
     "properties": {
-      "handler": { "$codeRef": "actions.enableCamelPlugin" }
+      "exact": false,
+      "path": "/camel/integration/ns/:ns/kind/:kind/name/:name",
+      "component": { "$codeRef": "CamelIntegration" }
     }
   },
   {
@@ -10,21 +12,13 @@
     "properties": {
       "exact": true,
       "path": ["/camel/ns/:ns", "/camel/all-namespaces"],
-      "component": { "$codeRef": "HomePage" }
-    }
-  },
-  {
-    "type": "console.page/route",
-    "properties": {
-      "exact": true,
-      "path": "/camel/application/:ns/:kind/:name",
-      "component": { "$codeRef": "ApplicationPage" }
+      "component": { "$codeRef": "CamelIntegrationList" }
     }
   },
   {
     "type": "console.navigation/href",
     "properties": {
-      "id": "Home",
+      "id": "camel",
       "name": "%plugin__camel-openshift-console-plugin~Camel%",
       "href": "/camel",
       "perspective": "dev",

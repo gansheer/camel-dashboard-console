@@ -41,12 +41,9 @@ const config: Configuration = {
         ],
       },
       {
-        test: /\.(css)$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(scss)$/,
+        test: /\.(sa|sc|c)ss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
+        include: [/node_modules/, /\.css$/],
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg|woff2?|ttf|eot|otf)(\?.*$|$)/,
