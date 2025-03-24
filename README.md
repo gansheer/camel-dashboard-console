@@ -52,7 +52,7 @@ podman push quay.io/camel-tooling/camel-openshift-console-plugin:latest
 
 ```sh
 oc new-project plugin-camel-openshift-console-plugin
-helm upgrade -i camel-openshift-console-plugin charts/openshift-console-plugin --namespace plugin-camel-openshift-console-plugin --set plugin.image=quay.io/camel-tooling/camel-openshift-console-plugin:latest
+helm upgrade -i camel-openshift-console-plugin charts/camel-openshift-console-plugin --namespace plugin-camel-openshift-console-plugin --set plugin.image=quay.io/camel-tooling/camel-openshift-console-plugin:latest
 ```
 
 # The Camel Tab

@@ -61,4 +61,4 @@ EXISTING_PROJECT=`oc get projects | grep $NAMESPACE`
 if [ -z "$EXISTING_PROJECT" ]; then
   oc new-project $NAMESPACE
 fi
-helm upgrade -i camel-openshift-console-plugin charts/openshift-console-plugin --namespace $NAMESPACE --set plugin.image=$IMAGE
+helm upgrade -i camel-openshift-console-plugin charts/camel-openshift-console-plugin --namespace $NAMESPACE --set plugin.image=$IMAGE
