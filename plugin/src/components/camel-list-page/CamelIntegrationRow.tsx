@@ -9,7 +9,8 @@ import {
 } from '@openshift-console/dynamic-plugin-sdk';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import CamelIntegrationStatus from './CamelIntegrationStatus';
+import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
+import { CamelIntegrationStatusTitle, CamelIntegrationStatusValue } from './CamelIntegrationStatus';
 
 const getKind = (obj) => obj.kind;
 const getNamespace = (obj) => obj.metadata?.namespace;
@@ -38,9 +39,7 @@ const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, acti
     <>
       <TableData id="name" activeColumnIDs={activeColumnIDs}>
         <span className="co-resource-item co-resource-item--truncate">
-          <span className="co-m-resource-icon co-m-resource-secret">
-            C
-          </span>
+          <span className="co-m-resource-icon co-m-resource-secret">C</span>
           <Link
             to={`/camel/integration/ns/${camelInt.metadata.namespace}/kind/${camelInt.kind}/name/${camelInt.metadata.name}`}
             className="co-resource-item__resource-name"
@@ -67,7 +66,10 @@ const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, acti
         </span>
       </TableData>
       <TableData id="status" activeColumnIDs={activeColumnIDs}>
-        <CamelIntegrationStatus camelInt={camelInt} />
+        <Status
+          title={CamelIntegrationStatusTitle(camelInt)}
+          status={CamelIntegrationStatusValue(camelInt)}
+        />
       </TableData>
       <TableData id="camel" activeColumnIDs={activeColumnIDs}>
         {camelVersion || <span className="text-muted">{t('No camel version')}</span>}
