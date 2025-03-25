@@ -14,6 +14,12 @@ on:
       - "main"
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+  attestations: write
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
@@ -51,10 +57,9 @@ jobs:
         run: |
           make CUSTOM_PLUGIN_IMAGE=${{ env.REGISTRY }}/camel-tooling/camel-openshift-console-plugin plugin-image
 
-      - name: Push plugin container
-        shell: bash
-        run: |
-          make CUSTOM_PLUGIN_IMAGE=${{ env.REGISTRY }}/camel-tooling/camel-openshift-console-plugin plugin-image
-          make CUSTOM_PLUGIN_IMAGE=${{ env.REGISTRY }}/camel-tooling/camel-openshift-console-plugin push-plugin
+#      - name: Push plugin container
+#        shell: bash
+#        run: |
+#          make CUSTOM_PLUGIN_IMAGE=${{ env.REGISTRY }}/camel-tooling/camel-openshift-console-plugin push-plugin
         
 
