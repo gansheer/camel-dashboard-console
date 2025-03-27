@@ -1,10 +1,5 @@
 name: Build
 
-env:
-  REGISTRY: "ghcr.io"
-  REGISTRY_USER: ${{ github.actor }}
-  REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-
 on:
   pull_request:
     branches:
@@ -13,12 +8,6 @@ on:
     branches:
       - "main"
   workflow_dispatch:
-
-permissions:
-  contents: read
-  packages: write
-  id-token: write
-  attestations: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
@@ -30,13 +19,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        
+
       - name: Setup Yarn
         uses: actions/setup-node@v2
         with:
-          node-version: '20'
-          cache: 'yarn'
-          cache-dependency-path: 'plugin/yarn.lock'
+          node-version: "20"
+          cache: "yarn"
+          cache-dependency-path: "plugin/yarn.lock"
 
       - name: Build plugin
         run: make plugin-build
@@ -44,22 +33,23 @@ jobs:
       - name: Lint plugin
         continue-on-error: true
         run: make plugin-lint
-        
-      - name: Log in to ghcr.io
+
+      - name: Log in to registry
+        if:  github.ref == 'refs/heads/main'
+        id: login-registry
         uses: redhat-actions/podman-login@v1
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ env.REGISTRY_USER }}
-          password: ${{ env.REGISTRY_PASSWORD }}
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_ROBOT_TOKEN }}
 
       - name: Build plugin container
         shell: bash
         run: |
-          make CUSTOM_PLUGIN_IMAGE=${{ env.REGISTRY }}/camel-tooling/camel-openshift-console-plugin plugin-image
+          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-openshift-console-plugin plugin-image
 
-#      - name: Push plugin container
-#        shell: bash
-#        run: |
-#          make CUSTOM_PLUGIN_IMAGE=${{ env.REGISTRY }}/camel-tooling/camel-openshift-console-plugin push-plugin
-        
-
+      - name: Push plugin container
+        if:  github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-openshift-console-plugin push-plugin
