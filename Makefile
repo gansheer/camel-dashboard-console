@@ -93,7 +93,7 @@ endif
 #---
 plugin-setup: yarn
 	@echo "####### Setup $(PLUGIN_NAME) ..."
-	cd plugin && yarn install
+	cd web && yarn install
 
 #---
 #
@@ -106,7 +106,7 @@ plugin-setup: yarn
 #---
 plugin-lint: plugin-setup
 	@echo "####### Linter $(PLUGIN_NAME) ..."
-	cd plugin && yarn lint
+	cd web && yarn lint
 
 #---
 #
@@ -119,7 +119,7 @@ plugin-lint: plugin-setup
 #---
 plugin-build: plugin-setup
 	@echo "####### Building $(PLUGIN_NAME) ..."
-	cd plugin && yarn build
+	cd web && yarn build
 
 #---
 #
@@ -132,7 +132,7 @@ plugin-build: plugin-setup
 #---
 plugin-build-dev: plugin-setup
 	@echo "####### Building $(PLUGIN_NAME) ..."
-	cd plugin && yarn build-dev
+	cd web && yarn build-dev
 
 #---
 #

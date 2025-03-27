@@ -23,9 +23,9 @@ jobs:
       - name: Setup Yarn
         uses: actions/setup-node@v2
         with:
-          node-version: "20"
-          cache: "yarn"
-          cache-dependency-path: "plugin/yarn.lock"
+          node-version: '20'
+          cache: 'yarn'
+          cache-dependency-path: 'web/yarn.lock'
 
       - name: Build plugin
         run: make plugin-build
