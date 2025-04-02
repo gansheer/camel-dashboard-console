@@ -84,59 +84,59 @@ endif
 
 #---
 #
-#@ plugin-setup
+#@ setup
 #
 #== Sets up yarn by installing all dependencies
 #
 #=== Calls: yarn
 #
 #---
-plugin-setup: yarn
+setup: yarn
 	@echo "####### Setup $(PLUGIN_NAME) ..."
-	cd plugin && yarn install
+	yarn install
 
 #---
 #
-#@ plugin-lint
+#@ lint
 #
 #== Executes linting of all source code
 #
 #=== Calls: setup
 #
 #---
-plugin-lint: plugin-setup
+lint: setup
 	@echo "####### Linter $(PLUGIN_NAME) ..."
-	cd plugin && yarn lint
+	yarn lint
 
 #---
 #
-#@ plugin-build
+#@ build
 #
 #== Performs a local build of the console plugin
 #
-#=== Calls: plugin-setup
+#=== Calls: setup
 #
 #---
-plugin-build: plugin-setup
+build: setup
 	@echo "####### Building $(PLUGIN_NAME) ..."
-	cd plugin && yarn build
+	yarn build
 
 #---
 #
-#@ plugin-build-dev
+#@ build-dev
 #
 #== Performs a local build dev mode of the console plugin
 #
-#=== Calls: plugin-setup
+#=== Calls: setup
 #
 #---
-plugin-build-dev: plugin-setup
+build-dev: setup
 	@echo "####### Building $(PLUGIN_NAME) ..."
-	cd plugin && yarn build-dev
+	yarn build-dev
 
 #---
 #
-#@ plugin-image
+#@ image
 #
 #== Executes a local build of the production container images
 #
@@ -147,12 +147,12 @@ plugin-build-dev: plugin-setup
 #** CUSTOM_PLUGIN_VERSION:   Set a custom plugin image version to install from
 #
 #---
-plugin-image: podman
-	podman build -t $(CUSTOM_PLUGIN_IMAGE):$(CUSTOM_PLUGIN_VERSION) plugin
+image: podman
+	podman build -t $(CUSTOM_PLUGIN_IMAGE):$(CUSTOM_PLUGIN_VERSION) .
 
 #---
 #
-#@ push-plugin
+#@ push
 #
 #== Pushes the locally build image to the registry
 #
@@ -163,10 +163,10 @@ plugin-image: podman
 #** CUSTOM_PLUGIN_VERSION:   Set a custom plugin image version to install from
 #
 #---
-push-plugin: podman
+push: podman
 	podman push --tls-verify=false $(CUSTOM_PLUGIN_IMAGE):$(CUSTOM_PLUGIN_VERSION) 
 
-.PHONY: plugin-setup plugin-build plugin-build-dev plugin-image
+.PHONY: setup build build-dev image
 
 #
 # ============================
@@ -178,7 +178,7 @@ push-plugin: podman
 
 #---
 #
-#@ deploy-plugin
+#@ deploy
 #
 #== Install the plugin into an OCP cluster
 #
@@ -190,7 +190,7 @@ push-plugin: podman
 #** CUSTOM_PLUGIN_VERSION:   Set a custom plugin image version to install from
 #
 #---
-deploy-plugin: oc helm
+deploy: oc helm
 	./bin/camel-install-openshift-console-plugin --namespace $(CUSTOM_PLUGIN_NAMESPACE) --image $(CUSTOM_PLUGIN_IMAGE):$(CUSTOM_PLUGIN_VERSION)
 
 #---
@@ -208,7 +208,7 @@ deploy-plugin: oc helm
 undeploy: helm
 	helm uninstall $(PLUGIN_NAME) --namespace=$(CUSTOM_PLUGIN_NAMESPACE)
 
-all: plugin-image push-plugin deploy-plugin
+all: image push deploy
 
 help: ## Show this help screen.
 	@awk 'BEGIN { printf "\nUsage: make \033[31m<PARAM1=val1 PARAM2=val2>\033[0m \033[36m<target>\033[0m\n"; printf "\nAvailable targets are:\n" } /^#@/ { printf "\033[36m%-15s\033[0m", $$2; subdesc=0; next } /^#===/ { printf "%-14s \033[32m%s\033[0m\n", " ", substr($$0, 5); subdesc=1; next } /^#==/ { printf "\033[0m%s\033[0m\n\n", substr($$0, 4); next } /^#\*\*/ { printf "%-14s \033[31m%s\033[0m\n", " ", substr($$0, 4); next } /^#\*/ && (subdesc == 1) { printf ""; next } /^#\-\-\-/ { printf "\n"; next }' $(MAKEFILE_LIST)
@@ -217,4 +217,4 @@ help: ## Show this help screen.
 .DEFAULT_GOAL := help
 default: help
 
-.PHONY: deploy-plugin undeploy all help
+.PHONY: deploy undeploy all help
