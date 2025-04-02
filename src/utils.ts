@@ -31,3 +31,14 @@ export function getBuildTimestamp(integration: CamelIntegrationKind): string | n
   }
   return null;
 }
+
+export function getHealthEndpoints(framework: string): string[] {
+  switch (framework) {
+    case 'quarkus':
+      return ['/observe/health/live', '/observe/health/ready', '/observe/health/started'];
+    case 'Spring-Boot':
+      return ['/observe/health/liveness', '/observe/health/readiness'];
+    default:
+      return [];
+  }
+}
