@@ -25,14 +25,14 @@ jobs:
         with:
           node-version: "20"
           cache: "yarn"
-          cache-dependency-path: "plugin/yarn.lock"
+          cache-dependency-path: "yarn.lock"
 
       - name: Build plugin
-        run: make plugin-build
+        run: make build
 
       - name: Lint plugin
         continue-on-error: true
-        run: make plugin-lint
+        run: make lint
 
       - name: Log in to registry
         if:  github.ref == 'refs/heads/main'
@@ -46,10 +46,10 @@ jobs:
       - name: Build plugin container
         shell: bash
         run: |
-          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-openshift-console-plugin plugin-image
+          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-openshift-console-plugin image
 
       - name: Push plugin container
         if:  github.ref == 'refs/heads/main'
         shell: bash
         run: |
-          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-openshift-console-plugin push-plugin
+          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-openshift-console-plugin push
