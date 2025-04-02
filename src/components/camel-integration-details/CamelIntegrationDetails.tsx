@@ -38,6 +38,8 @@ const CamelIntegrationDetails: React.FC<CamelIntegrationDetailsProps> = ({ obj: 
     metricsEndpoint: '/observe/metrics',
   };
 
+  console.log(camelIntegrationDetails);
+
   return (
     <div className="co-m-pane__body">
       <h2>{t('Camel Integration Details')}</h2>
