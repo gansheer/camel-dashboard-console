@@ -3,7 +3,7 @@ import { CamelAppKind } from '../../types';
 import { Card, CardBody, CardTitle, Spinner } from '@patternfly/react-core';
 import { useCamelAppRoutes } from './useCamelAppResources';
 import { K8sResourceKind, ResourceLink, Selector } from '@openshift-console/dynamic-plugin-sdk';
-import { podGVK } from '../../const';
+import { routeGVK } from '../../const';
 import { serviceMatchLabelValue } from '../../utils';
 import RouteLocation from './RouteLocation';
 import { useTranslation } from 'react-i18next';
@@ -65,7 +65,7 @@ const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelInt }) => {
             return (
               <li key={i} className="list-group-item">
                 <ResourceLink
-                  groupVersionKind={podGVK}
+                  groupVersionKind={routeGVK}
                   name={resource.name}
                   namespace={camelInt.metadata.namespace}
                 />
