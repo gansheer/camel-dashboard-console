@@ -1,20 +1,20 @@
 import { K8sResourceKind, TableColumn } from '@openshift-console/dynamic-plugin-sdk';
 import { sortable } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
-import { CamelIntegrationStatusValue } from './CamelIntegrationStatus';
+import { CamelAppStatusValue } from './CamelAppStatus';
 
 export const sortResourceByStatus =
   (direction: string) => (a: K8sResourceKind, b: K8sResourceKind) => {
     const { first, second } =
       direction === 'asc' ? { first: a, second: b } : { first: b, second: a };
 
-    const firstValue = CamelIntegrationStatusValue(first);
-    const secondValue = CamelIntegrationStatusValue(second);
+    const firstValue = CamelAppStatusValue(first);
+    const secondValue = CamelAppStatusValue(second);
 
     return firstValue?.localeCompare(secondValue);
   };
 
-const useCamelIntegrationColumns = (namespace): TableColumn<K8sResourceKind>[] => {
+const useCamelAppColumns = (namespace): TableColumn<K8sResourceKind>[] => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   return [
     {
@@ -60,4 +60,4 @@ const useCamelIntegrationColumns = (namespace): TableColumn<K8sResourceKind>[] =
   ];
 };
 
-export default useCamelIntegrationColumns;
+export default useCamelAppColumns;

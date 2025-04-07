@@ -5,11 +5,11 @@ import {
 } from '@openshift-console/dynamic-plugin-sdk';
 import { cronJobGVK, jobGVK, podGVK, routeGVK, serviceGVK } from '../../const';
 
-export const useCamelIntegrationPods = (
+export const useCamelAppPods = (
   namespace: string,
   parentKind: string,
   match: Selector,
-): { camelIntegrationPods: K8sResourceKind[]; loaded: boolean; error: string } => {
+): { CamelAppPods: K8sResourceKind[]; loaded: boolean; error: string } => {
   console.log(parentKind);
   if (parentKind == cronJobGVK.kind) {
     // get pods for cronjob
@@ -47,7 +47,7 @@ export const useCamelIntegrationPods = (
     }
 
     return {
-      camelIntegrationPods: resources.pods.data,
+      CamelAppPods: resources.pods.data,
       loaded: resources.pods.loaded,
       error: resources.pods.loadError,
     };
@@ -66,17 +66,17 @@ export const useCamelIntegrationPods = (
     });
 
     return {
-      camelIntegrationPods: resources.pods.data,
+      CamelAppPods: resources.pods.data,
       loaded: resources.pods.loaded,
       error: resources.pods.loadError,
     };
   }
 };
 
-export const useCamelIntegrationJobs = (
+export const useCamelAppJobs = (
   namespace: string,
   match: Selector,
-): { camelIntegrationJobs: K8sResourceKind[]; loaded: boolean; error: string } => {
+): { CamelAppJobs: K8sResourceKind[]; loaded: boolean; error: string } => {
   const resources = useK8sWatchResources<{
     jobs: K8sResourceKind[];
   }>({
@@ -90,16 +90,16 @@ export const useCamelIntegrationJobs = (
   });
 
   return {
-    camelIntegrationJobs: resources.jobs.data,
+    CamelAppJobs: resources.jobs.data,
     loaded: resources.jobs.loaded,
     error: resources.jobs.loadError,
   };
 };
 
-export const useCamelIntegrationServices = (
+export const useCamelAppServices = (
   namespace: string,
   match: Selector,
-): { camelIntegrationServices: K8sResourceKind[]; loaded: boolean; error: string } => {
+): { CamelAppServices: K8sResourceKind[]; loaded: boolean; error: string } => {
   const resources = useK8sWatchResources<{
     services: K8sResourceKind[];
   }>({
@@ -113,15 +113,15 @@ export const useCamelIntegrationServices = (
   });
 
   return {
-    camelIntegrationServices: resources.services.data,
+    CamelAppServices: resources.services.data,
     loaded: resources.services.loaded,
     error: resources.services.loadError,
   };
 };
-export const useCamelIntegrationRoutes = (
+export const useCamelAppRoutes = (
   namespace: string,
   servicesMatch: Selector,
-): { camelIntegrationRoutes: K8sResourceKind[]; loaded: boolean; error: string } => {
+): { CamelAppRoutes: K8sResourceKind[]; loaded: boolean; error: string } => {
   const resources = useK8sWatchResources<{
     routes: K8sResourceKind[];
     services: K8sResourceKind[];
@@ -154,7 +154,7 @@ export const useCamelIntegrationRoutes = (
   }
 
   return {
-    camelIntegrationRoutes: resources.routes.data,
+    CamelAppRoutes: resources.routes.data,
     loaded: resources.routes.loaded,
     error: resources.routes.loadError,
   };

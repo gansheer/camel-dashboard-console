@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { Card, CardBody, CardTitle, Spinner, TextContent } from '@patternfly/react-core';
-import { CamelIntegrationKind } from '../../types';
+import { CamelAppKind } from '../../types';
 import { ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import { podGVK } from '../../const';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
-import { useCamelIntegrationPods } from './useCamelIntegrationResources';
+import { useCamelAppPods } from './useCamelAppResources';
 import { getPodStatus } from '../../utils';
 import { useTranslation } from 'react-i18next';
 
-type CamelIntegrationPodsProps = {
-  obj: CamelIntegrationKind;
+type CamelAppPodsProps = {
+  obj: CamelAppKind;
 };
 
 type Resources = {
@@ -17,18 +17,18 @@ type Resources = {
   status: string;
 };
 
-const CamelIntegrationPods: React.FC<CamelIntegrationPodsProps> = ({ obj: camelInt }) => {
+const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   const pods: Resources[] = [];
 
-  const { camelIntegrationPods, loaded: loadedPods } = useCamelIntegrationPods(
+  const { CamelAppPods, loaded: loadedPods } = useCamelAppPods(
     camelInt.metadata.namespace,
     camelInt.kind,
     camelInt.spec.selector,
   );
-  if (loadedPods && camelIntegrationPods.length > 0) {
-    camelIntegrationPods.forEach((pod) => {
+  if (loadedPods && CamelAppPods.length > 0) {
+    CamelAppPods.forEach((pod) => {
       pods.push({
         name: pod.metadata.name,
         status: getPodStatus(pod),
@@ -94,4 +94,4 @@ const CamelIntegrationPods: React.FC<CamelIntegrationPodsProps> = ({ obj: camelI
   );
 };
 
-export default CamelIntegrationPods;
+export default CamelAppPods;

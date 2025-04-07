@@ -10,33 +10,33 @@ import {
   VirtualizedTable,
 } from '@openshift-console/dynamic-plugin-sdk';
 import '../../camel.css';
-import CamelIntegrationRow from './CamelIntegrationRow';
-import useCamelIntegrationColumns from './useCamelIntegrationColumns';
-import { useCamelIntegrationList } from './useCamelIntegrationList';
+import CamelAppRow from './CamelAppRow';
+import useCamelAppColumns from './useCamelAppColumns';
+import { useCamelAppList } from './useCamelAppList';
 import { ALL_NAMESPACES_KEY } from '../../const';
 
 // Note : using this as inspiration for the list: https://github.com/openshift-pipelines/console-plugin/blob/main/src/components/projects-list/ProjectsRow.tsx#L91
 
-type CamelIntegrationProps = {
+type CamelAppProps = {
   ns: string;
   showTitle?: boolean;
 };
 
-const CamelIntegrationList: React.FC<CamelIntegrationProps> = ({ ns, showTitle = true }) => {
+const CamelAppList: React.FC<CamelAppProps> = ({ ns, showTitle = true }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   const [activeNamespace, setActiveNamespace] = useActiveNamespace();
 
-  const filterCamelIntegrationsNamespace = (activeNamespace: string): string => {
+  const filterCamelAppsNamespace = (activeNamespace: string): string => {
     return activeNamespace === ALL_NAMESPACES_KEY ? '' : activeNamespace;
   };
 
-  const columns = useCamelIntegrationColumns(filterCamelIntegrationsNamespace(activeNamespace));
-  const { camelIntegrations, loaded, error } = useCamelIntegrationList(
-    filterCamelIntegrationsNamespace(activeNamespace),
+  const columns = useCamelAppColumns(filterCamelAppsNamespace(activeNamespace));
+  const { CamelApps, loaded, error } = useCamelAppList(
+    filterCamelAppsNamespace(activeNamespace),
   );
 
-  const [staticData, filteredData, onFilterChange] = useListPageFilter(camelIntegrations);
+  const [staticData, filteredData, onFilterChange] = useListPageFilter(CamelApps);
 
   // TODO add filters
 
@@ -62,7 +62,7 @@ const CamelIntegrationList: React.FC<CamelIntegrationProps> = ({ ns, showTitle =
           data={filteredData}
           loaded={loaded}
           loadError={error}
-          Row={CamelIntegrationRow}
+          Row={CamelAppRow}
           unfilteredData={staticData}
         />
       </ListPageBody>
@@ -70,4 +70,4 @@ const CamelIntegrationList: React.FC<CamelIntegrationProps> = ({ ns, showTitle =
   );
 };
 
-export default CamelIntegrationList;
+export default CamelAppList;

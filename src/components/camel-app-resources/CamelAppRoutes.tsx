@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { CamelIntegrationKind } from '../../types';
+import { CamelAppKind } from '../../types';
 import { Card, CardBody, CardTitle, Spinner } from '@patternfly/react-core';
-import { useCamelIntegrationRoutes } from './useCamelIntegrationResources';
+import { useCamelAppRoutes } from './useCamelAppResources';
 import { K8sResourceKind, ResourceLink, Selector } from '@openshift-console/dynamic-plugin-sdk';
 import { podGVK } from '../../const';
 import { serviceMatchLabelValue } from '../../utils';
 import RouteLocation from './RouteLocation';
 import { useTranslation } from 'react-i18next';
 
-type CamelIntegrationRoutesProps = {
-  obj: CamelIntegrationKind;
+type CamelAppRoutesProps = {
+  obj: CamelAppKind;
 };
 
 type Resources = {
@@ -17,7 +17,7 @@ type Resources = {
   route: K8sResourceKind;
 };
 
-const CamelIntegrationRoutes: React.FC<CamelIntegrationRoutesProps> = ({ obj: camelInt }) => {
+const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelInt }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   const routes: Resources[] = [];
@@ -28,12 +28,12 @@ const CamelIntegrationRoutes: React.FC<CamelIntegrationRoutesProps> = ({ obj: ca
     },
   };
 
-  const { camelIntegrationRoutes, loaded: loadedRoutes } = useCamelIntegrationRoutes(
+  const { CamelAppRoutes, loaded: loadedRoutes } = useCamelAppRoutes(
     camelInt.metadata.namespace,
     serviceSelector,
   );
-  if (loadedRoutes && camelIntegrationRoutes.length > 0) {
-    camelIntegrationRoutes.forEach((route) => {
+  if (loadedRoutes && CamelAppRoutes.length > 0) {
+    CamelAppRoutes.forEach((route) => {
       routes.push({
         name: route.metadata.name,
         route: route,
@@ -80,4 +80,4 @@ const CamelIntegrationRoutes: React.FC<CamelIntegrationRoutesProps> = ({ obj: ca
   );
 };
 
-export default CamelIntegrationRoutes;
+export default CamelAppRoutes;

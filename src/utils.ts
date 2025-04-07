@@ -6,9 +6,9 @@ import {
   METADATA_ANNOTATION_APP_VERSION,
   METADATA_ANNOTATION_QUARKUS_BUILD_TIMESTAMP,
 } from './const';
-import { CamelIntegrationKind } from './types';
+import { CamelAppKind } from './types';
 
-export function camelIntegrationGVK(kind: string) {
+export function CamelAppGVK(kind: string) {
   switch (kind) {
     case deploymentConfigGVK.kind:
       return deploymentConfigGVK;
@@ -19,16 +19,16 @@ export function camelIntegrationGVK(kind: string) {
   }
 }
 
-export function getIntegrationVersion(integration: CamelIntegrationKind): string | null {
-  if (integration && integration.metadata) {
-    return integration.metadata.annotations?.[METADATA_ANNOTATION_APP_VERSION];
+export function getAppVersion(app: CamelAppKind): string | null {
+  if (app && app.metadata) {
+    return app.metadata.annotations?.[METADATA_ANNOTATION_APP_VERSION];
   }
   return null;
 }
 
-export function getBuildTimestamp(integration: CamelIntegrationKind): string | null {
-  if (integration && integration.metadata) {
-    return integration.metadata.annotations?.[METADATA_ANNOTATION_QUARKUS_BUILD_TIMESTAMP];
+export function getBuildTimestamp(app: CamelAppKind): string | null {
+  if (app && app.metadata) {
+    return app.metadata.annotations?.[METADATA_ANNOTATION_QUARKUS_BUILD_TIMESTAMP];
   }
   return null;
 }
@@ -45,7 +45,7 @@ export function getHealthEndpoints(framework: string): string[] {
 }
 
 // TODO use something else than Unknown
-export function serviceMatchLabelValue(camelInt: CamelIntegrationKind): string {
+export function serviceMatchLabelValue(camelInt: CamelAppKind): string {
   if (camelInt.kind == 'Deployment') {
     return camelInt.spec.selector.matchLabels['app.kubernetes.io/name'];
   } else if (camelInt.kind == 'DeploymentConfig') {

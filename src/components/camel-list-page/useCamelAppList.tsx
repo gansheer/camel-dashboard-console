@@ -1,5 +1,5 @@
 import { useK8sWatchResources } from '@openshift-console/dynamic-plugin-sdk';
-import { CamelIntegrationKind } from '../../types';
+import { CamelAppKind } from '../../types';
 import {
   cronJobGVK,
   deploymentConfigGVK,
@@ -8,13 +8,13 @@ import {
   METADATA_LABEL_SELECTOR_CAMEL_APP_VALUE,
 } from '../../const';
 
-export const useCamelIntegrationList = (
+export const useCamelAppList = (
   namespace: string,
-): { camelIntegrations: CamelIntegrationKind[]; loaded: boolean; error: string } => {
+): { CamelApps: CamelAppKind[]; loaded: boolean; error: string } => {
   const resources = useK8sWatchResources<{
-    deployments: CamelIntegrationKind[];
-    deploymentConfigs: CamelIntegrationKind[];
-    cronJobs: CamelIntegrationKind[];
+    deployments: CamelAppKind[];
+    deploymentConfigs: CamelAppKind[];
+    cronJobs: CamelAppKind[];
   }>({
     deployments: {
       isList: true,
@@ -65,5 +65,5 @@ export const useCamelIntegrationList = (
     resources.deployments.loadError +
     resources.cronJobs.loadError;
 
-  return { camelIntegrations: resourcesData, loaded: resourcesLoaded, error: resourcesLoadError };
+  return { CamelApps: resourcesData, loaded: resourcesLoaded, error: resourcesLoadError };
 };
