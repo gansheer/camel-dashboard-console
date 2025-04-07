@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Spinner } from '@patternfly/react-core';
 import { useParams } from 'react-router-dom-v5-compat';
 import { HorizontalNav, NamespaceBar } from '@openshift-console/dynamic-plugin-sdk';
-import { useCamelIntegration } from './useCamelIntegration';
-import { useCamelIntegrationTabs } from './useCamelIntegrationTabs';
-import CamelIntegrationTitle from './CamelIntegrationTitle';
+import { useCamelApp } from './useCamelApp';
+import { useCamelAppTabs } from './useCamelAppTabs';
+import CamelAppTitle from './CamelAppTitle';
 
-const CamelIntegration: React.FC = () => {
+const CamelApp: React.FC = () => {
   const {
     ns: namespace,
     name,
@@ -17,15 +17,15 @@ const CamelIntegration: React.FC = () => {
     kind?: string;
   }>();
 
-  const { camelIntegration, isLoading, error } = useCamelIntegration(name, namespace, kind);
+  const { CamelApp, isLoading, error } = useCamelApp(name, namespace, kind);
 
-  const pages = useCamelIntegrationTabs(camelIntegration);
+  const pages = useCamelAppTabs(CamelApp);
 
   // TODO A common loading spinner component
   if (isLoading) {
     return (
       <>
-        <CamelIntegrationTitle name={name} namespace={namespace} />
+        <CamelAppTitle name={name} namespace={namespace} />
         <Spinner />
       </>
     );
@@ -39,10 +39,10 @@ const CamelIntegration: React.FC = () => {
   return (
     <>
       <NamespaceBar isDisabled />
-      <CamelIntegrationTitle name={name} namespace={namespace} />
+      <CamelAppTitle name={name} namespace={namespace} />
       <HorizontalNav pages={pages} />
     </>
   );
 };
 
-export default CamelIntegration;
+export default CamelApp;

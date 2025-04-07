@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { CamelIntegrationKind } from '../../types';
-import { useCamelIntegrationJobs } from './useCamelIntegrationResources';
+import { CamelAppKind } from '../../types';
+import { useCamelAppJobs } from './useCamelAppResources';
 import { Card, CardBody, CardTitle, Spinner } from '@patternfly/react-core';
 import { jobGVK } from '../../const';
 import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
 
-type CamelIntegrationJobsProps = {
-  obj: CamelIntegrationKind;
+type CamelAppJobsProps = {
+  obj: CamelAppKind;
 };
 
 type Resources = {
@@ -15,15 +15,15 @@ type Resources = {
   status: string;
 };
 
-const CamelIntegrationJobs: React.FC<CamelIntegrationJobsProps> = ({ obj: camelInt }) => {
+const CamelAppJobs: React.FC<CamelAppJobsProps> = ({ obj: camelInt }) => {
   const jobs: Resources[] = [];
 
-  const { camelIntegrationJobs, loaded: loadedJobs } = useCamelIntegrationJobs(
+  const { CamelAppJobs, loaded: loadedJobs } = useCamelAppJobs(
     camelInt.metadata.namespace,
     camelInt.spec.selector,
   );
-  if (loadedJobs && camelIntegrationJobs.length > 0) {
-    camelIntegrationJobs.forEach((job) => {
+  if (loadedJobs && CamelAppJobs.length > 0) {
+    CamelAppJobs.forEach((job) => {
       getJobsStatus(job);
       jobs.push({
         name: job.metadata.name,
@@ -91,4 +91,4 @@ const getJobsStatus = (job: K8sResourceKind): string => {
   }
 };
 
-export default CamelIntegrationJobs;
+export default CamelAppJobs;

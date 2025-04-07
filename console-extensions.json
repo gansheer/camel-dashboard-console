@@ -3,8 +3,8 @@
     "type": "console.page/route",
     "properties": {
       "exact": false,
-      "path": "/camel/integration/ns/:ns/kind/:kind/name/:name",
-      "component": { "$codeRef": "CamelIntegration" }
+      "path": "/camel/app/ns/:ns/kind/:kind/name/:name",
+      "component": { "$codeRef": "CamelApp" }
     }
   },
   {
@@ -12,7 +12,7 @@
     "properties": {
       "exact": true,
       "path": ["/camel/ns/:ns", "/camel/all-namespaces"],
-      "component": { "$codeRef": "CamelIntegrationList" }
+      "component": { "$codeRef": "CamelAppList" }
     }
   },
   {

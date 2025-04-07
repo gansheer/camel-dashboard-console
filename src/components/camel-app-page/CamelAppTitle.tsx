@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ALL_NAMESPACES_KEY } from '../../const';
 import { useActiveNamespace } from '@openshift-console/dynamic-plugin-sdk';
 
-type CamelIntegrationTitleProps = {
+type CamelAppTitleProps = {
   name: string;
   namespace: string;
 };
@@ -18,7 +18,7 @@ export const getUrlList = (namespace): string => {
   }
 };
 
-const CamelIntegrationTitle: React.FC<CamelIntegrationTitleProps> = ({ name }) => {
+const CamelAppTitle: React.FC<CamelAppTitleProps> = ({ name }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   const [activeNamespace] = useActiveNamespace();
@@ -47,4 +47,4 @@ const CamelIntegrationTitle: React.FC<CamelIntegrationTitleProps> = ({ name }) =
   );
 };
 
-export default CamelIntegrationTitle;
+export default CamelAppTitle;

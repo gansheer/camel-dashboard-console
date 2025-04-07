@@ -10,7 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
-import { CamelIntegrationStatusTitle, CamelIntegrationStatusValue } from './CamelIntegrationStatus';
+import { CamelAppStatusTitle, CamelAppStatusValue } from './CamelAppStatus';
 
 const getKind = (obj) => obj.kind;
 const getNamespace = (obj) => obj.metadata?.namespace;
@@ -23,7 +23,7 @@ const isModifiedEvent = (event: React.MouseEvent<HTMLElement>) => {
   return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 };
 
-const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activeColumnIDs }) => {
+const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activeColumnIDs }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   const camelVersion = getCamelVersion(camelInt);
 
@@ -41,7 +41,7 @@ const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, acti
         <span className="co-resource-item co-resource-item--truncate">
           <span className="co-m-resource-icon co-m-resource-secret">C</span>
           <Link
-            to={`/camel/integration/ns/${camelInt.metadata.namespace}/kind/${camelInt.kind}/name/${camelInt.metadata.name}`}
+            to={`/camel/app/ns/${camelInt.metadata.namespace}/kind/${camelInt.kind}/name/${camelInt.metadata.name}`}
             className="co-resource-item__resource-name"
             title={camelInt.metadata.name}
             onClick={handleClick}
@@ -67,8 +67,8 @@ const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, acti
       </TableData>
       <TableData id="status" activeColumnIDs={activeColumnIDs}>
         <Status
-          title={CamelIntegrationStatusTitle(camelInt)}
-          status={CamelIntegrationStatusValue(camelInt)}
+          title={CamelAppStatusTitle(camelInt)}
+          status={CamelAppStatusValue(camelInt)}
         />
       </TableData>
       <TableData id="camel" activeColumnIDs={activeColumnIDs}>
@@ -81,4 +81,4 @@ const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, acti
   );
 };
 
-export default ResourcesRow;
+export default CamelAppRow;

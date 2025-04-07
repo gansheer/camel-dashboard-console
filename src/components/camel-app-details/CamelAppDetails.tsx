@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { CamelIntegrationKind } from '../../types';
+import { CamelAppKind } from '../../types';
 import { Card, CardBody, CardTitle, TextContent } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { K8sGroupVersionKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
-import { camelIntegrationGVK, getBuildTimestamp, getHealthEndpoints } from '../../utils';
+import { CamelAppGVK, getBuildTimestamp, getHealthEndpoints } from '../../utils';
 
-type CamelIntegrationDetailsProps = {
-  obj: CamelIntegrationKind;
+type CamelAppDetailsProps = {
+  obj: CamelAppKind;
 };
 
-type CamelIntegrationDetails = {
+type CamelAppDetails = {
   groupVersionKind: K8sGroupVersionKind;
   name: string;
   namespace: string;
@@ -22,12 +22,12 @@ type CamelIntegrationDetails = {
   metricsEndpoint: string;
 };
 
-const CamelIntegrationDetails: React.FC<CamelIntegrationDetailsProps> = ({ obj: camelInt }) => {
+const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   // TODO : replace with real CR values
-  const camelIntegrationDetails = {
-    groupVersionKind: camelIntegrationGVK(camelInt.kind),
+  const CamelAppDetails = {
+    groupVersionKind: CamelAppGVK(camelInt.kind),
     name: camelInt.metadata.name,
     namespace: camelInt.metadata.namespace,
     version: '4.10.2',
@@ -40,25 +40,25 @@ const CamelIntegrationDetails: React.FC<CamelIntegrationDetailsProps> = ({ obj: 
 
   return (
     <div className="co-m-pane__body">
-      <h2>{t('Camel Integration Details')}</h2>
+      <h2>{t('Camel App Details')}</h2>
       <Card>
         <CardTitle>{t('Details')}</CardTitle>
         <CardBody>
           <ResourceLink
-            groupVersionKind={camelIntegrationDetails.groupVersionKind}
-            name={camelIntegrationDetails.name}
-            namespace={camelIntegrationDetails.namespace}
+            groupVersionKind={CamelAppDetails.groupVersionKind}
+            name={CamelAppDetails.name}
+            namespace={CamelAppDetails.namespace}
             linkTo={true}
           />
           <TextContent>
             <strong>{t('Version')}: </strong>
-            {camelIntegrationDetails.version || (
+            {CamelAppDetails.version || (
               <span className="text-muted">{t('No version')}</span>
             )}
           </TextContent>
           <TextContent>
             <strong>{t('Build Timestamp')}: </strong>
-            {camelIntegrationDetails.buildTimestamp || (
+            {CamelAppDetails.buildTimestamp || (
               <span className="text-muted">{t('No build timestamp')}</span>
             )}
           </TextContent>
@@ -69,16 +69,16 @@ const CamelIntegrationDetails: React.FC<CamelIntegrationDetailsProps> = ({ obj: 
         <CardBody>
           <TextContent>
             <strong>{t('Health Endpoints')}: </strong>
-            {camelIntegrationDetails.healthEndpoints
-              ? camelIntegrationDetails.healthEndpoints.map((endpoint, i) => {
+            {CamelAppDetails.healthEndpoints
+              ? CamelAppDetails.healthEndpoints.map((endpoint, i) => {
                   return <TextContent key={i}> {endpoint}</TextContent>;
                 })
               : '-'}
           </TextContent>
           <TextContent>
             <strong>{t('Metrics Endpoint')}: </strong>
-            {camelIntegrationDetails.metricsEndpoint ? (
-              <TextContent> {camelIntegrationDetails.metricsEndpoint}</TextContent>
+            {CamelAppDetails.metricsEndpoint ? (
+              <TextContent> {CamelAppDetails.metricsEndpoint}</TextContent>
             ) : (
               '-'
             )}
@@ -89,10 +89,10 @@ const CamelIntegrationDetails: React.FC<CamelIntegrationDetailsProps> = ({ obj: 
         <CardTitle>{t('Frameworks')}</CardTitle>
         <CardBody>
           <TextContent>
-            <strong>{t('Runtime')}: </strong> {camelIntegrationDetails.runtimeFramework}
+            <strong>{t('Runtime')}: </strong> {CamelAppDetails.runtimeFramework}
           </TextContent>
           <TextContent>
-            <strong>{t('Runtime version')}: </strong> {camelIntegrationDetails.runtimeVersion}
+            <strong>{t('Runtime version')}: </strong> {CamelAppDetails.runtimeVersion}
           </TextContent>
         </CardBody>
       </Card>
@@ -100,4 +100,4 @@ const CamelIntegrationDetails: React.FC<CamelIntegrationDetailsProps> = ({ obj: 
   );
 };
 
-export default CamelIntegrationDetails;
+export default CamelAppDetails;

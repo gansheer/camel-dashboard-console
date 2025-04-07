@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { Card, CardBody, CardTitle, Spinner } from '@patternfly/react-core';
-import { CamelIntegrationKind } from '../../types';
+import { CamelAppKind } from '../../types';
 import { ResourceLink, Selector } from '@openshift-console/dynamic-plugin-sdk';
 import { serviceGVK } from '../../const';
-import { useCamelIntegrationServices } from './useCamelIntegrationResources';
+import { useCamelAppServices } from './useCamelAppResources';
 import { serviceMatchLabelValue } from '../../utils';
 import { LongArrowAltRightIcon } from '@patternfly/react-icons';
 import { useTranslation } from 'react-i18next';
 
-type CamelIntegrationServicesProps = {
-  obj: CamelIntegrationKind;
+type CamelAppServicesProps = {
+  obj: CamelAppKind;
 };
 
 type Resources = {
@@ -17,7 +17,7 @@ type Resources = {
   ports: [];
 };
 
-const CamelIntegrationServices: React.FC<CamelIntegrationServicesProps> = ({ obj: camelInt }) => {
+const CamelAppServices: React.FC<CamelAppServicesProps> = ({ obj: camelInt }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   const services: Resources[] = [];
@@ -28,12 +28,12 @@ const CamelIntegrationServices: React.FC<CamelIntegrationServicesProps> = ({ obj
     },
   };
 
-  const { camelIntegrationServices, loaded: loadedServices } = useCamelIntegrationServices(
+  const { CamelAppServices, loaded: loadedServices } = useCamelAppServices(
     camelInt.metadata.namespace,
     serviceSelector,
   );
-  if (loadedServices && camelIntegrationServices.length > 0) {
-    camelIntegrationServices.forEach((service) => {
+  if (loadedServices && CamelAppServices.length > 0) {
+    CamelAppServices.forEach((service) => {
       services.push({
         name: service.metadata.name,
         ports: service.spec?.ports ?? [],
@@ -90,4 +90,4 @@ const CamelIntegrationServices: React.FC<CamelIntegrationServicesProps> = ({ obj
   );
 };
 
-export default CamelIntegrationServices;
+export default CamelAppServices;
