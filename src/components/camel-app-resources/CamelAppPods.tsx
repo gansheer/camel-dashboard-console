@@ -59,30 +59,28 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
             return (
               <li key={i} className="list-group-item container-fluid">
                 <div className="row">
-                  <span className="col-xs-12">
-                    <span className="col-xs-5">
-                      <TextContent>
-                        <ResourceLink
-                          groupVersionKind={podGVK}
-                          name={resource.name}
-                          namespace={camelInt.metadata.namespace}
-                        />
-                      </TextContent>
-                    </span>
-                    <span className="col-xs-3">
-                      <TextContent>
-                        <Status title={resource.status || 'N/A'} status={resource.status} />
-                      </TextContent>
-                    </span>
-                    <span className="col-xs-4 text-right">
-                      <TextContent>
-                        <a
-                          href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}
-                        >
-                          {t('View Logs')}
-                        </a>
-                      </TextContent>
-                    </span>
+                  <span className="col-xs-5">
+                    <TextContent>
+                      <ResourceLink
+                        groupVersionKind={podGVK}
+                        name={resource.name}
+                        namespace={camelInt.metadata.namespace}
+                      />
+                    </TextContent>
+                  </span>
+                  <span className="col-xs-4">
+                    <TextContent>
+                      <Status title={resource.status || 'N/A'} status={resource.status} />
+                    </TextContent>
+                  </span>
+                  <span className="col-xs-3 text-right">
+                    <TextContent>
+                      <a
+                        href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}
+                      >
+                        {t('View Logs')}
+                      </a>
+                    </TextContent>
                   </span>
                 </div>
               </li>

@@ -54,13 +54,17 @@ const CamelAppJobs: React.FC<CamelAppJobsProps> = ({ obj: camelInt }) => {
           {jobs.map((resource, i) => {
             return (
               <li key={i} className="list-group-item container-fluid">
-                <div className="job-overview__item">
+                <div className="row">
+                <span className="col-xs-8">
                   <ResourceLink
                     groupVersionKind={jobGVK}
                     name={resource.name}
                     namespace={camelInt.metadata.namespace}
                   />
+                  </span>
+                  <span className="col-xs-4">
                   <Status title={resource.status || 'N/A'} status={resource.status} />
+                  </span>
                 </div>
               </li>
             );
