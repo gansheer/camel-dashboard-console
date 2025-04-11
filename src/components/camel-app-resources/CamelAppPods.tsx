@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Card, CardBody, CardTitle, Spinner, TextContent } from '@patternfly/react-core';
-import { CamelAppKind } from '../../types';
-import { ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
+import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import { podGVK } from '../../const';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
 import { useCamelAppPods } from './useCamelAppResources';
@@ -9,7 +8,7 @@ import { getPodStatus } from '../../utils';
 import { useTranslation } from 'react-i18next';
 
 type CamelAppPodsProps = {
-  obj: CamelAppKind;
+  obj: K8sResourceKind;
 };
 
 type Resources = {
@@ -75,9 +74,7 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
                   </span>
                   <span className="col-xs-3 text-right">
                     <TextContent>
-                      <a
-                        href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}
-                      >
+                      <a href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}>
                         {t('View Logs')}
                       </a>
                     </TextContent>

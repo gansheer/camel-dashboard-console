@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Card, CardBody, CardTitle, Spinner } from '@patternfly/react-core';
-import { CamelAppKind } from '../../types';
-import { ResourceLink, Selector } from '@openshift-console/dynamic-plugin-sdk';
+import { K8sResourceKind, ResourceLink, Selector } from '@openshift-console/dynamic-plugin-sdk';
 import { serviceGVK } from '../../const';
 import { useCamelAppServices } from './useCamelAppResources';
 import { serviceMatchLabelValue } from '../../utils';
@@ -9,7 +8,7 @@ import { LongArrowAltRightIcon } from '@patternfly/react-icons';
 import { useTranslation } from 'react-i18next';
 
 type CamelAppServicesProps = {
-  obj: CamelAppKind;
+  obj: K8sResourceKind;
 };
 
 type Resources = {
@@ -17,19 +16,19 @@ type Resources = {
   ports: [];
 };
 
-const CamelAppServices: React.FC<CamelAppServicesProps> = ({ obj: camelInt }) => {
+const CamelAppServices: React.FC<CamelAppServicesProps> = ({ obj: camelAppOwner }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   const services: Resources[] = [];
 
   const serviceSelector: Selector = {
     matchLabels: {
-      'app.kubernetes.io/name': serviceMatchLabelValue(camelInt),
+      'app.kubernetes.io/name': serviceMatchLabelValue(camelAppOwner),
     },
   };
 
   const { CamelAppServices, loaded: loadedServices } = useCamelAppServices(
-    camelInt.metadata.namespace,
+    camelAppOwner.metadata.namespace,
     serviceSelector,
   );
   if (loadedServices && CamelAppServices.length > 0) {
@@ -67,7 +66,7 @@ const CamelAppServices: React.FC<CamelAppServicesProps> = ({ obj: camelInt }) =>
                 <ResourceLink
                   groupVersionKind={serviceGVK}
                   name={resource.name}
-                  namespace={camelInt.metadata.namespace}
+                  namespace={camelAppOwner.metadata.namespace}
                 />
                 <ul className="port-list">
                   {resource.ports.map(({ name, port, protocol, targetPort }) => (

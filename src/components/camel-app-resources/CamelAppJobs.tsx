@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { CamelAppKind } from '../../types';
 import { useCamelAppJobs } from './useCamelAppResources';
 import { Card, CardBody, CardTitle, Spinner } from '@patternfly/react-core';
 import { jobGVK } from '../../const';
@@ -7,7 +6,7 @@ import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
 
 type CamelAppJobsProps = {
-  obj: CamelAppKind;
+  obj: K8sResourceKind;
 };
 
 type Resources = {
@@ -15,12 +14,12 @@ type Resources = {
   status: string;
 };
 
-const CamelAppJobs: React.FC<CamelAppJobsProps> = ({ obj: camelInt }) => {
+const CamelAppJobs: React.FC<CamelAppJobsProps> = ({ obj: camelAppOwner }) => {
   const jobs: Resources[] = [];
 
   const { CamelAppJobs, loaded: loadedJobs } = useCamelAppJobs(
-    camelInt.metadata.namespace,
-    camelInt.spec.selector,
+    camelAppOwner.metadata.namespace,
+    camelAppOwner.spec.selector,
   );
   if (loadedJobs && CamelAppJobs.length > 0) {
     CamelAppJobs.forEach((job) => {
@@ -55,15 +54,15 @@ const CamelAppJobs: React.FC<CamelAppJobsProps> = ({ obj: camelInt }) => {
             return (
               <li key={i} className="list-group-item container-fluid">
                 <div className="row">
-                <span className="col-xs-8">
-                  <ResourceLink
-                    groupVersionKind={jobGVK}
-                    name={resource.name}
-                    namespace={camelInt.metadata.namespace}
-                  />
+                  <span className="col-xs-8">
+                    <ResourceLink
+                      groupVersionKind={jobGVK}
+                      name={resource.name}
+                      namespace={camelAppOwner.metadata.namespace}
+                    />
                   </span>
                   <span className="col-xs-4">
-                  <Status title={resource.status || 'N/A'} status={resource.status} />
+                    <Status title={resource.status || 'N/A'} status={resource.status} />
                   </span>
                 </div>
               </li>

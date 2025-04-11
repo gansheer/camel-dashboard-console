@@ -32,9 +32,7 @@ const CamelAppList: React.FC<CamelAppProps> = ({ ns, showTitle = true }) => {
   };
 
   const columns = useCamelAppColumns(filterCamelAppsNamespace(activeNamespace));
-  const { CamelApps, loaded, error } = useCamelAppList(
-    filterCamelAppsNamespace(activeNamespace),
-  );
+  const { CamelApps, loaded, error } = useCamelAppList(filterCamelAppsNamespace(activeNamespace));
 
   const [staticData, filteredData, onFilterChange] = useListPageFilter(CamelApps);
 

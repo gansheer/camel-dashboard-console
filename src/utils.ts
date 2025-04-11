@@ -7,8 +7,9 @@ import {
   METADATA_ANNOTATION_QUARKUS_BUILD_TIMESTAMP,
 } from './const';
 import { CamelAppKind } from './types';
+import { K8sResourceKind } from '@openshift-console/dynamic-plugin-sdk';
 
-export function CamelAppGVK(kind: string) {
+export function CamelAppOwnerGVK(kind: string) {
   switch (kind) {
     case deploymentConfigGVK.kind:
       return deploymentConfigGVK;
@@ -45,13 +46,13 @@ export function getHealthEndpoints(framework: string): string[] {
 }
 
 // TODO use something else than Unknown
-export function serviceMatchLabelValue(camelInt: CamelAppKind): string {
-  if (camelInt.kind == 'Deployment') {
-    return camelInt.spec.selector.matchLabels['app.kubernetes.io/name'];
-  } else if (camelInt.kind == 'DeploymentConfig') {
-    return camelInt.spec.selector['app.kubernetes.io/name'];
-  } else if (camelInt.kind == 'CronJob') {
-    return camelInt.metadata.labels['app.kubernetes.io/name'];
+export function serviceMatchLabelValue(camelAppOwner: K8sResourceKind): string {
+  if (camelAppOwner.kind == 'Deployment') {
+    return camelAppOwner.spec.selector.matchLabels['app.kubernetes.io/name'];
+  } else if (camelAppOwner.kind == 'DeploymentConfig') {
+    return camelAppOwner.spec.selector['app.kubernetes.io/name'];
+  } else if (camelAppOwner.kind == 'CronJob') {
+    return camelAppOwner.metadata.labels['app.kubernetes.io/name'];
   }
   return 'Unknown';
 }
