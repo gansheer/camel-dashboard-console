@@ -1,3 +1,5 @@
+import { K8sGroupVersionKind } from '@openshift-console/dynamic-plugin-sdk';
+
 export const FLAG_OPENSHIFT_CAMEL = 'OPENSHIFT_CAMEL';
 
 export const METADATA_LABEL_SELECTOR_CAMEL_APP_KEY = 'camel/integration-runtime';
@@ -15,54 +17,60 @@ export const METADATA_ANNOTATION_QUARKUS_BUILD_TIMESTAMP = 'app.quarkus.io/build
 export const METADATA_ANNOTATION_CAMEL_SPRINGBOOT_VERSION = 'camel/spring-boot-version';
 export const METADATA_ANNOTATION_CAMEL_CSB_VERSION = 'camel/camel-spring-boot-version';
 
-export const deploymentGVK = {
+export const camelAppGVK: K8sGroupVersionKind = {
+  group: 'camel.apache.org',
+  version: 'v1alpha1',
+  kind: 'App',
+};
+
+export const deploymentGVK: K8sGroupVersionKind = {
   group: 'apps',
   version: 'v1',
   kind: 'Deployment',
 };
-export const deploymentConfigGVK = {
+export const deploymentConfigGVK: K8sGroupVersionKind = {
   group: 'apps.openshift.io',
   version: 'v1',
   kind: 'DeploymentConfig',
 };
-export const cronJobGVK = {
+export const cronJobGVK: K8sGroupVersionKind = {
   group: 'batch',
   version: 'v1',
   kind: 'CronJob',
 };
-export const jobGVK = {
+export const jobGVK: K8sGroupVersionKind = {
   group: 'batch',
   version: 'v1',
   kind: 'Job',
 };
 
-export const podGVK = {
+export const podGVK: K8sGroupVersionKind = {
   group: '',
   version: 'v1',
   kind: 'Pod',
 };
-export const serviceGVK = {
+export const serviceGVK: K8sGroupVersionKind = {
   group: '',
   version: 'v1',
   kind: 'Service',
 };
-export const routeGVK = {
+export const routeGVK: K8sGroupVersionKind = {
   group: 'route.openshift.io',
   version: 'v1',
   kind: 'Route',
 };
 
-export const configMapGVK = {
+export const configMapGVK: K8sGroupVersionKind = {
   group: '',
   version: 'v1',
   kind: 'ConfigMap',
 };
-export const secretGVK = {
+export const secretGVK: K8sGroupVersionKind = {
   group: '',
   version: 'v1',
   kind: 'Secret',
 };
-export const persistentVolumeClaimGVK = {
+export const persistentVolumeClaimGVK: K8sGroupVersionKind = {
   group: '',
   version: 'v1',
   kind: 'PersistentVolumeClaim',

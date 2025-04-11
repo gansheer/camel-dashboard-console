@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { CamelAppKind } from '../../types';
 import { Card, CardBody, CardTitle, Spinner } from '@patternfly/react-core';
 import { useCamelAppRoutes } from './useCamelAppResources';
 import { K8sResourceKind, ResourceLink, Selector } from '@openshift-console/dynamic-plugin-sdk';
@@ -9,7 +8,7 @@ import RouteLocation from './RouteLocation';
 import { useTranslation } from 'react-i18next';
 
 type CamelAppRoutesProps = {
-  obj: CamelAppKind;
+  obj: K8sResourceKind;
 };
 
 type Resources = {
@@ -17,19 +16,19 @@ type Resources = {
   route: K8sResourceKind;
 };
 
-const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelInt }) => {
+const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelAppOwner }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   const routes: Resources[] = [];
 
   const serviceSelector: Selector = {
     matchLabels: {
-      'app.kubernetes.io/name': serviceMatchLabelValue(camelInt),
+      'app.kubernetes.io/name': serviceMatchLabelValue(camelAppOwner),
     },
   };
 
   const { CamelAppRoutes, loaded: loadedRoutes } = useCamelAppRoutes(
-    camelInt.metadata.namespace,
+    camelAppOwner.metadata.namespace,
     serviceSelector,
   );
   if (loadedRoutes && CamelAppRoutes.length > 0) {
@@ -67,7 +66,7 @@ const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelInt }) => {
                 <ResourceLink
                   groupVersionKind={routeGVK}
                   name={resource.name}
-                  namespace={camelInt.metadata.namespace}
+                  namespace={camelAppOwner.metadata.namespace}
                 />
                 <span className="text-muted">{t('Location:')}</span>
                 <RouteLocation obj={resource.route} />

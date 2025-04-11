@@ -1,9 +1,26 @@
 import {
+  K8sGroupVersionKind,
   K8sResourceKind,
   Selector,
+  useK8sWatchResource,
   useK8sWatchResources,
 } from '@openshift-console/dynamic-plugin-sdk';
 import { cronJobGVK, jobGVK, podGVK, routeGVK, serviceGVK } from '../../const';
+
+export const useCamelAppOwner = (
+  name: string,
+  namespace: string,
+  gvk: K8sGroupVersionKind,
+): { CamelAppOwner: K8sResourceKind; isLoading: boolean; error: string } => {
+  const [CamelAppOwner, loaded, loadError] = useK8sWatchResource<K8sResourceKind>({
+    name: name,
+    namespace: namespace,
+    groupVersionKind: gvk,
+    isList: false,
+  });
+
+  return { CamelAppOwner, isLoading: !loaded, error: loadError };
+};
 
 export const useCamelAppPods = (
   namespace: string,

@@ -5,18 +5,14 @@ import {
   ResourceLink,
   RowProps,
   TableData,
-  Timestamp,
 } from '@openshift-console/dynamic-plugin-sdk';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
-import { CamelAppStatusTitle, CamelAppStatusValue } from './CamelAppStatus';
+import { getCamelVersionAsString } from './camelAppVersion';
 
-const getKind = (obj) => obj.kind;
+const getKind = (obj) => obj.metadata.ownerReferences[0].kind;
 const getNamespace = (obj) => obj.metadata?.namespace;
-
-const getCamelVersion = (obj: K8sResourceKind): string =>
-  obj.metadata.annotations?.['camel/camel-core-version'];
 
 // Check for a modified mouse event. For example - Ctrl + Click
 const isModifiedEvent = (event: React.MouseEvent<HTMLElement>) => {
@@ -25,7 +21,7 @@ const isModifiedEvent = (event: React.MouseEvent<HTMLElement>) => {
 
 const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activeColumnIDs }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
-  const camelVersion = getCamelVersion(camelInt);
+  console.log(camelInt);
 
   // Dead code ?
   const handleClick = (e) => {
@@ -41,7 +37,7 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
         <span className="co-resource-item co-resource-item--truncate">
           <span className="co-m-resource-icon co-m-resource-secret">C</span>
           <Link
-            to={`/camel/app/ns/${camelInt.metadata.namespace}/kind/${camelInt.kind}/name/${camelInt.metadata.name}`}
+            to={`/camel/app/ns/${camelInt.metadata.namespace}/name/${camelInt.metadata.name}`}
             className="co-resource-item__resource-name"
             title={camelInt.metadata.name}
             onClick={handleClick}
@@ -54,8 +50,8 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
         <span className="co-break-word co-line-clamp">
           <ResourceLink
             displayName={getKind(camelInt)}
-            groupVersionKind={getGroupVersionKindForResource(camelInt)}
-            name={camelInt.metadata.name}
+            groupVersionKind={getGroupVersionKindForResource(camelInt.metadata.ownerReferences[0])}
+            name={camelInt.metadata.ownerReferences[0].name}
             namespace={camelInt.metadata.namespace}
           />
         </span>
@@ -66,16 +62,15 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
         </span>
       </TableData>
       <TableData id="status" activeColumnIDs={activeColumnIDs}>
-        <Status
-          title={CamelAppStatusTitle(camelInt)}
-          status={CamelAppStatusValue(camelInt)}
-        />
+        <Status status={camelInt.status.phase} />
+      </TableData>
+      <TableData id="runtime" activeColumnIDs={activeColumnIDs}>
+        <Status status={camelInt.status.pods[0].runtime.runtimeProvider} />
       </TableData>
       <TableData id="camel" activeColumnIDs={activeColumnIDs}>
-        {camelVersion || <span className="text-muted">{t('No camel version')}</span>}
-      </TableData>
-      <TableData id="created" activeColumnIDs={activeColumnIDs}>
-        <Timestamp timestamp={camelInt.metadata.creationTimestamp} />
+        {getCamelVersionAsString(camelInt, 'asc') || (
+          <span className="text-muted">{t('No camel version')}</span>
+        )}
       </TableData>
     </>
   );

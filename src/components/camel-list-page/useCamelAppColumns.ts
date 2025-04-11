@@ -1,18 +1,7 @@
 import { K8sResourceKind, TableColumn } from '@openshift-console/dynamic-plugin-sdk';
 import { sortable } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
-import { CamelAppStatusValue } from './CamelAppStatus';
-
-export const sortResourceByStatus =
-  (direction: string) => (a: K8sResourceKind, b: K8sResourceKind) => {
-    const { first, second } =
-      direction === 'asc' ? { first: a, second: b } : { first: b, second: a };
-
-    const firstValue = CamelAppStatusValue(first);
-    const secondValue = CamelAppStatusValue(second);
-
-    return firstValue?.localeCompare(secondValue);
-  };
+import { sortResourceByCamelVersion } from './camelAppVersion';
 
 const useCamelAppColumns = (namespace): TableColumn<K8sResourceKind>[] => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
@@ -26,7 +15,7 @@ const useCamelAppColumns = (namespace): TableColumn<K8sResourceKind>[] => {
     {
       title: t('Kind'),
       id: 'kind',
-      sort: 'kind',
+      sort: 'metadata.ownerReferences[0].kind',
       transforms: [sortable],
     },
     ...(!namespace
@@ -42,19 +31,19 @@ const useCamelAppColumns = (namespace): TableColumn<K8sResourceKind>[] => {
     {
       title: t('Status'),
       id: 'status',
-      sort: (data, direction) => data?.sort(sortResourceByStatus(direction)),
+      sort: 'status.phase',
       transforms: [sortable],
     },
     {
-      title: t('Camel'),
+      title: t('Runtime Provider'),
+      id: 'runtime',
+      sort: 'status.pods[0].runtime.runtimeProvider',
+      transforms: [sortable],
+    },
+    {
+      title: t('Camel Version'),
       id: 'camel',
-      sort: "metadata.annotations.['camel/camel-core-version']",
-      transforms: [sortable],
-    },
-    {
-      title: t('Created'),
-      id: 'created',
-      sort: 'metadata.creationTimestamp',
+      sort: (data, direction) => data?.sort(sortResourceByCamelVersion(direction)),
       transforms: [sortable],
     },
   ];
