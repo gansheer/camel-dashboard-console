@@ -1,6 +1,15 @@
 import * as React from 'react';
 import { CamelAppKind, CamelAppStatusPod } from '../../types';
-import { Card, CardBody, TextContent } from '@patternfly/react-core';
+import {
+  Card,
+  CardBody,
+  TextList,
+  TextListItem,
+  DescriptionList,
+  DescriptionListGroup,
+  DescriptionListTerm,
+  DescriptionListDescription,
+} from '@patternfly/react-core';
 import { podGVK } from '../../const';
 import { ResourceLink, ResourceStatus } from '@openshift-console/dynamic-plugin-sdk';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +27,7 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
     <>
       <Card>
         <CardBody>
-          <TextContent>
+          <h4>
             <ResourceLink
               displayName={camelPod.name}
               groupVersionKind={podGVK}
@@ -29,39 +38,75 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
                 <Status status={camelPod.status} />
               </ResourceStatus>
             </ResourceLink>
-          </TextContent>
-          <TextContent>
-            <strong>{t('Internal IP')}: </strong>
-            {camelPod.internalIp}
-          </TextContent>
-          <h4>{t('Runtime')}:</h4>
+          </h4>
+          <DescriptionList
+            columnModifier={{
+              default: '1Col',
+            }}
+          >
+            <DescriptionListGroup>
+              <DescriptionListTerm>{t('Internal IP')}:</DescriptionListTerm>
+              <DescriptionListDescription>{camelPod.internalIp}</DescriptionListDescription>
+            </DescriptionListGroup>
+            <DescriptionListGroup>
+              <DescriptionListTerm>{t('Runtime')}:</DescriptionListTerm>
+              <DescriptionListDescription>
+                <TextList>
+                  <TextListItem>
+                    <strong>{t('Camel Version')}: </strong>
+                    {camelPod.runtime.camelVersion}
+                  </TextListItem>
+                  <TextListItem>
+                    <strong>{t('Runtime Provider')}: </strong>
+                    {camelPod.runtime.runtimeProvider}
+                  </TextListItem>
+                  <TextListItem>
+                    <strong>{t('Runtime Version')}: </strong>
+                    {camelPod.runtime.runtimeVersion}
+                  </TextListItem>
+                </TextList>
+              </DescriptionListDescription>
+            </DescriptionListGroup>
+            <DescriptionListGroup>
+              <DescriptionListTerm>{t('Exchange')}:</DescriptionListTerm>
+              <DescriptionListDescription>
+                <TextList>
+                  <TextListItem>
+                    <strong>{t('succeed')}: </strong>{' '}
+                    {camelPod.runtime.exchange.succeed ? camelPod.runtime.exchange.succeed : 0}
+                  </TextListItem>
+                  <TextListItem>
+                    <strong>{t('pending')}: </strong>{' '}
+                    {camelPod.runtime.exchange.pending ? camelPod.runtime.exchange.pending : 0}
+                  </TextListItem>
+                  <TextListItem>
+                    <strong>{t('failed')}: </strong>{' '}
+                    {camelPod.runtime.exchange.failed ? camelPod.runtime.exchange.failed : 0}
+                  </TextListItem>
+                  <TextListItem>
+                    <strong>{t('total')}: </strong>{' '}
+                    {camelPod.runtime.exchange.total ? camelPod.runtime.exchange.total : 0}
+                  </TextListItem>
+                </TextList>
+              </DescriptionListDescription>
+            </DescriptionListGroup>
 
-          <TextContent>
-            <strong>{t('Camel Version')}: </strong>
-            {camelPod.runtime.camelVersion}
-          </TextContent>
-          <TextContent>
-            <strong>{t('Runtime Provider')}: </strong>
-            {camelPod.runtime.runtimeProvider}
-          </TextContent>
-          <TextContent>
-            <strong>{t('Runtime Version')}: </strong>
-            {camelPod.runtime.runtimeVersion}
-          </TextContent>
-
-          <TextContent>
-            <strong>{t('Exchange')}: </strong>TODO
-          </TextContent>
-
-          <h4>{t('Endpoints')}:</h4>
-          <TextContent>
-            <strong>{t('Health')}: </strong>
-            {camelPod.observe.healthEndpoint}:{camelPod.observe.healthPort}
-          </TextContent>
-          <TextContent>
-            <strong>{t('Metrics')}: </strong>
-            {camelPod.observe.metricsEndpoint}:{camelPod.observe.metricsPort}
-          </TextContent>
+            <DescriptionListGroup>
+              <DescriptionListTerm>{t('Endpoints')}:</DescriptionListTerm>
+              <DescriptionListDescription>
+                <TextList>
+                  <TextListItem>
+                    <strong>{t('Health')}: </strong>
+                    {camelPod.observe.healthEndpoint}:{camelPod.observe.healthPort}
+                  </TextListItem>
+                  <TextListItem>
+                    <strong>{t('Metrics')}: </strong>
+                    {camelPod.observe.metricsEndpoint}:{camelPod.observe.metricsPort}
+                  </TextListItem>
+                </TextList>
+              </DescriptionListDescription>
+            </DescriptionListGroup>
+          </DescriptionList>
         </CardBody>
       </Card>
     </>

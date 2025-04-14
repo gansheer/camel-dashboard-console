@@ -7,6 +7,7 @@
   "Details": "Details",
   "Endpoints": "Endpoints",
   "Exchange": "Exchange",
+  "failed": "failed",
   "Health": "Health",
   "Image": "Image",
   "Internal IP": "Internal IP",
@@ -18,6 +19,7 @@
   "No camel version": "No camel version",
   "No namespace": "No namespace",
   "No resources found": "No resources found",
+  "pending": "pending",
   "Pod port:": "Pod port:",
   "Resources": "Resources",
   "Runtime": "Runtime",
@@ -25,6 +27,8 @@
   "Runtime Version": "Runtime Version",
   "Service port:": "Service port:",
   "Status": "Status",
+  "succeed": "succeed",
+  "total": "total",
   "unknown host": "unknown host",
   "View Logs": "View Logs"
 }
