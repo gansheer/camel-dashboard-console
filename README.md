@@ -1,30 +1,31 @@
-# camel-openshift-console-plugin
-Camel Openshift Console Plugin
+# Camel Openshift Console Plugin
+
+> [!WARNING]
+> The project is still a work in progress that has not been released yet. 
+> Unstability is to be expected.
 
 This project provides a [console plugin](https://github.com/openshift/console/tree/master/frontend/packages/console-dynamic-plugin-sdk) for [Camel](https://camel.apache.org).
 The project is created using [openshift console plugin template](https://github.com/openshift/console-plugin-template)
 
+It requires:
+* OpenShift 4.18
+* [Camel Dashboard Operator](https://github.com/squakez/camel-dashboard-operator)
+
 # Local Development
 
+Node.js 20+ and Yarn are required to build and run this locally. To run OpenShift console in a container, [podman 3.2.0+](https://podman.io) or [Docker](https://www.docker.com) is required.
+
 For development you can login to an existing [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) and run the console with the plugin included locally.
-**Note**: Works well with [OpenShift Sandbox](https://developers.redhat.com/developer-sandbox).
 
 In one terminal window, run:
 
-```sh
-yarn install
-yarn run start
-```
+1. `yarn install`
+2. `yarn run start`
 
 In another terminal window, run:
 
-After running `oc login` (requires [oc](https://console.redhat.com/openshift/downloads) and an [OpenShift cluster](https://console.redhat.com/openshift/create))
-
-```sh
-yarn run start-console
-```
-(requires [podman 3.2.0+](https://podman.io) or [Docker](https://www.docker.com))
-
+1. `oc login` (requires [oc](https://console.redhat.com/openshift/downloads) and an [OpenShift cluster](https://console.redhat.com/openshift/create))
+2. `yarn run start-console` (requires [Docker](https://www.docker.com) or [podman 3.2.0+](https://podman.io))
 
 This will run the OpenShift console in a container connected to the cluster
 you've logged into. The plugin HTTP server runs on port 9001 with CORS enabled.
@@ -58,18 +59,4 @@ helm upgrade -i camel-openshift-console-plugin charts/camel-openshift-console-pl
 In the developer perpective the Camel section is now shown:
 [![The Camel Plugin Home](screenshots/home.png)](screenshots/home.png)
 
-
-# Development notes
-
-The frontend is able to retrieve information from the console using the following APIs:
-
-## Kubernetes API /api/kubernetes
-**Examples**:
-  - /api/kubernetes/apis/apps/v1/namespaces/<namespace>/deployments
-  - /api/kubernetes/apis/apps.openshift.io/v1/namespaces/<namespace>/deploymentconfigs
-
-## Prometheus API /api/prometheus
-
-**Examples**:
-- /api/prometheus/api/v1/query_range
 
