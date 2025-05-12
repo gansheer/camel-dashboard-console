@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
 import { getCamelVersionAsString } from './camelAppVersion';
+import CamelImage from '@images/camel.svg';
 
 const getKind = (obj) => obj.metadata.ownerReferences[0].kind;
 const getNamespace = (obj) => obj.metadata?.namespace;
@@ -35,7 +36,10 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
     <>
       <TableData id="name" activeColumnIDs={activeColumnIDs}>
         <span className="co-resource-item co-resource-item--truncate">
-          <span className="co-m-resource-icon co-m-resource-secret">C</span>
+          <span className="co-m-resource-icon co-m-resource-camel">
+            <img src={CamelImage} alt="Camel" className="camel-icon" />
+          </span>
+
           <Link
             to={`/camel/app/ns/${camelInt.metadata.namespace}/name/${camelInt.metadata.name}`}
             className="co-resource-item__resource-name"
