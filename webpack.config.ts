@@ -1,17 +1,22 @@
 /* eslint-env node */
 
 import * as path from 'path';
-import { Configuration as WebpackConfiguration } from 'webpack';
-import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
-import { ConsoleRemotePlugin } from '@openshift-console/dynamic-plugin-sdk-webpack';
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import svgToMiniDataURI from 'mini-svg-data-uri';
+import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
+
+import { type Configuration as WebpackConfiguration } from 'webpack';
+import { type Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+
+import { ConsoleRemotePlugin } from '@openshift-console/dynamic-plugin-sdk-webpack';
 
 const isProd = process.env.NODE_ENV === 'production';
 
 interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
 }
+
 
 const config: Configuration = {
   mode: isProd ? 'production' : 'development',
@@ -25,6 +30,7 @@ const config: Configuration = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    plugins: [new TsconfigPathsPlugin()],
   },
   module: {
     rules: [
@@ -48,15 +54,33 @@ const config: Configuration = {
       {
         test: /\.(png|jpg|jpeg|gif|svg|woff2?|ttf|eot|otf)(\?.*$|$)/,
         type: 'asset/resource',
-        generator: {
-          filename: isProd ? 'assets/[contenthash][ext]' : 'assets/[name][ext]',
-        },
       },
       {
         test: /\.(m?js)$/,
         resolve: {
           fullySpecified: false,
         },
+      },
+      {
+        oneOf: [
+          {
+            test: /\.svg$/,
+            type: 'asset/inline',
+            generator: {
+              dataUrl: (content) => {
+                content = content.toString();
+                return svgToMiniDataURI(content);
+              },
+            },
+          },
+          {
+            test: /\.(png|jpg|jpeg|gif|svg|woff2?|ttf|eot|otf)(\?.*$|$)/,
+            type: 'asset/resource',
+            generator: {
+              filename: isProd ? 'assets/[contenthash][ext]' : 'assets/[name][ext]',
+            },
+          },
+        ],
       },
     ],
   },

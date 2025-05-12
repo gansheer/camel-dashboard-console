@@ -5,3 +5,26 @@
      * https://patternfly-react-main.surge.sh/developer-resources/global-css-variables */
   color: var(--pf-global--palette--blue-400);
 }
+
+.co-m-resource-camel {
+  padding:1px 4px;
+  background-color: transparent;
+}
+
+.co-m-resource-camel--lg {
+  background-color: transparent;
+  margin-right: 0;
+
+}
+
+.camel-icon {
+  height: 18px;
+  width: 18px;
+  margin-bottom: -4px;  
+}
+
+.camel-icon--lg {
+  height: 21px;
+  width: 21px;
+  margin-bottom: -2px;
+}
