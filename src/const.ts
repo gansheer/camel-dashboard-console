@@ -1,6 +1,6 @@
 import { K8sGroupVersionKind } from '@openshift-console/dynamic-plugin-sdk';
 
-export const FLAG_OPENSHIFT_CAMEL = 'OPENSHIFT_CAMEL';
+export const HAWTIO_CONSOLE_PLUGIN_NAME = 'hawtio-online-console-plugin';
 
 export const METADATA_LABEL_SELECTOR_CAMEL_APP_KEY = 'camel/integration-runtime';
 export const METADATA_LABEL_SELECTOR_CAMEL_APP_VALUE = 'camel';
@@ -74,6 +74,12 @@ export const persistentVolumeClaimGVK: K8sGroupVersionKind = {
   group: '',
   version: 'v1',
   kind: 'PersistentVolumeClaim',
+};
+
+export const consolePluginGVK: K8sGroupVersionKind = {
+  group: 'console.openshift.io',
+  version: 'v1',
+  kind: 'ConsolePlugin',
 };
 
 export const ALL_NAMESPACES_KEY = '#ALL_NS#';

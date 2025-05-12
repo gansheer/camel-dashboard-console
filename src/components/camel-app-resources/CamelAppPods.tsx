@@ -6,6 +6,7 @@ import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/sta
 import { useCamelAppPods } from './useCamelAppResources';
 import { getPodStatus } from '../../utils';
 import { useTranslation } from 'react-i18next';
+import { isHawtioEnabled, useHawtioConsolePlugin } from './useHawtio';
 
 type CamelAppPodsProps = {
   obj: K8sResourceKind;
@@ -14,6 +15,7 @@ type CamelAppPodsProps = {
 type Resources = {
   name: string;
   status: string;
+  hawtioEnabled: boolean;
 };
 
 const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
@@ -26,15 +28,19 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
     camelInt.kind,
     camelInt.spec.selector,
   );
+
+  const { HawtioConsolePluginResource, loaded: loadedHawtioConsole } = useHawtioConsolePlugin();
+
   if (loadedPods && CamelAppPods.length > 0) {
     CamelAppPods.forEach((pod) => {
       pods.push({
         name: pod.metadata.name,
         status: getPodStatus(pod),
+        hawtioEnabled: HawtioConsolePluginResource && isHawtioEnabled(pod),
       });
     });
   }
-  if (!loadedPods) {
+  if (!loadedPods || !loadedHawtioConsole) {
     return (
       <Card>
         <CardTitle>Pods</CardTitle>
@@ -67,18 +73,39 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
                       />
                     </TextContent>
                   </span>
-                  <span className="col-xs-4">
+                  <span className="col-xs-3">
                     <TextContent>
                       <Status title={resource.status || 'N/A'} status={resource.status} />
                     </TextContent>
                   </span>
-                  <span className="col-xs-3 text-right">
-                    <TextContent>
-                      <a href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}>
-                        {t('View Logs')}
-                      </a>
-                    </TextContent>
-                  </span>
+                  {resource.hawtioEnabled ? (
+                    <>
+                      <span className="col-xs-2 text-right">
+                        <TextContent>
+                          <a href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}>
+                            {t('View Logs')}
+                          </a>
+                        </TextContent>
+                      </span>
+                      <span className="col-xs-2 text-right">
+                        <TextContent>
+                          <a
+                            href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/hawtio`}
+                          >
+                            {t('View Hawtio')}
+                          </a>
+                        </TextContent>
+                      </span>
+                    </>
+                  ) : (
+                    <span className="col-xs-4 text-right">
+                      <TextContent>
+                        <a href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}>
+                          {t('View Logs')}
+                        </a>
+                      </TextContent>
+                    </span>
+                  )}
                 </div>
               </li>
             );
