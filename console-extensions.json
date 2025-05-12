@@ -1,5 +1,16 @@
 [
   {
+    "type": "console.flag/model",
+    "properties": {
+      "flag": "CAMEL_APP_FLAG",
+      "model": {
+        "group": "camel.apache.org",
+        "version": "v1alpha1",
+        "kind": "App"
+      }
+    }
+  },
+  {
     "type": "console.page/route",
     "properties": {
       "exact": false,
