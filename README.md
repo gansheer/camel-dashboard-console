@@ -11,6 +11,8 @@ It requires:
 * OpenShift 4.18
 * [Camel Dashboard Operator](https://github.com/squakez/camel-dashboard-operator)
 
+It can also leverage the [Hawtio Online OpenShift Console Plugin](https://github.com/hawtio/hawtio-online-console-plugin).
+
 # Local Development
 
 Node.js 20+ and Yarn are required to build and run this locally. To run OpenShift console in a container, [podman 3.2.0+](https://podman.io) or [Docker](https://www.docker.com) is required.
