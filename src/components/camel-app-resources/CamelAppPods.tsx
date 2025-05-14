@@ -4,7 +4,7 @@ import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin
 import { podGVK } from '../../const';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
 import { useCamelAppPods } from './useCamelAppResources';
-import { getPodStatus } from '../../utils';
+import { getPodStatus } from './podStatus';
 import { useTranslation } from 'react-i18next';
 import { isHawtioEnabled, useHawtioConsolePlugin } from './useHawtio';
 
@@ -82,7 +82,9 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
                     <>
                       <span className="col-xs-2 text-right">
                         <TextContent>
-                          <a href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}>
+                          <a
+                            href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}
+                          >
                             {t('View Logs')}
                           </a>
                         </TextContent>
@@ -100,7 +102,9 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
                   ) : (
                     <span className="col-xs-4 text-right">
                       <TextContent>
-                        <a href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}>
+                        <a
+                          href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}
+                        >
                           {t('View Logs')}
                         </a>
                       </TextContent>

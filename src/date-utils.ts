@@ -1,10 +1,5 @@
 import { useTranslation } from 'react-i18next';
-
-
-export const LAST_LANGUAGE_LOCAL_STORAGE_KEY = 'bridge/last-language';
-
-export const getLastLanguage = (): string =>
-  localStorage.getItem(LAST_LANGUAGE_LOCAL_STORAGE_KEY) ?? navigator.language;
+import { getLastLanguage } from './utils';
 
 export type Duration = {
   days: number;
