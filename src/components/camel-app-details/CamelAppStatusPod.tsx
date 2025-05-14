@@ -14,6 +14,7 @@ import { podGVK } from '../../const';
 import { ResourceLink, ResourceStatus } from '@openshift-console/dynamic-plugin-sdk';
 import { useTranslation } from 'react-i18next';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
+import { formatDuration } from '../../date-utils';
 
 type CamelAppStatusPodProps = {
   obj: CamelAppKind;
@@ -22,6 +23,9 @@ type CamelAppStatusPodProps = {
 
 const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, pod: camelPod }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+
+  // Golang time.Time is in nanoseconds
+  const durationFull = formatDuration(Number(camelPod.uptime) / 1000000, { omitSuffix: false });
 
   return (
     <>
@@ -47,6 +51,10 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
             <DescriptionListGroup>
               <DescriptionListTerm>{t('Internal IP')}:</DescriptionListTerm>
               <DescriptionListDescription>{camelPod.internalIp}</DescriptionListDescription>
+            </DescriptionListGroup>
+            <DescriptionListGroup>
+              <DescriptionListTerm>{t('Uptime')}:</DescriptionListTerm>
+              <DescriptionListDescription>{durationFull}</DescriptionListDescription>
             </DescriptionListGroup>
             <DescriptionListGroup>
               <DescriptionListTerm>{t('Runtime')}:</DescriptionListTerm>

@@ -11,6 +11,8 @@ export type CamelAppKind = K8sResourceKind & {
 export type CamelAppStatusPod = {
   name: string;
   internalIp: string;
+  /** Format: date-time - in nanoseconds */
+  uptime: string;
   observe: CamelAppObservability;
   ready: boolean;
   runtime: CamelAppRuntime;
