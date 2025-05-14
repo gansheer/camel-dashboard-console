@@ -1,8 +1,14 @@
 {
-  "C": "C",
+  "{{count}} day": "{{count}} day",
+  "{{count}} day_plural": "{{count}} day",
+  "{{count}} hour": "{{count}} hour",
+  "{{count}} hour_plural": "{{count}} hour",
+  "{{count}} minute": "{{count}} minute",
+  "{{count}} minute_plural": "{{count}} minute",
   "Camel": "Camel",
   "Camel App Details": "Camel App Details",
-  "Camel Details": "Camel Details",
+  "Camel Application": "Camel Application",
+  "Camel Applications": "Camel Applications",
   "Camel Version": "Camel Version",
   "Details": "Details",
   "Endpoints": "Endpoints",
@@ -11,6 +17,7 @@
   "Health": "Health",
   "Image": "Image",
   "Internal IP": "Internal IP",
+  "Just now": "Just now",
   "Kind": "Kind",
   "Location:": "Location:",
   "Metrics": "Metrics",
@@ -30,5 +37,7 @@
   "succeed": "succeed",
   "total": "total",
   "unknown host": "unknown host",
+  "Uptime": "Uptime",
+  "View Hawtio": "View Hawtio",
   "View Logs": "View Logs"
 }
