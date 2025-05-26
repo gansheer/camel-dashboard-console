@@ -35,6 +35,6 @@ jobs:
         shell: bash
         run: |
           pushd camel-dashboard-operator
-          NOTEST=1 make build
-          NOTEST=1 CUSTOM_IMAGE=quay.io/camel-tooling/camel-dashboard-operator CUSTOM_VERSION=latest make images
-          NOTEST=1 CUSTOM_IMAGE=quay.io/camel-tooling/camel-dashboard-operator CUSTOM_VERSION=latest make images-push
+          NOTEST=1 IMAGE_ARCH=amd64 make build
+          NOTEST=1 IMAGE_ARCH=amd64 CUSTOM_IMAGE=quay.io/camel-tooling/camel-dashboard-operator CUSTOM_VERSION=latest make images
+          NOTEST=1 IMAGE_ARCH=amd64 CUSTOM_IMAGE=quay.io/camel-tooling/camel-dashboard-operator CUSTOM_VERSION=latest make images-push
