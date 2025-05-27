@@ -8,16 +8,17 @@ export function isHawtioEnabled(pod: K8sResourceKind): boolean {
   return pod && jsonpath.query(pod, JOLOKIA_PORT_QUERY).length > 0;
 }
 
+// TODO: Add check to see if active or not
 export const useHawtioConsolePlugin = (): {
-  HawtioConsolePluginResource: K8sResourceKind;
-  loaded: boolean;
-  error: string;
+  available: boolean;
 } => {
-  const [HawtioConsolePluginResource, loaded, loadError] = useK8sWatchResource<K8sResourceKind>({
+  const [HawtioConsolePluginResource, loaded] = useK8sWatchResource<K8sResourceKind>({
     name: HAWTIO_CONSOLE_PLUGIN_NAME,
     groupVersionKind: consolePluginGVK,
     isList: false,
   });
 
-  return { HawtioConsolePluginResource, loaded, error: loadError };
+  const available = loaded && HawtioConsolePluginResource != null
+
+  return { available };
 };
