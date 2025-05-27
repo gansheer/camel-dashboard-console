@@ -29,18 +29,18 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
     camelInt.spec.selector,
   );
 
-  const { HawtioConsolePluginResource, loaded: loadedHawtioConsole } = useHawtioConsolePlugin();
-
+  const { available : availableHawtioConsolePlugin } = useHawtioConsolePlugin();
+  
   if (loadedPods && CamelAppPods.length > 0) {
     CamelAppPods.forEach((pod) => {
       pods.push({
         name: pod.metadata.name,
         status: getPodStatus(pod),
-        hawtioEnabled: HawtioConsolePluginResource && isHawtioEnabled(pod),
+        hawtioEnabled: availableHawtioConsolePlugin && isHawtioEnabled(pod),
       });
     });
   }
-  if (!loadedPods || !loadedHawtioConsole) {
+  if (!loadedPods) {
     return (
       <Card>
         <CardTitle>Pods</CardTitle>

@@ -67,5 +67,11 @@ export const consolePluginGVK: K8sGroupVersionKind = {
   kind: 'ConsolePlugin',
 };
 
+export const consoleGVK: K8sGroupVersionKind = {
+  group: 'console.openshift.io',
+  version: 'v1',
+  kind: 'Console',
+};
+
 export const ALL_NAMESPACES_KEY = '#ALL_NS#';
 export const LAST_LANGUAGE_LOCAL_STORAGE_KEY = 'bridge/last-language';
