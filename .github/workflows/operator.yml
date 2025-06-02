@@ -40,5 +40,5 @@ jobs:
         run: |
           pushd camel-dashboard-operator
           NOTEST=1 make build
-          NOTEST=1 CUSTOM_IMAGE=quay.io/camel-tooling/camel-dashboard-operator CUSTOM_VERSION=latest make images
-          NOTEST=1 CUSTOM_IMAGE=quay.io/camel-tooling/camel-dashboard-operator CUSTOM_VERSION=latest make images-push
+          NOTEST=1 CUSTOM_IMAGE=quay.io/camel-tooling/camel-dashboard-operator CUSTOM_VERSION=latest make images-all
+          NOTEST=1 CUSTOM_IMAGE=quay.io/camel-tooling/camel-dashboard-operator CUSTOM_VERSION=latest make images-push-all
