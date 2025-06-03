@@ -14,6 +14,7 @@ import CamelImage from '@images/camel.svg';
 
 const getKind = (obj) => obj.metadata.ownerReferences[0].kind;
 const getNamespace = (obj) => obj.metadata?.namespace;
+const getRuntimeProvider = (obj) => obj.status.pods ? obj.status.pods[0].runtime.runtimeProvider : "";
 
 // Check for a modified mouse event. For example - Ctrl + Click
 const isModifiedEvent = (event: React.MouseEvent<HTMLElement>) => {
@@ -23,6 +24,7 @@ const isModifiedEvent = (event: React.MouseEvent<HTMLElement>) => {
 const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activeColumnIDs }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   console.log(camelInt);
+
 
   // Dead code ?
   const handleClick = (e) => {
@@ -69,7 +71,9 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
         <Status status={camelInt.status.phase} />
       </TableData>
       <TableData id="runtime" activeColumnIDs={activeColumnIDs}>
-        <Status status={camelInt.status.pods[0].runtime.runtimeProvider} />
+        {getRuntimeProvider(camelInt) || (
+          <span className="text-muted">{t('No runtime provider')}</span>
+        )}
       </TableData>
       <TableData id="camel" activeColumnIDs={activeColumnIDs}>
         {getCamelVersionAsString(camelInt, 'asc') || (
