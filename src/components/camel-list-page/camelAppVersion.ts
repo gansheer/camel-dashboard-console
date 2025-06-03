@@ -33,5 +33,9 @@ export const getCamelVersions = (camelInt: K8sResourceKind, direction: string): 
 };
 
 export const getCamelVersionAsString = (camelInt: K8sResourceKind, direction: string): string => {
-  return getCamelVersions(camelInt, direction).join(',');
+  const versions = getCamelVersions(camelInt, direction);
+  if(versions){
+    return versions.join(',')
+  }
+  return "";
 };

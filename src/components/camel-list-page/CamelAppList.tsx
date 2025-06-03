@@ -15,6 +15,7 @@ import useCamelAppColumns from './useCamelAppColumns';
 import { useCamelAppList } from './useCamelAppList';
 import { ALL_NAMESPACES_KEY } from '../../const';
 import CamelImage from '@images/camel.svg';
+import { camelAppRowFilters } from './useCamelAppRowFilters';
 
 // Note : using this as inspiration for the list: https://github.com/openshift-pipelines/console-plugin/blob/main/src/components/projects-list/ProjectsRow.tsx#L91
 
@@ -22,6 +23,9 @@ type CamelAppProps = {
   ns: string;
   showTitle?: boolean;
 };
+
+
+
 
 const CamelAppList: React.FC<CamelAppProps> = ({ ns, showTitle = true }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
@@ -35,7 +39,7 @@ const CamelAppList: React.FC<CamelAppProps> = ({ ns, showTitle = true }) => {
   const columns = useCamelAppColumns(filterCamelAppsNamespace(activeNamespace));
   const { CamelApps, loaded, error } = useCamelAppList(filterCamelAppsNamespace(activeNamespace));
 
-  const [staticData, filteredData, onFilterChange] = useListPageFilter(CamelApps);
+  const [staticData, filteredData, onFilterChange] = useListPageFilter(CamelApps, camelAppRowFilters(CamelApps));
 
   // TODO add filters
 
@@ -46,7 +50,7 @@ const CamelAppList: React.FC<CamelAppProps> = ({ ns, showTitle = true }) => {
       <ListPageHeader title={t('Camel Applications')} />
 
       <ListPageBody>
-        <ListPageFilter data={staticData} onFilterChange={onFilterChange} loaded={loaded} />
+        <ListPageFilter data={staticData} onFilterChange={onFilterChange} loaded={loaded} rowFilters={camelAppRowFilters(CamelApps)} />
 
         <VirtualizedTable
           EmptyMsg={() => (
