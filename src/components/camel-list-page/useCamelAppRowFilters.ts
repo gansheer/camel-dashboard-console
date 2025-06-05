@@ -63,7 +63,6 @@ export function camelVersionFilterReducer(app): string {
 
 export function camelVersionFilter(input, app): boolean {
     const versions = getCamelVersions(app, 'asc');
-    console.log(input);
     if (input.selected?.length) {
         if (versions?.length) {
             return versions.some(version => input.selected.includes(version));
