@@ -27,7 +27,6 @@ export const useCamelAppPods = (
   parentKind: string,
   match: Selector,
 ): { CamelAppPods: K8sResourceKind[]; loaded: boolean; error: string } => {
-  console.log(parentKind);
   if (parentKind == cronJobGVK.kind) {
     // get pods for cronjob
     const resources = useK8sWatchResources<{
@@ -56,7 +55,6 @@ export const useCamelAppPods = (
       resources.jobs.data.forEach((job) => jobsUids.push(job.metadata.uid));
     }
 
-    console.log(jobsUids);
     if (resources.pods.data.length > 0) {
       resources.pods.data = resources.pods.data.filter((pod) =>
         jobsUids.includes(pod.metadata?.labels['batch.kubernetes.io/controller-uid']),
