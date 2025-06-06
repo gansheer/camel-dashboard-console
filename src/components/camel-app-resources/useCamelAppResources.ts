@@ -7,6 +7,10 @@ import {
 } from '@openshift-console/dynamic-plugin-sdk';
 import { cronJobGVK, jobGVK, podGVK, routeGVK, serviceGVK } from '../../const';
 
+export type ServiceSelector = {
+  app: string;
+  [key: string]: string;
+};
 export const useCamelAppOwner = (
   name: string,
   namespace: string,
@@ -113,7 +117,7 @@ export const useCamelAppJobs = (
 
 export const useCamelAppServices = (
   namespace: string,
-  match: Selector,
+  appName: string,
 ): { CamelAppServices: K8sResourceKind[]; loaded: boolean; error: string } => {
   const resources = useK8sWatchResources<{
     services: K8sResourceKind[];
@@ -123,19 +127,27 @@ export const useCamelAppServices = (
       groupVersionKind: serviceGVK,
       namespaced: true,
       namespace: namespace,
-      selector: match,
     },
   });
 
+  // Selector only works on labels, so we need to filter  
+  const filteredData = resources.services.data.filter(service => {
+      const selector = service.spec.selector as ServiceSelector;
+      if (appName == selector.app){
+        return true;
+      }
+      return false;
+  });
+
   return {
-    CamelAppServices: resources.services.data,
+    CamelAppServices: filteredData,
     loaded: resources.services.loaded,
     error: resources.services.loadError,
   };
 };
 export const useCamelAppRoutes = (
   namespace: string,
-  servicesMatch: Selector,
+  appName: string,
 ): { CamelAppRoutes: K8sResourceKind[]; loaded: boolean; error: string } => {
   const resources = useK8sWatchResources<{
     routes: K8sResourceKind[];
@@ -152,14 +164,19 @@ export const useCamelAppRoutes = (
       groupVersionKind: serviceGVK,
       namespaced: true,
       namespace: namespace,
-      selector: servicesMatch,
     },
   });
 
   const servicesNames: string[] = [];
 
   if (resources.services.loaded && resources.services.data.length > 0) {
-    resources.services.data.forEach((service) => servicesNames.push(service.metadata.name));
+    resources.services.data.filter(service => {
+      const selector = service.spec.selector as ServiceSelector;
+      if (appName == selector.app){
+        return true;
+      }
+      return false;
+  }).forEach((service) => servicesNames.push(service.metadata.name));
   }
 
   if (resources.routes.data.length > 0) {
