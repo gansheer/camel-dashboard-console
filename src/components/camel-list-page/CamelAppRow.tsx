@@ -11,10 +11,12 @@ import { Link } from 'react-router-dom';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
 import { getCamelVersionAsString } from './camelAppVersion';
 import CamelImage from '@images/camel.svg';
+import CamelAppHealth from './CamelAppHealth';
 
 const getKind = (obj) => obj.metadata.ownerReferences[0].kind;
 const getNamespace = (obj) => obj.metadata?.namespace;
-const getRuntimeProvider = (obj) => obj.status.pods ? obj.status.pods[0].runtime.runtimeProvider : "";
+const getRuntimeProvider = (obj) => obj.status.pods && obj.status.pods[0].runtime ? obj.status.pods[0].runtime.runtimeProvider : "";
+const getCamelHealth = (obj) => obj.status.sliExchangeSuccessRate ? obj.status.sliExchangeSuccessRate.status : "";
 
 // Check for a modified mouse event. For example - Ctrl + Click
 const isModifiedEvent = (event: React.MouseEvent<HTMLElement>) => {
@@ -77,6 +79,9 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
         {getCamelVersionAsString(camelInt, 'asc') || (
           <span className="text-muted">{t('No camel version')}</span>
         )}
+      </TableData>
+      <TableData id="health" activeColumnIDs={activeColumnIDs}>
+        <CamelAppHealth health={getCamelHealth(camelInt)}/>
       </TableData>
     </>
   );

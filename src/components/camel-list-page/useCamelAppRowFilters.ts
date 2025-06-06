@@ -30,7 +30,9 @@ export function runtimeProviderFilterReducer(app): string {
         return "";
     }
     const runtimeProviderLower = app.status.pods[0]?.runtime?.runtimeProvider?.toLowerCase();
-    if (runtimeProviderLower.includes("spring")) {
+    if(runtimeProviderLower  === undefined){
+        return "unknown";
+    } else if (runtimeProviderLower.includes("spring")) {
         return "spring-boot"
     } else if (runtimeProviderLower.includes("quarkus")) {
         return "quarkus"
@@ -89,6 +91,29 @@ export function camelVersionFilterItems(CamelApps: CamelAppKind[]): RowFilterIte
 
 };
 
+export function camelHealthFilterReducer(app): string {
+    return app.status.sliExchangeSuccessRate ? app.status.sliExchangeSuccessRate.status : "Unknown";
+};
+
+export function camelHealthFilter(input, app): boolean {
+    const reduced = camelHealthFilterReducer(app);
+    if (input.selected?.length) {
+        return input.selected.includes(reduced);
+    }
+    return true;
+};
+
+export function camelHealthFilterItems(CamelApps: CamelAppKind[]): RowFilterItem[] {
+
+    const camelHealthes = [...new Set(CamelApps.map(app => camelHealthFilterReducer(app)))].sort()
+
+    if (camelHealthes?.length) {
+        return camelHealthes.map(camelHealth => { return { id: camelHealth, title: camelHealth }; })
+    } else {
+        return [];
+    }
+};
+
 export const camelAppRowFilters = (CamelApps: CamelAppKind[]): RowFilter[] => {
     const { t } = useTranslation('plugin__camel-openshift-console-plugin');
     return [
@@ -112,6 +137,13 @@ export const camelAppRowFilters = (CamelApps: CamelAppKind[]): RowFilter[] => {
             reducer: camelVersionFilterReducer,
             filter: camelVersionFilter,
             items: camelVersionFilterItems(CamelApps),
+        },
+        {
+            filterGroupName: t('Camel Health'),
+            type: 'camel-health',
+            reducer: camelHealthFilterReducer,
+            filter: camelHealthFilter,
+            items: camelHealthFilterItems(CamelApps),
         },
     ];
 };
