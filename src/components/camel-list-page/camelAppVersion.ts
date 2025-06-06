@@ -14,7 +14,7 @@ export const sortResourceByCamelVersion =
 export const getCamelVersions = (camelInt: K8sResourceKind, direction: string): string[] => {
   if (direction == 'asc') {
     return camelInt.status?.pods
-      ?.map((pod) => pod.runtime.camelVersion)
+      ?.map((pod) => pod.runtime?.camelVersion)
       .reduce((acc, item) => {
         if (!acc.includes(item)) acc.push(item);
         return acc;
@@ -22,7 +22,7 @@ export const getCamelVersions = (camelInt: K8sResourceKind, direction: string): 
       .sort();
   } else {
     return camelInt.status?.pods
-      ?.map((pod) => pod.runtime.camelVersion)
+      ?.map((pod) => pod.runtime?.camelVersion)
       .reduce((acc, item) => {
         if (!acc.includes(item)) acc.push(item);
         return acc;
