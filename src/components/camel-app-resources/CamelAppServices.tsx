@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Card, CardBody, CardTitle, Spinner } from '@patternfly/react-core';
-import { K8sResourceKind, ResourceLink, Selector } from '@openshift-console/dynamic-plugin-sdk';
+import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import { serviceGVK } from '../../const';
 import { useCamelAppServices } from './useCamelAppResources';
-import { serviceMatchLabelValue } from '../../utils';
 import { LongArrowAltRightIcon } from '@patternfly/react-icons';
 import { useTranslation } from 'react-i18next';
 
@@ -21,15 +20,11 @@ const CamelAppServices: React.FC<CamelAppServicesProps> = ({ obj: camelAppOwner 
 
   const services: Resources[] = [];
 
-  const serviceSelector: Selector = {
-    matchLabels: {
-      'app.kubernetes.io/name': serviceMatchLabelValue(camelAppOwner),
-    },
-  };
+  console.log(camelAppOwner.metadata.name);
 
   const { CamelAppServices, loaded: loadedServices } = useCamelAppServices(
     camelAppOwner.metadata.namespace,
-    serviceSelector,
+    camelAppOwner.metadata.name,
   );
   if (loadedServices && CamelAppServices.length > 0) {
     CamelAppServices.forEach((service) => {

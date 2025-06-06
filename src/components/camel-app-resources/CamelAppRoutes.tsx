@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Card, CardBody, CardTitle, Spinner } from '@patternfly/react-core';
 import { useCamelAppRoutes } from './useCamelAppResources';
-import { K8sResourceKind, ResourceLink, Selector } from '@openshift-console/dynamic-plugin-sdk';
+import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import { routeGVK } from '../../const';
-import { serviceMatchLabelValue } from '../../utils';
 import RouteLocation from './RouteLocation';
 import { useTranslation } from 'react-i18next';
 
@@ -21,15 +20,10 @@ const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelAppOwner }) =
 
   const routes: Resources[] = [];
 
-  const serviceSelector: Selector = {
-    matchLabels: {
-      'app.kubernetes.io/name': serviceMatchLabelValue(camelAppOwner),
-    },
-  };
 
   const { CamelAppRoutes, loaded: loadedRoutes } = useCamelAppRoutes(
     camelAppOwner.metadata.namespace,
-    serviceSelector,
+    camelAppOwner.metadata.name,
   );
   if (loadedRoutes && CamelAppRoutes.length > 0) {
     CamelAppRoutes.forEach((route) => {
