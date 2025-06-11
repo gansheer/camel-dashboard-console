@@ -56,64 +56,70 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
               <DescriptionListTerm>{t('Uptime')}:</DescriptionListTerm>
               <DescriptionListDescription>{durationFull}</DescriptionListDescription>
             </DescriptionListGroup>
-            <DescriptionListGroup>
-              <DescriptionListTerm>{t('Runtime')}:</DescriptionListTerm>
-              <DescriptionListDescription>
-                <TextList>
-                  <TextListItem>
-                    <strong>{t('Camel Version')}: </strong>
-                    {camelPod.runtime.camelVersion}
-                  </TextListItem>
-                  <TextListItem>
-                    <strong>{t('Runtime Provider')}: </strong>
-                    {camelPod.runtime.runtimeProvider}
-                  </TextListItem>
-                  <TextListItem>
-                    <strong>{t('Runtime Version')}: </strong>
-                    {camelPod.runtime.runtimeVersion}
-                  </TextListItem>
-                </TextList>
-              </DescriptionListDescription>
-            </DescriptionListGroup>
-            <DescriptionListGroup>
-              <DescriptionListTerm>{t('Exchange')}:</DescriptionListTerm>
-              <DescriptionListDescription>
-                <TextList>
-                  <TextListItem>
-                    <strong>{t('succeed')}: </strong>{' '}
-                    {camelPod.runtime.exchange.succeed ? camelPod.runtime.exchange.succeed : 0}
-                  </TextListItem>
-                  <TextListItem>
-                    <strong>{t('pending')}: </strong>{' '}
-                    {camelPod.runtime.exchange.pending ? camelPod.runtime.exchange.pending : 0}
-                  </TextListItem>
-                  <TextListItem>
-                    <strong>{t('failed')}: </strong>{' '}
-                    {camelPod.runtime.exchange.failed ? camelPod.runtime.exchange.failed : 0}
-                  </TextListItem>
-                  <TextListItem>
-                    <strong>{t('total')}: </strong>{' '}
-                    {camelPod.runtime.exchange.total ? camelPod.runtime.exchange.total : 0}
-                  </TextListItem>
-                </TextList>
-              </DescriptionListDescription>
-            </DescriptionListGroup>
+            {camelInt.status.runtime ?
+              <DescriptionListGroup>
+                <DescriptionListTerm>{t('Runtime')}:</DescriptionListTerm>
+                <DescriptionListDescription>
+                  <TextList>
+                    <TextListItem>
+                      <strong>{t('Camel Version')}: </strong>
+                      {camelPod.runtime.camelVersion}
+                    </TextListItem>
+                    <TextListItem>
+                      <strong>{t('Runtime Provider')}: </strong>
+                      {camelPod.runtime.runtimeProvider}
+                    </TextListItem>
+                    <TextListItem>
+                      <strong>{t('Runtime Version')}: </strong>
+                      {camelPod.runtime.runtimeVersion}
+                    </TextListItem>
+                  </TextList>
+                </DescriptionListDescription>
+              </DescriptionListGroup>
+              : <></>}
+            {camelInt.status.runtime?.exchange ?
+              <DescriptionListGroup>
+                <DescriptionListTerm>{t('Exchange')}:</DescriptionListTerm>
+                <DescriptionListDescription>
+                  <TextList>
+                    <TextListItem>
+                      <strong>{t('succeed')}: </strong>{' '}
+                      {camelPod.runtime.exchange.succeed ? camelPod.runtime.exchange.succeed : 0}
+                    </TextListItem>
+                    <TextListItem>
+                      <strong>{t('pending')}: </strong>{' '}
+                      {camelPod.runtime.exchange.pending ? camelPod.runtime.exchange.pending : 0}
+                    </TextListItem>
+                    <TextListItem>
+                      <strong>{t('failed')}: </strong>{' '}
+                      {camelPod.runtime.exchange.failed ? camelPod.runtime.exchange.failed : 0}
+                    </TextListItem>
+                    <TextListItem>
+                      <strong>{t('total')}: </strong>{' '}
+                      {camelPod.runtime.exchange.total ? camelPod.runtime.exchange.total : 0}
+                    </TextListItem>
+                  </TextList>
+                </DescriptionListDescription>
+              </DescriptionListGroup>
+              : <></>}
 
-            <DescriptionListGroup>
-              <DescriptionListTerm>{t('Endpoints')}:</DescriptionListTerm>
-              <DescriptionListDescription>
-                <TextList>
-                  <TextListItem>
-                    <strong>{t('Health')}: </strong>
-                    {camelPod.observe.healthEndpoint}:{camelPod.observe.healthPort}
-                  </TextListItem>
-                  <TextListItem>
-                    <strong>{t('Metrics')}: </strong>
-                    {camelPod.observe.metricsEndpoint}:{camelPod.observe.metricsPort}
-                  </TextListItem>
-                </TextList>
-              </DescriptionListDescription>
-            </DescriptionListGroup>
+            {camelInt.status.observe ?
+              <DescriptionListGroup>
+                <DescriptionListTerm>{t('Endpoints')}:</DescriptionListTerm>
+                <DescriptionListDescription>
+                  <TextList>
+                    <TextListItem>
+                      <strong>{t('Health')}: </strong>
+                      {camelPod.observe.healthEndpoint}:{camelPod.observe.healthPort}
+                    </TextListItem>
+                    <TextListItem>
+                      <strong>{t('Metrics')}: </strong>
+                      {camelPod.observe.metricsEndpoint}:{camelPod.observe.metricsPort}
+                    </TextListItem>
+                  </TextList>
+                </DescriptionListDescription>
+              </DescriptionListGroup>
+              : <></>}
           </DescriptionList>
         </CardBody>
       </Card>

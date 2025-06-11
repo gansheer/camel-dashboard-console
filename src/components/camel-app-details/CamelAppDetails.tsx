@@ -59,7 +59,7 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
 
               </DescriptionListTerm>
               <DescriptionListDescription>
-                <CamelAppHealth health={camelInt.status.sliExchangeSuccessRate?.status} />
+                <CamelAppHealth health={camelInt.status.sliExchangeSuccessRate?.status ? camelInt.status.sliExchangeSuccessRate?.status : ""} />
               </DescriptionListDescription>
             </DescriptionListGroup>
             {camelInt.status.sliExchangeSuccessRate ?

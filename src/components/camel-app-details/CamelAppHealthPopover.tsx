@@ -25,7 +25,6 @@ export const PopoverCamelHealth: React.FC<PopoverCamelHealthProps> = ({
   onShow,
 }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
-    console.log(popoverBody);
   return (
     <Popover
       position={PopoverPosition.right}
