@@ -11,6 +11,7 @@ export type CamelAppKind = K8sResourceKind & {
 
 export type CamelAppSli = {
   samplingInterval: number
+  samplingIntervalFailed: number
   samplingIntervalTotal: number
   status: string
   successPercentage: string
