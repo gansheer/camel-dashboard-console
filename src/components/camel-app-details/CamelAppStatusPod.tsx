@@ -56,7 +56,7 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
               <DescriptionListTerm>{t('Uptime')}:</DescriptionListTerm>
               <DescriptionListDescription>{durationFull}</DescriptionListDescription>
             </DescriptionListGroup>
-            {camelInt.status.runtime ?
+            {camelPod.runtime ?
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Runtime')}:</DescriptionListTerm>
                 <DescriptionListDescription>
@@ -77,7 +77,7 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
                 </DescriptionListDescription>
               </DescriptionListGroup>
               : <></>}
-            {camelInt.status.runtime?.exchange ?
+            {camelPod.runtime?.exchange ?
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Exchange')}:</DescriptionListTerm>
                 <DescriptionListDescription>
@@ -103,7 +103,7 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
               </DescriptionListGroup>
               : <></>}
 
-            {camelInt.status.observe ?
+            {camelPod.observe ?
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Endpoints')}:</DescriptionListTerm>
                 <DescriptionListDescription>
