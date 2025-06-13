@@ -191,7 +191,7 @@ push: podman
 #
 #---
 deploy: oc helm
-	./bin/camel-install-openshift-console-plugin --namespace $(CUSTOM_PLUGIN_NAMESPACE) --image $(CUSTOM_PLUGIN_IMAGE):$(CUSTOM_PLUGIN_VERSION)
+	./bin/install-camel-openshift-console-plugin --namespace $(CUSTOM_PLUGIN_NAMESPACE) --image $(CUSTOM_PLUGIN_IMAGE):$(CUSTOM_PLUGIN_VERSION)
 
 #---
 #
@@ -210,6 +210,31 @@ undeploy: helm
 
 all: image push deploy
 
+.PHONY: deploy undeploy all
+
+#
+# ============================
+# Release
+# ============================
+#
+
+#---
+#
+#@ helm-release
+#
+#== Release helm chart
+#
+#=== Calls: helm
+#
+#* PARAMETERS:
+#** CUSTOM_PLUGIN_VERSION: Set a custom plugin chart version to release
+#
+#---
+helm-release: helm
+	./bin/release-helm-chart-camel-openshift-console-plugin ${CUSTOM_PLUGIN_VERSION}
+
+.PHONY: helm-release
+
 help: ## Show this help screen.
 	@awk 'BEGIN { printf "\nUsage: make \033[31m<PARAM1=val1 PARAM2=val2>\033[0m \033[36m<target>\033[0m\n"; printf "\nAvailable targets are:\n" } /^#@/ { printf "\033[36m%-15s\033[0m", $$2; subdesc=0; next } /^#===/ { printf "%-14s \033[32m%s\033[0m\n", " ", substr($$0, 5); subdesc=1; next } /^#==/ { printf "\033[0m%s\033[0m\n\n", substr($$0, 4); next } /^#\*\*/ { printf "%-14s \033[31m%s\033[0m\n", " ", substr($$0, 4); next } /^#\*/ && (subdesc == 1) { printf ""; next } /^#\-\-\-/ { printf "\n"; next }' $(MAKEFILE_LIST)
 	
@@ -217,4 +242,4 @@ help: ## Show this help screen.
 .DEFAULT_GOAL := help
 default: help
 
-.PHONY: deploy undeploy all help
+.PHONY: help
