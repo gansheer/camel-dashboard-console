@@ -52,8 +52,8 @@ podman push quay.io/camel-tooling/camel-openshift-console-plugin:latest
 ### Deploying the plugin using Helm
 
 ```sh
-oc new-project plugin-camel-openshift-console-plugin
-helm upgrade -i camel-openshift-console-plugin charts/camel-openshift-console-plugin --namespace plugin-camel-openshift-console-plugin --set plugin.image=quay.io/camel-tooling/camel-openshift-console-plugin:latest
+oc new-project camel-dashboard
+helm upgrade -i camel-openshift-console-plugin charts/camel-openshift-console-plugin --namespace camel-dashboard --set plugin.image=quay.io/camel-tooling/camel-openshift-console-plugin:latest
 ```
 
 # The Camel Tab
