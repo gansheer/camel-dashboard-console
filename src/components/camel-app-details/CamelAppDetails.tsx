@@ -1,6 +1,15 @@
 import * as React from 'react';
 import { CamelAppKind } from '../../types';
-import { Card, CardBody, DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm, TextList, TextListItem } from '@patternfly/react-core';
+import {
+  Card,
+  CardBody,
+  DescriptionList,
+  DescriptionListDescription,
+  DescriptionListGroup,
+  DescriptionListTerm,
+  TextList,
+  TextListItem,
+} from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { K8sGroupVersionKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import { camelAppGVK } from '../../const';
@@ -43,7 +52,6 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
             />
           </h4>
 
-
           <DescriptionList
             columnModifier={{
               default: '1Col',
@@ -55,21 +63,29 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
             </DescriptionListGroup>
             <DescriptionListGroup>
               <DescriptionListTerm>
-                <PopoverCamelHealth popoverBody={t("Health") + " :"} />
-
+                <PopoverCamelHealth popoverBody={t('Health') + ' :'} />
               </DescriptionListTerm>
               <DescriptionListDescription>
-                <CamelAppHealth health={camelInt.status.sliExchangeSuccessRate?.status ? camelInt.status.sliExchangeSuccessRate?.status : ""} />
+                <CamelAppHealth
+                  health={
+                    camelInt.status.sliExchangeSuccessRate?.status
+                      ? camelInt.status.sliExchangeSuccessRate?.status
+                      : ''
+                  }
+                />
               </DescriptionListDescription>
             </DescriptionListGroup>
-            {camelInt.status.sliExchangeSuccessRate ?
+            {camelInt.status.sliExchangeSuccessRate ? (
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Percentage of success rate')}:</DescriptionListTerm>
                 <DescriptionListDescription>
                   <TextList>
                     <TextListItem>
                       <strong>{t('Sampling interval')}: </strong>
-                      {formatDuration(camelInt.status.sliExchangeSuccessRate.samplingInterval / 1000000, { omitSuffix: true })}
+                      {formatDuration(
+                        camelInt.status.sliExchangeSuccessRate.samplingInterval / 1000000,
+                        { omitSuffix: true },
+                      )}
                     </TextListItem>
                     <TextListItem>
                       <strong>{t('Failed exchanges')}: </strong>
@@ -86,7 +102,9 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
                   </TextList>
                 </DescriptionListDescription>
               </DescriptionListGroup>
-              : <></>}
+            ) : (
+              <></>
+            )}
           </DescriptionList>
         </CardBody>
       </Card>
@@ -94,12 +112,12 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
       <ul className="list-group">
         {camelInt.status.pods
           ? camelInt.status.pods.map((pod, i) => {
-            return (
-              <li key={i} className="list-group-item">
-                <CamelAppStatusPod obj={camelInt} pod={pod} />
-              </li>
-            );
-          })
+              return (
+                <li key={i} className="list-group-item">
+                  <CamelAppStatusPod obj={camelInt} pod={pod} />
+                </li>
+              );
+            })
           : ''}
       </ul>
     </div>

@@ -10,11 +10,11 @@ export type CamelAppKind = K8sResourceKind & {
 };
 
 export type CamelAppSli = {
-  samplingInterval: number
-  samplingIntervalFailed: number
-  samplingIntervalTotal: number
-  status: string
-  successPercentage: string
+  samplingInterval: number;
+  samplingIntervalFailed: number;
+  samplingIntervalTotal: number;
+  status: string;
+  successPercentage: string;
 };
 
 export type CamelAppStatusPod = {

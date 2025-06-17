@@ -130,13 +130,13 @@ export const useCamelAppServices = (
     },
   });
 
-  // Selector only works on labels, so we need to filter  
-  const filteredData = resources.services.data.filter(service => {
-      const selector = service.spec.selector as ServiceSelector;
-      if (appName == selector.app){
-        return true;
-      }
-      return false;
+  // Selector only works on labels, so we need to filter
+  const filteredData = resources.services.data.filter((service) => {
+    const selector = service.spec.selector as ServiceSelector;
+    if (appName == selector.app) {
+      return true;
+    }
+    return false;
   });
 
   return {
@@ -170,13 +170,15 @@ export const useCamelAppRoutes = (
   const servicesNames: string[] = [];
 
   if (resources.services.loaded && resources.services.data.length > 0) {
-    resources.services.data.filter(service => {
-      const selector = service.spec.selector as ServiceSelector;
-      if (appName == selector.app){
-        return true;
-      }
-      return false;
-  }).forEach((service) => servicesNames.push(service.metadata.name));
+    resources.services.data
+      .filter((service) => {
+        const selector = service.spec.selector as ServiceSelector;
+        if (appName == selector.app) {
+          return true;
+        }
+        return false;
+      })
+      .forEach((service) => servicesNames.push(service.metadata.name));
   }
 
   if (resources.routes.data.length > 0) {

@@ -56,7 +56,7 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
               <DescriptionListTerm>{t('Uptime')}:</DescriptionListTerm>
               <DescriptionListDescription>{durationFull}</DescriptionListDescription>
             </DescriptionListGroup>
-            {camelPod.runtime ?
+            {camelPod.runtime ? (
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Runtime')}:</DescriptionListTerm>
                 <DescriptionListDescription>
@@ -76,8 +76,10 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
                   </TextList>
                 </DescriptionListDescription>
               </DescriptionListGroup>
-              : <></>}
-            {camelPod.runtime?.exchange ?
+            ) : (
+              <></>
+            )}
+            {camelPod.runtime?.exchange ? (
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Exchange')}:</DescriptionListTerm>
                 <DescriptionListDescription>
@@ -101,9 +103,11 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
                   </TextList>
                 </DescriptionListDescription>
               </DescriptionListGroup>
-              : <></>}
+            ) : (
+              <></>
+            )}
 
-            {camelPod.observe ?
+            {camelPod.observe ? (
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Endpoints')}:</DescriptionListTerm>
                 <DescriptionListDescription>
@@ -119,7 +123,9 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
                   </TextList>
                 </DescriptionListDescription>
               </DescriptionListGroup>
-              : <></>}
+            ) : (
+              <></>
+            )}
           </DescriptionList>
         </CardBody>
       </Card>

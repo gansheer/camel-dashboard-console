@@ -15,8 +15,10 @@ import CamelAppHealth from './CamelAppHealth';
 
 const getKind = (obj) => obj.metadata.ownerReferences[0].kind;
 const getNamespace = (obj) => obj.metadata?.namespace;
-const getRuntimeProvider = (obj) => obj.status.pods && obj.status.pods[0].runtime ? obj.status.pods[0].runtime.runtimeProvider : "";
-const getCamelHealth = (obj) => obj.status.sliExchangeSuccessRate ? obj.status.sliExchangeSuccessRate.status : "";
+const getRuntimeProvider = (obj) =>
+  obj.status.pods && obj.status.pods[0].runtime ? obj.status.pods[0].runtime.runtimeProvider : '';
+const getCamelHealth = (obj) =>
+  obj.status.sliExchangeSuccessRate ? obj.status.sliExchangeSuccessRate.status : '';
 
 // Check for a modified mouse event. For example - Ctrl + Click
 const isModifiedEvent = (event: React.MouseEvent<HTMLElement>) => {
@@ -81,7 +83,7 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
         )}
       </TableData>
       <TableData id="health" activeColumnIDs={activeColumnIDs}>
-        <CamelAppHealth health={getCamelHealth(camelInt)}/>
+        <CamelAppHealth health={getCamelHealth(camelInt)} />
       </TableData>
     </>
   );

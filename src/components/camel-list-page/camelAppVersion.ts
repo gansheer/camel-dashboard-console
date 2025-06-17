@@ -34,8 +34,8 @@ export const getCamelVersions = (camelInt: K8sResourceKind, direction: string): 
 
 export const getCamelVersionAsString = (camelInt: K8sResourceKind, direction: string): string => {
   const versions = getCamelVersions(camelInt, direction);
-  if(versions){
-    return versions.join(',')
+  if (versions) {
+    return versions.join(',');
   }
-  return "";
+  return '';
 };

@@ -29,8 +29,8 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
     camelInt.spec.selector,
   );
 
-  const { available : availableHawtioConsolePlugin } = useHawtioConsolePlugin();
-  
+  const { available: availableHawtioConsolePlugin } = useHawtioConsolePlugin();
+
   if (loadedPods && CamelAppPods.length > 0) {
     CamelAppPods.forEach((pod) => {
       pods.push({

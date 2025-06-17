@@ -18,7 +18,7 @@ export const useHawtioConsolePlugin = (): {
     isList: false,
   });
 
-  const available = loaded && HawtioConsolePluginResource != null
+  const available = loaded && HawtioConsolePluginResource != null;
 
   return { available };
 };
