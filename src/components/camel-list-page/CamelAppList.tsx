@@ -24,10 +24,7 @@ type CamelAppProps = {
   showTitle?: boolean;
 };
 
-
-
-
-const CamelAppList: React.FC<CamelAppProps> = ({ ns, showTitle = true }) => {
+const CamelAppList: React.FC<CamelAppProps> = () => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   const [activeNamespace, setActiveNamespace] = useActiveNamespace();
@@ -39,7 +36,10 @@ const CamelAppList: React.FC<CamelAppProps> = ({ ns, showTitle = true }) => {
   const columns = useCamelAppColumns(filterCamelAppsNamespace(activeNamespace));
   const { CamelApps, loaded, error } = useCamelAppList(filterCamelAppsNamespace(activeNamespace));
 
-  const [staticData, filteredData, onFilterChange] = useListPageFilter(CamelApps, camelAppRowFilters(CamelApps));
+  const [staticData, filteredData, onFilterChange] = useListPageFilter(
+    CamelApps,
+    camelAppRowFilters(CamelApps),
+  );
 
   // TODO add filters
 
@@ -50,7 +50,12 @@ const CamelAppList: React.FC<CamelAppProps> = ({ ns, showTitle = true }) => {
       <ListPageHeader title={t('Camel Applications')} />
 
       <ListPageBody>
-        <ListPageFilter data={staticData} onFilterChange={onFilterChange} loaded={loaded} rowFilters={camelAppRowFilters(CamelApps)} />
+        <ListPageFilter
+          data={staticData}
+          onFilterChange={onFilterChange}
+          loaded={loaded}
+          rowFilters={camelAppRowFilters(CamelApps)}
+        />
 
         <VirtualizedTable
           EmptyMsg={() => (

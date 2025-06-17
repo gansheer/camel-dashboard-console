@@ -20,7 +20,6 @@ const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelAppOwner }) =
 
   const routes: Resources[] = [];
 
-
   const { CamelAppRoutes, loaded: loadedRoutes } = useCamelAppRoutes(
     camelAppOwner.metadata.namespace,
     camelAppOwner.metadata.name,

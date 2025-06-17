@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Popover, PopoverPosition, PopoverProps } from "@patternfly/react-core";
+import { Button, Popover, PopoverPosition, PopoverProps } from '@patternfly/react-core';
 import { Trans, useTranslation } from 'react-i18next';
 import CamelAppHealth from '../camel-list-page/CamelAppHealth';
 
@@ -32,15 +32,17 @@ export const PopoverCamelHealth: React.FC<PopoverCamelHealthProps> = ({
       bodyContent={() => (
         <div>
           <div>
-                  <Trans t={t}>
-                    <h4>Service Level Indicator</h4>
-                    
-                    <CamelAppHealth health='Error'/>: &gt; 10 % failed exchanges<br/>
-                    <CamelAppHealth health='Warning'/>: &gt; 5 % failed exchanges<br/>
-                    <CamelAppHealth health='OK'/>: healthy<br/>
-                    <CamelAppHealth health='Unknown'/>: no informations<br/>
-                    
-                  </Trans>
+            <Trans t={t}>
+              <h4>Service Level Indicator</h4>
+              <CamelAppHealth health="Error" />: &gt; 10 % failed exchanges
+              <br />
+              <CamelAppHealth health="Warning" />: &gt; 5 % failed exchanges
+              <br />
+              <CamelAppHealth health="OK" />: healthy
+              <br />
+              <CamelAppHealth health="Unknown" />: no informations
+              <br />
+            </Trans>
           </div>
         </div>
       )}
@@ -51,10 +53,13 @@ export const PopoverCamelHealth: React.FC<PopoverCamelHealthProps> = ({
       shouldClose={shouldClose}
       shouldOpen={shouldOpen}
     >
-      <Button variant="link" isInline className="pf-v5-c-button pf-m-plain details-item__popover-button">
+      <Button
+        variant="link"
+        isInline
+        className="pf-v5-c-button pf-m-plain details-item__popover-button"
+      >
         {popoverBody}
       </Button>
     </Popover>
   );
 };
-
