@@ -59,7 +59,9 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
           >
             <DescriptionListGroup>
               <DescriptionListTerm>{t('Image')}:</DescriptionListTerm>
-              <DescriptionListDescription>{camelInt.status.image}</DescriptionListDescription>
+              <DescriptionListDescription>
+                {camelInt.status?.image ? camelInt.status.image : 'unknown'}
+              </DescriptionListDescription>
             </DescriptionListGroup>
             <DescriptionListGroup>
               <DescriptionListTerm>
@@ -68,18 +70,26 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
               <DescriptionListDescription>
                 <CamelAppHealth
                   health={
-                    camelInt.status.sliExchangeSuccessRate?.status
-                      ? camelInt.status.sliExchangeSuccessRate?.status
+                    camelInt.status?.sliExchangeSuccessRate?.status
+                      ? camelInt.status.sliExchangeSuccessRate.status
                       : ''
                   }
                 />
               </DescriptionListDescription>
             </DescriptionListGroup>
-            {camelInt.status.sliExchangeSuccessRate ? (
+            {camelInt.status?.sliExchangeSuccessRate ? (
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Percentage of success rate')}:</DescriptionListTerm>
                 <DescriptionListDescription>
                   <TextList>
+                    {camelInt.status?.sliExchangeSuccessRate.lastTimestamp ? (
+                      <TextListItem>
+                        <strong>{t('Last message')}: </strong>
+                        {camelInt.status.sliExchangeSuccessRate.lastTimestamp}
+                      </TextListItem>
+                    ) : (
+                      <></>
+                    )}
                     <TextListItem>
                       <strong>{t('Sampling interval')}: </strong>
                       {formatDuration(
@@ -110,7 +120,7 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
       </Card>
 
       <ul className="list-group">
-        {camelInt.status.pods
+        {camelInt.status?.pods
           ? camelInt.status.pods.map((pod, i) => {
               return (
                 <li key={i} className="list-group-item">

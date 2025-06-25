@@ -27,8 +27,8 @@ export function statusFilterItems(CamelApps: CamelAppKind[]): RowFilterItem[] {
 }
 
 export function runtimeProviderFilterReducer(app): string {
-  if (!app.status.pods) {
-    return '';
+  if (!app.status?.pods) {
+    return 'unknown';
   }
   const runtimeProviderLower = app.status.pods[0]?.runtime?.runtimeProvider?.toLowerCase();
   if (runtimeProviderLower === undefined) {
@@ -97,7 +97,7 @@ export function camelVersionFilterItems(CamelApps: CamelAppKind[]): RowFilterIte
 }
 
 export function camelHealthFilterReducer(app): string {
-  return app.status.sliExchangeSuccessRate ? app.status.sliExchangeSuccessRate.status : 'Unknown';
+  return app.status?.sliExchangeSuccessRate ? app.status.sliExchangeSuccessRate.status : 'Unknown';
 }
 
 export function camelHealthFilter(input, app): boolean {

@@ -10,6 +10,8 @@ export type CamelAppKind = K8sResourceKind & {
 };
 
 export type CamelAppSli = {
+  /** Format: date-time - in nanoseconds */
+  lastTimestamp: string;
   samplingInterval: number;
   samplingIntervalFailed: number;
   samplingIntervalTotal: number;
@@ -18,14 +20,15 @@ export type CamelAppSli = {
 };
 
 export type CamelAppStatusPod = {
-  name: string;
   internalIp: string;
-  /** Format: date-time - in nanoseconds */
-  uptime: string;
+  name: string;
   observe: CamelAppObservability;
   ready: boolean;
+  reason: boolean;
   runtime: CamelAppRuntime;
   status: string;
+  /** Format: date-time - in nanoseconds */
+  uptimeTimestamp: string;
 };
 
 export type CamelAppObservability = {

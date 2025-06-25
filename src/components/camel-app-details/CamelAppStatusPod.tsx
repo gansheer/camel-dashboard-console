@@ -25,7 +25,10 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   // Golang time.Time is in nanoseconds
-  const durationFull = formatDuration(Number(camelPod.uptime) / 1000000, { omitSuffix: false });
+  // TODO: add tooltip with date
+  const durationFull = formatDuration(Date.parse(camelPod.uptimeTimestamp) / 1000000, {
+    omitSuffix: false,
+  });
 
   return (
     <>
