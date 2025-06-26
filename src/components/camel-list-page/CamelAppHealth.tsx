@@ -1,13 +1,10 @@
 import {
-  ColoredIconProps,
   GreenCheckCircleIcon,
   RedExclamationCircleIcon,
   YellowExclamationTriangleIcon,
 } from '@openshift-console/dynamic-plugin-sdk';
-import { Icon } from '@patternfly/react-core';
 import { UnknownIcon } from '@patternfly/react-icons';
 import * as React from 'react';
-import { css } from '@patternfly/react-styles';
 import { useTranslation } from 'react-i18next';
 
 type CamelAppHealthProps = {
@@ -17,7 +14,7 @@ type CamelAppHealthProps = {
 const CamelAppHealth: React.FC<CamelAppHealthProps> = ({ health }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   // FIXME: manage undefined
-  switch (health.toLowerCase()) {
+  switch (health?.toLowerCase()) {
     case 'ok':
     case 'success':
       return (
@@ -43,25 +40,11 @@ const CamelAppHealth: React.FC<CamelAppHealthProps> = ({ health }) => {
     default:
       return (
         <>
-          <GrayUnknownIcon title={t('Unknown')} />
+          <UnknownIcon title={t('Unknown')} />
           &nbsp;&nbsp;{t('Unknown')}
         </>
       );
   }
-};
-
-export const GrayUnknownIcon: React.FC<ColoredIconProps> = ({ className, title, size }) => {
-  const icon = (
-    <UnknownIcon
-      data-test="unknown-icon"
-      className={css('unknown-icon', className)}
-      title={title}
-    />
-  );
-  if (size) {
-    return <Icon size={size}>{icon}</Icon>;
-  }
-  return icon;
 };
 
 export default CamelAppHealth;
