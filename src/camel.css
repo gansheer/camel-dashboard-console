@@ -28,7 +28,3 @@
   width: 21px;
   margin-bottom: -2px;
 }
-
-.unknown-icon {
-  fill: var(--pf-t--global--icon--color--disabled) !important;
-}
