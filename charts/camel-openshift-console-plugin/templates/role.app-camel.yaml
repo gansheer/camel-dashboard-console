@@ -1,0 +1,21 @@
+{{- if .Values.appsCamelRbac }}
+{{- range .Values.appsCamelRbac }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: "{{ template "camel-openshift-console-plugin.name" $ }}-view"
+  namespace: {{ required "A valid namespace is required!" .namespace }}
+  labels:
+    {{- include "camel-openshift-console-plugin.labels" $ | nindent 4 }}
+rules:
+- apiGroups:
+  - "camel.apache.org"
+  resources:
+  - apps
+  verbs:
+  - get
+  - list
+  - watch
+{{- end }}
+{{- end }}

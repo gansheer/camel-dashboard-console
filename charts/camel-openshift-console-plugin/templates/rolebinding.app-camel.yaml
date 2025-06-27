@@ -1,0 +1,20 @@
+{{- if .Values.appsCamelRbac }}
+{{- range .Values.appsCamelRbac }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: "{{ template "camel-openshift-console-plugin.name" $ }}-view"
+  namespace: {{ required "A valid namespace is required!" .namespace }}
+  labels:
+    {{- include "camel-openshift-console-plugin.labels" $ | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ template "camel-openshift-console-plugin.name" $ }}-view
+{{- with required "At least one subject is required!" .subjects }}
+subjects:
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+{{- end }}
+{{- end }}

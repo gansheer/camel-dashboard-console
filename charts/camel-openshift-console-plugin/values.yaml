@@ -52,3 +52,23 @@ plugin:
         requests:
           cpu: 10m
           memory: 50Mi
+
+# Configure one or more view permissions to apps.camel.apache.org Custom Resources (GET LIST WATCH).
+# The plugin needs the user to have access to the Custom Resources to be able to display them.
+# This will create a Role and a RoleBinding for each namespace.
+# The namespace and at least one subject a required to create a role/rolebinding pair.
+appsCamelRbac:
+#  - namespace: my-project
+#    subjects:
+#      - apiGroup: rbac.authorization.k8s.io
+#        kind: User
+#        name: developer
+#  - namespace: my-other-project
+#    subjects:
+#      - apiGroup: rbac.authorization.k8s.io
+#        kind: Group
+#        name: system:authenticated
+#      - kind: ServiceAccount
+#        name: camel-developer
+#        namespace: openshift-monitoring
+
