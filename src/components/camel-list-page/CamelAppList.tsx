@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  GreenCheckCircleIcon,
   ListPageBody,
   ListPageFilter,
   ListPageHeader,
   NamespaceBar,
+  RedExclamationCircleIcon,
   useActiveNamespace,
   useListPageFilter,
   VirtualizedTable,
+  YellowExclamationTriangleIcon,
 } from '@openshift-console/dynamic-plugin-sdk';
 import '../../camel.css';
 import CamelAppRow from './CamelAppRow';
@@ -16,6 +19,8 @@ import { useCamelAppList } from './useCamelAppList';
 import { ALL_NAMESPACES_KEY } from '../../const';
 import CamelImage from '@images/camel.svg';
 import { camelAppRowFilters } from './useCamelAppRowFilters';
+import { ToggleGroup, ToggleGroupItem } from '@patternfly/react-core';
+//import { createIcon } from '@patternfly/react-icons/dist/esm/createIcon';
 
 // Note : using this as inspiration for the list: https://github.com/openshift-pipelines/console-plugin/blob/main/src/components/projects-list/ProjectsRow.tsx#L91
 
@@ -47,7 +52,25 @@ const CamelAppList: React.FC<CamelAppProps> = () => {
     <>
       <NamespaceBar onNamespaceChange={setActiveNamespace} />
 
-      <ListPageHeader title={t('Camel Applications')} />
+      <ListPageHeader title={t('Camel Applications')} >
+        <ToggleGroup aria-label="Default with single selectable" title='toto' >
+          <ToggleGroupItem
+            text="Success"
+            buttonId="toggle-group-single-1"
+            icon={<GreenCheckCircleIcon />}
+          />
+          <ToggleGroupItem
+            text="Warning"
+            buttonId="toggle-group-single-2"
+            icon={<YellowExclamationTriangleIcon />}
+          />
+          <ToggleGroupItem
+            text={t('Error')}
+            buttonId="toggle-group-single-3"
+            icon={<RedExclamationCircleIcon />}
+          />
+        </ToggleGroup>
+      </ListPageHeader>
 
       <ListPageBody>
         <ListPageFilter
@@ -56,6 +79,9 @@ const CamelAppList: React.FC<CamelAppProps> = () => {
           loaded={loaded}
           rowFilters={camelAppRowFilters(CamelApps)}
         />
+
+
+
 
         <VirtualizedTable
           EmptyMsg={() => (

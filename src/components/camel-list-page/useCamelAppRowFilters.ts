@@ -51,9 +51,9 @@ export function runtimeProviderFilter(input, app): boolean {
 }
 
 export const runtimeProviderFilterItems: RowFilterItem[] = [
-  { id: 'spring-boot', title: 'Spring-Boot' },
-  { id: 'quarkus', title: 'Quarkus' },
-  { id: 'main', title: 'Camel Main' },
+  { id: 'spring-boot', title: 'Spring-Boot', hideIfEmpty: 'true' },
+  { id: 'quarkus', title: 'Quarkus', hideIfEmpty: 'true' },
+  { id: 'main', title: 'Camel Main', hideIfEmpty: 'true' },
 ];
 
 export function camelVersionFilterReducer(app): string {
