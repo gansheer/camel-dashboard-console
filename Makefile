@@ -21,7 +21,7 @@ SHELL := /bin/bash
 
 PLUGIN_VERSION := 0.0.1
 PLUGIN_NAME := camel-openshift-console-plugin
-PLUGIN_NAMESPACE := camel-tooling
+PLUGIN_NAMESPACE := camel-dashboard
 PLUGIN_IMAGE := quay.io/camel-tooling/camel-openshift-console-plugin
 
 # Replace SNAPSHOT with the current timestamp
