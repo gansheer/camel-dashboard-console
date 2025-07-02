@@ -65,3 +65,28 @@ In the developer perpective the Camel section is now shown:
 [![The Camel Plugin Home](screenshots/home.png)](screenshots/home.png)
 
 
+## User Configuration
+
+To be able to see your Camel integrations in the Camel Dashboard you need for your user to have access to the Custom Resources created by the camel-dashboard-operator with the following permissions:
+
+```yaml
+- apiGroups:
+  - "camel.apache.org"
+  resources:
+  - apps
+  verbs:
+  - get
+  - list
+  - watch
+```
+
+You can use the helm script installation with the your values to easily create `Role`/`RoleBinding` pairs: 
+```yaml
+appsCamelRbac:
+  - namespace: my-project
+    subjects:
+      - apiGroup: rbac.authorization.k8s.io
+        kind: User
+        name: developer
+```
+
