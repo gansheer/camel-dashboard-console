@@ -21,6 +21,10 @@ type CamelAppStatusPodProps = {
   pod: CamelAppStatusPod;
 };
 
+const hasRuntime = (camelPod) => (camelPod.runtime ? true : false);
+const hasRuntimeExchanges = (camelPod) => (camelPod.runtime?.exchanges ? true : false);
+const hasObserve = (camelPod) => camelPod.observe && Object.keys(camelPod.observe).length > 0;
+
 const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, pod: camelPod }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
@@ -59,7 +63,7 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
               <DescriptionListTerm>{t('Uptime')}:</DescriptionListTerm>
               <DescriptionListDescription>{durationFull}</DescriptionListDescription>
             </DescriptionListGroup>
-            {camelPod.runtime ? (
+            {hasRuntime(camelPod) ? (
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Runtime')}:</DescriptionListTerm>
                 <DescriptionListDescription>
@@ -82,7 +86,7 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
             ) : (
               <></>
             )}
-            {camelPod.runtime?.exchange ? (
+            {hasRuntimeExchanges(camelPod) ? (
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Exchange')}:</DescriptionListTerm>
                 <DescriptionListDescription>
@@ -110,7 +114,7 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
               <></>
             )}
 
-            {camelPod.observe ? (
+            {hasObserve(camelPod) ? (
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Endpoints')}:</DescriptionListTerm>
                 <DescriptionListDescription>
