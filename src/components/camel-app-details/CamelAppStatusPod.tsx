@@ -21,13 +21,18 @@ type CamelAppStatusPodProps = {
   pod: CamelAppStatusPod;
 };
 
-const hasRuntime = (camelPod) => (camelPod.runtime ? true : false);
-const hasRuntimeExchanges = (camelPod) => (camelPod.runtime?.exchanges ? true : false);
-const hasObserve = (camelPod) => camelPod.observe && Object.keys(camelPod.observe).length > 0;
+const hasRuntime = (camelPod: CamelAppStatusPod) =>
+  camelPod.runtime &&
+  (camelPod.runtime.camelVersion ||
+    camelPod.runtime.runtimeProvider ||
+    camelPod.runtime.runtimeVersion);
+const hasRuntimeExchanges = (camelPod: CamelAppStatusPod) =>
+  camelPod.runtime?.exchange ? true : false;
+const hasObserve = (camelPod: CamelAppStatusPod) =>
+  camelPod.observe && Object.keys(camelPod.observe).length > 0;
 
 const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, pod: camelPod }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
-
   // Golang time.Time is in nanoseconds
   // TODO: add tooltip with date
   const durationFull = formatDuration(Date.parse(camelPod.uptimeTimestamp) / 1000000, {
