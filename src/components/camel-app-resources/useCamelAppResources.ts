@@ -133,7 +133,10 @@ export const useCamelAppServices = (
   // Selector only works on labels, so we need to filter
   const filteredData = resources.services.data.filter((service) => {
     const selector = service.spec.selector as ServiceSelector;
-    if (appName == selector.app) {
+    const serviceLabel = service.metadata?.labels['app.kubernetes.io/name'];
+    if (selector && appName == selector.app) {
+      return true;
+    } else if (serviceLabel && serviceLabel == appName) {
       return true;
     }
     return false;
@@ -173,7 +176,10 @@ export const useCamelAppRoutes = (
     resources.services.data
       .filter((service) => {
         const selector = service.spec.selector as ServiceSelector;
-        if (appName == selector.app) {
+        const serviceLabel = service.metadata?.labels['app.kubernetes.io/name'];
+        if (selector && appName == selector.app) {
+          return true;
+        } else if (serviceLabel && serviceLabel == appName) {
           return true;
         }
         return false;
