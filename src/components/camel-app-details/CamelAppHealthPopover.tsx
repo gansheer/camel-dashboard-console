@@ -2,6 +2,10 @@ import * as React from 'react';
 import { Button, Popover, PopoverPosition, PopoverProps } from '@patternfly/react-core';
 import { Trans, useTranslation } from 'react-i18next';
 import CamelAppHealth from '../camel-list-page/CamelAppHealth';
+import {
+  K8sResourceCondition,
+  K8sResourceConditionStatus,
+} from '@openshift-console/dynamic-plugin-sdk';
 
 type PopoverCamelHealthProps = {
   popoverBody: React.ReactNode;
@@ -12,6 +16,7 @@ type PopoverCamelHealthProps = {
   isVisible?: boolean;
   shouldClose?: (hideFunction: any) => void;
   shouldOpen?: PopoverProps['shouldOpen'];
+  condition?: K8sResourceCondition;
 };
 
 export const PopoverCamelHealth: React.FC<PopoverCamelHealthProps> = ({
@@ -23,6 +28,7 @@ export const PopoverCamelHealth: React.FC<PopoverCamelHealthProps> = ({
   title,
   onHide,
   onShow,
+  condition,
 }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   return (
@@ -32,17 +38,26 @@ export const PopoverCamelHealth: React.FC<PopoverCamelHealthProps> = ({
       bodyContent={() => (
         <div>
           <div>
-            <Trans t={t}>
-              <h4>Service Level Indicator</h4>
-              <CamelAppHealth health="Error" />: &gt; 10 % failed exchanges
-              <br />
-              <CamelAppHealth health="Warning" />: &gt; 5 % failed exchanges
-              <br />
-              <CamelAppHealth health="OK" />: healthy
-              <br />
-              <CamelAppHealth health="Unknown" />: no informations
-              <br />
-            </Trans>
+            {condition &&
+            condition?.status &&
+            condition?.status == K8sResourceConditionStatus.False ? (
+              <>
+                <h4>Reason</h4>
+                {condition.reason}
+              </>
+            ) : (
+              <Trans t={t}>
+                <h4>Service Level Indicator</h4>
+                <CamelAppHealth health="Error" />: &gt; 10 % failed exchanges
+                <br />
+                <CamelAppHealth health="Warning" />: &gt; 5 % failed exchanges
+                <br />
+                <CamelAppHealth health="OK" />: healthy
+                <br />
+                <CamelAppHealth health="Unknown" />: no informations
+                <br />
+              </Trans>
+            )}
           </div>
         </div>
       )}
