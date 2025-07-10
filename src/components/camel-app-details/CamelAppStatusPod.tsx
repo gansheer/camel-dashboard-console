@@ -11,7 +11,11 @@ import {
   DescriptionListDescription,
 } from '@patternfly/react-core';
 import { podGVK } from '../../const';
-import { ResourceLink, ResourceStatus } from '@openshift-console/dynamic-plugin-sdk';
+import {
+  ResourceLink,
+  ResourceStatus,
+  YellowExclamationTriangleIcon,
+} from '@openshift-console/dynamic-plugin-sdk';
 import { useTranslation } from 'react-i18next';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
 import { formatDuration } from '../../date-utils';
@@ -30,6 +34,7 @@ const hasRuntimeExchanges = (camelPod: CamelAppStatusPod) =>
   camelPod.runtime?.exchange ? true : false;
 const hasObserve = (camelPod: CamelAppStatusPod) =>
   camelPod.observe && Object.keys(camelPod.observe).length > 0;
+const hasStatusMessage = (camelPod: CamelAppStatusPod) => (camelPod.reason ? true : false);
 
 const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, pod: camelPod }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
@@ -68,6 +73,19 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
               <DescriptionListTerm>{t('Uptime')}:</DescriptionListTerm>
               <DescriptionListDescription>{durationFull}</DescriptionListDescription>
             </DescriptionListGroup>
+
+            {hasStatusMessage(camelPod) ? (
+              <DescriptionListGroup>
+                <DescriptionListTerm>{t('Status message')}:</DescriptionListTerm>
+                <DescriptionListDescription>
+                  <YellowExclamationTriangleIcon />
+                  &nbsp;&nbsp;{camelPod.reason}
+                </DescriptionListDescription>
+              </DescriptionListGroup>
+            ) : (
+              <></>
+            )}
+
             {hasRuntime(camelPod) ? (
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Runtime')}:</DescriptionListTerm>

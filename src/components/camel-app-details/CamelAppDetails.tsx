@@ -11,7 +11,13 @@ import {
   TextListItem,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
-import { K8sGroupVersionKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
+import {
+  GreenCheckCircleIcon,
+  K8sGroupVersionKind,
+  K8sResourceConditionStatus,
+  ResourceLink,
+  YellowExclamationTriangleIcon,
+} from '@openshift-console/dynamic-plugin-sdk';
 import { camelAppGVK } from '../../const';
 import CamelAppStatusPod from './CamelAppStatusPod';
 import CamelAppHealth from '../camel-list-page/CamelAppHealth';
@@ -35,8 +41,30 @@ type CamelAppDetails = {
   metricsEndpoint: string;
 };
 
+const monitoredCondition = (camelInt: CamelAppKind) => {
+  const monitoredConditions = camelInt.status?.conditions?.filter(
+    (contidition) => contidition.type == 'Monitored',
+  );
+  if (monitoredConditions.length > 0) {
+    return monitoredConditions[0];
+  }
+  return;
+};
+const healthyCondition = (camelInt: CamelAppKind) => {
+  const healthConditions = camelInt.status?.conditions?.filter(
+    (contidition) => contidition.type == 'Healthy',
+  );
+  if (healthConditions.length > 0) {
+    return healthConditions[0];
+  }
+  return;
+};
+
 const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+
+  const monitored = monitoredCondition(camelInt);
+  const healthy = healthyCondition(camelInt);
 
   return (
     <div className="co-m-pane__body">
@@ -64,8 +92,24 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
               </DescriptionListDescription>
             </DescriptionListGroup>
             <DescriptionListGroup>
+              <DescriptionListTerm>{t('Monitored')}:</DescriptionListTerm>
+              <DescriptionListDescription>
+                {monitored && monitored?.status == K8sResourceConditionStatus.True ? (
+                  <>
+                    <GreenCheckCircleIcon />
+                    &nbsp;&nbsp;True
+                  </>
+                ) : (
+                  <>
+                    <YellowExclamationTriangleIcon />
+                    &nbsp;&nbsp;False&nbsp;&nbsp;({monitored.message})
+                  </>
+                )}
+              </DescriptionListDescription>
+            </DescriptionListGroup>
+            <DescriptionListGroup>
               <DescriptionListTerm>
-                <PopoverCamelHealth popoverBody={t('Health') + ' :'} />
+                <PopoverCamelHealth popoverBody={t('Health') + ' :'} condition={healthy} />
               </DescriptionListTerm>
               <DescriptionListDescription>
                 <CamelAppHealth

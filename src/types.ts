@@ -1,4 +1,4 @@
-import { K8sResourceKind } from '@openshift-console/dynamic-plugin-sdk';
+import { K8sResourceCondition, K8sResourceKind } from '@openshift-console/dynamic-plugin-sdk';
 
 // See how to enrich camelSpec
 export type CamelAppKind = K8sResourceKind & {
@@ -6,6 +6,7 @@ export type CamelAppKind = K8sResourceKind & {
     pods: CamelAppStatusPod[];
     phase: string;
     sliExchangeSuccessRate: CamelAppSli;
+    conditions: K8sResourceCondition[];
   };
 };
 
@@ -24,7 +25,7 @@ export type CamelAppStatusPod = {
   name: string;
   observe: CamelAppObservability;
   ready: boolean;
-  reason: boolean;
+  reason: string;
   runtime: CamelAppRuntime;
   status: string;
   /** Format: date-time - in nanoseconds */
