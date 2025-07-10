@@ -78,9 +78,9 @@ export function camelVersionFilter(input, app): boolean {
 export function camelVersionFilterItems(CamelApps: CamelAppKind[]): RowFilterItem[] {
   const versions = [
     ...new Set(
-      CamelApps.map((app) => getCamelVersions(app, 'asc')).reduce((acc, item) => {
-        if (item) {
-          acc.push(...item);
+      CamelApps.map((app) => getCamelVersions(app, 'asc')).reduce((acc, camelVersions) => {
+        if (camelVersions) {
+          acc.push(...camelVersions.filter((version) => !!version));
         }
         return acc;
       }, []),
@@ -124,11 +124,11 @@ export const camelAppRowFilters = (CamelApps: CamelAppKind[]): RowFilter[] => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   return [
     {
-      filterGroupName: t('Status'),
-      type: 'status',
-      reducer: statusFilterReducer,
-      filter: statusFilter,
-      items: statusFilterItems(CamelApps),
+      filterGroupName: t('Camel Health'),
+      type: 'camel-health',
+      reducer: camelHealthFilterReducer,
+      filter: camelHealthFilter,
+      items: camelHealthFilterItems(CamelApps),
     },
     {
       filterGroupName: t('Runtime Provider'),
@@ -145,11 +145,11 @@ export const camelAppRowFilters = (CamelApps: CamelAppKind[]): RowFilter[] => {
       items: camelVersionFilterItems(CamelApps),
     },
     {
-      filterGroupName: t('Camel Health'),
-      type: 'camel-health',
-      reducer: camelHealthFilterReducer,
-      filter: camelHealthFilter,
-      items: camelHealthFilterItems(CamelApps),
+      filterGroupName: t('Status'),
+      type: 'status',
+      reducer: statusFilterReducer,
+      filter: statusFilter,
+      items: statusFilterItems(CamelApps),
     },
   ];
 };
