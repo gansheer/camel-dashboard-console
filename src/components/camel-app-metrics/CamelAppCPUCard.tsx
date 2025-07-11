@@ -8,9 +8,9 @@ const DEFAULT_TIMESPAN = 30 * 60 * 1000;
 const DEFAULT_POLL_INTERVAL = 30 * 1000;
 
 const CamelAppCPUCard: React.FC<CamelAppMetricsProps> = ({ obj: camelInt }) => {
-  console.log(camelInt);
+  const ownerReference = camelInt.metadata?.ownerReferences[0];
   const namespace = camelInt.metadata?.namespace;
-  const workload = camelInt.metadata?.name;
+  const workload = ownerReference ? ownerReference.name : camelInt.metadata?.name;
   const CPUQueries = [
     'sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster="", namespace="' +
       namespace +

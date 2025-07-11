@@ -9,8 +9,9 @@ const DEFAULT_POLL_INTERVAL = 30 * 1000;
 
 const CamelAppMemoryCard: React.FC<CamelAppMetricsProps> = ({ obj: camelInt }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const ownerReference = camelInt.metadata?.ownerReferences[0];
   const namespace = camelInt.metadata?.namespace;
-  const workload = camelInt.metadata?.name;
+  const workload = ownerReference ? ownerReference.name : camelInt.metadata?.name;
 
   const MemoryQueries = [
     'sum(container_memory_working_set_bytes{cluster="", namespace="' +

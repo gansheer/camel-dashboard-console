@@ -20,8 +20,6 @@ const CamelAppServices: React.FC<CamelAppServicesProps> = ({ obj: camelAppOwner 
 
   const services: Resources[] = [];
 
-  console.log(camelAppOwner.metadata.name);
-
   const { CamelAppServices, loaded: loadedServices } = useCamelAppServices(
     camelAppOwner.metadata.namespace,
     camelAppOwner.metadata.name,
