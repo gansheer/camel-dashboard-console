@@ -52,4 +52,6 @@ export type CamelAppExchange = {
   pending: number;
   succeed: number;
   total: number;
+  /** Format: date-time - in nanoseconds */
+  lastTimestamp: string;
 };

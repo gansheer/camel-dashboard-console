@@ -4,7 +4,7 @@ import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { ALL_NAMESPACES_KEY } from '../../const';
 import { ResourceStatus, useActiveNamespace } from '@openshift-console/dynamic-plugin-sdk';
-import { CamelAppKind } from 'src/types';
+import { CamelAppKind } from '../../types';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
 import CamelImage from '@images/camel.svg';
 

@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'react-i18next';
 import { getLastLanguage } from './utils';
 
 export type Duration = {
@@ -31,8 +31,7 @@ function getDuration(ms: number): Duration {
   return { days, hours, minutes, seconds };
 }
 
-export const formatDuration = (ms: number, options?) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+export function formatDuration(ms: number, t: TFunction, options?): string {
   const langArg = getLastLanguage();
   const duration = getDuration(ms);
 
@@ -86,4 +85,4 @@ export const formatDuration = (ms: number, options?) => {
   }
 
   return relativeTimeFormatter(langArg).format(-minutes, 'minute');
-};
+}
