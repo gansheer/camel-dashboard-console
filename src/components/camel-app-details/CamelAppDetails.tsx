@@ -16,6 +16,7 @@ import {
   K8sGroupVersionKind,
   K8sResourceConditionStatus,
   ResourceLink,
+  Timestamp,
   YellowExclamationTriangleIcon,
 } from '@openshift-console/dynamic-plugin-sdk';
 import { camelAppGVK } from '../../const';
@@ -128,8 +129,10 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
                   <TextList>
                     {camelInt.status?.sliExchangeSuccessRate.lastTimestamp ? (
                       <TextListItem>
-                        <strong>{t('Last message')}: </strong>
-                        {camelInt.status.sliExchangeSuccessRate.lastTimestamp}
+                        <strong>{t('Last message')}:</strong>
+                        <Timestamp
+                          timestamp={camelInt.status.sliExchangeSuccessRate.lastTimestamp}
+                        />
                       </TextListItem>
                     ) : (
                       <></>
@@ -138,6 +141,7 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
                       <strong>{t('Sampling interval')}: </strong>
                       {formatDuration(
                         camelInt.status.sliExchangeSuccessRate.samplingInterval / 1000000,
+                        t,
                         { omitSuffix: true },
                       )}
                     </TextListItem>

@@ -1,19 +1,13 @@
 import * as React from 'react';
-import {
-  getGroupVersionKindForResource,
-  K8sResourceKind,
-  ResourceLink,
-  RowProps,
-  TableData,
-} from '@openshift-console/dynamic-plugin-sdk';
+import { K8sResourceKind, RowProps, TableData } from '@openshift-console/dynamic-plugin-sdk';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
 import { getCamelVersionAsString } from './camelAppVersion';
 import CamelImage from '@images/camel.svg';
 import CamelAppHealth from './CamelAppHealth';
+import { getLastMessageAsString, getLastMessageTimestamp } from './lastMessage';
 
-const getKind = (obj) => obj.metadata.ownerReferences[0].kind;
 const getNamespace = (obj) => obj.metadata?.namespace;
 const getStatus = (obj) => (obj.status?.phase ? obj.status.phase : 'Unknown');
 const getRuntimeProvider = (obj) =>
@@ -37,6 +31,9 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
     }
   };
 
+  const lastMessageDate = getLastMessageTimestamp(camelInt, 'asc');
+  const lastMessageString = getLastMessageAsString(camelInt, 'asc', t);
+
   return (
     <>
       <TableData id="name" activeColumnIDs={activeColumnIDs}>
@@ -55,16 +52,6 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
           </Link>
         </span>
       </TableData>
-      <TableData id="kind" activeColumnIDs={activeColumnIDs}>
-        <span className="co-break-word co-line-clamp">
-          <ResourceLink
-            displayName={getKind(camelInt)}
-            groupVersionKind={getGroupVersionKindForResource(camelInt.metadata.ownerReferences[0])}
-            name={camelInt.metadata.ownerReferences[0].name}
-            namespace={camelInt.metadata.namespace}
-          />
-        </span>
-      </TableData>
       <TableData id="namespace" activeColumnIDs={activeColumnIDs}>
         <span className="co-break-word co-line-clamp">
           {getNamespace(camelInt) || <span className="text-muted">{t('No namespace')}</span>}
@@ -72,6 +59,9 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
       </TableData>
       <TableData id="status" activeColumnIDs={activeColumnIDs}>
         <Status status={getStatus(camelInt)} />
+      </TableData>
+      <TableData id="health" activeColumnIDs={activeColumnIDs}>
+        <CamelAppHealth health={getCamelHealth(camelInt)} />
       </TableData>
       <TableData id="runtime" activeColumnIDs={activeColumnIDs}>
         {getRuntimeProvider(camelInt) || (
@@ -83,8 +73,8 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
           <span className="text-muted">{t('No camel version')}</span>
         )}
       </TableData>
-      <TableData id="health" activeColumnIDs={activeColumnIDs}>
-        <CamelAppHealth health={getCamelHealth(camelInt)} />
+      <TableData id="lastmessage" activeColumnIDs={activeColumnIDs}>
+        <span title={lastMessageDate}>{lastMessageString}</span>
       </TableData>
     </>
   );

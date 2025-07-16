@@ -14,6 +14,7 @@ import { podGVK } from '../../const';
 import {
   ResourceLink,
   ResourceStatus,
+  Timestamp,
   YellowExclamationTriangleIcon,
 } from '@openshift-console/dynamic-plugin-sdk';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +44,7 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
   const now = Date.now();
   const uptimeTimestamp = Date.parse(camelPod.uptimeTimestamp);
   const duration = now - uptimeTimestamp;
-  const durationFull = formatDuration(duration, {
+  const durationFull = formatDuration(duration, t, {
     omitSuffix: false,
   });
 
@@ -117,6 +118,10 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
                 <DescriptionListTerm>{t('Exchange')}:</DescriptionListTerm>
                 <DescriptionListDescription>
                   <TextList>
+                    <TextListItem>
+                      <strong>{t('Last message')}: </strong>{' '}
+                      <Timestamp timestamp={camelPod.runtime.exchange.lastTimestamp} />
+                    </TextListItem>
                     <TextListItem>
                       <strong>{t('succeed')}: </strong>{' '}
                       {camelPod.runtime.exchange.succeed ? camelPod.runtime.exchange.succeed : 0}
