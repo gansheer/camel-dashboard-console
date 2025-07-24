@@ -7,6 +7,7 @@ import { ResourceStatus, useActiveNamespace } from '@openshift-console/dynamic-p
 import { CamelAppKind } from '../../types';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
 import CamelImage from '@images/camel.svg';
+import '../../camel.css';
 
 type CamelAppTitleProps = {
   name: string;
