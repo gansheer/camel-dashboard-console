@@ -18,21 +18,4 @@ entries:
     urls:
     - https://camel-tooling.github.io/camel-dashboard-charts/camel-openshift-console-plugin-0.1.0.tgz
     version: 0.1.0
-  - apiVersion: v2
-    created: "2025-07-02T14:53:12.003152514+02:00"
-    description: A Helm chart for installing the Camel Dashboard OpenShift Console
-      plugin
-    digest: aba3a3f31dea7f7c391dabd163b072668b15290918b9e9ad48120d394b1b6d2c
-    keywords:
-    - camel
-    - dashboard
-    - console
-    - react
-    name: camel-openshift-console-plugin
-    sources:
-    - https://github.com/camel-tooling/camel-openshift-console-plugin.git
-    type: application
-    urls:
-    - https://camel-tooling.github.io/camel-dashboard-charts/camel-openshift-console-plugin-0.0.1.tgz
-    version: 0.0.1
 generated: "2025-07-29T11:20:02.973967603+02:00"
