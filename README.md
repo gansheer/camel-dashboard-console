@@ -7,7 +7,7 @@
 This project provides a [console plugin](https://github.com/openshift/console/tree/master/frontend/packages/console-dynamic-plugin-sdk) for [Camel](https://camel.apache.org).
 The project is created using [openshift console plugin template](https://github.com/openshift/console-plugin-template)
 
-**Current version: 0.0.1**
+**Current version: 0.1.0**
 
 It requires:
 * OpenShift 4.18
@@ -56,7 +56,7 @@ podman push quay.io/camel-tooling/camel-openshift-console-plugin:latest
 
 ```sh
 oc new-project camel-dashboard
-helm upgrade -i camel-openshift-console-plugin https://github.com/camel-tooling/camel-openshift-console-plugin/raw/refs/heads/main/docs/charts/camel-openshift-console-plugin-0.0.1.tgz --namespace camel-dashboard --set plugin.image=quay.io/camel-tooling/camel-openshift-console-plugin:latest
+helm upgrade -i camel-openshift-console-plugin https://github.com/camel-tooling/camel-openshift-console-plugin/raw/refs/heads/main/docs/charts/camel-openshift-console-plugin-0.1.0.tgz --namespace camel-dashboard --set plugin.image=quay.io/camel-tooling/camel-openshift-console-plugin:latest
 ```
 
 # The Camel Tab
