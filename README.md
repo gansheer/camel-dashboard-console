@@ -1,8 +1,5 @@
 # Camel Openshift Console Plugin
 
-> [!WARNING]
-> The project is still a work in progress that has not been released yet. 
-> Unstability is to be expected.
 
 This project provides a [console plugin](https://github.com/openshift/console/tree/master/frontend/packages/console-dynamic-plugin-sdk) for [Camel](https://camel.apache.org).
 The project is created using [openshift console plugin template](https://github.com/openshift/console-plugin-template)
@@ -11,7 +8,7 @@ The project is created using [openshift console plugin template](https://github.
 
 It requires:
 * OpenShift 4.18
-* [Camel Dashboard Operator](https://github.com/squakez/camel-dashboard-operator)
+* [Camel Dashboard Operator](https://github.com/squakez/camel-dashboard-operator) v0.0.1
 
 
 It can also leverage the [Hawtio Online OpenShift Console Plugin](https://github.com/hawtio/hawtio-online-console-plugin).
@@ -50,13 +47,13 @@ podman build -t quay.io/camel-tooling/camel-openshift-console-plugin:latest .
 podman push quay.io/camel-tooling/camel-openshift-console-plugin:latest
 ```
 
-**Note**: The image `quay.io/camel-tooling/camel-openshift-console-plugin:latest` is published so it can be pulled instead.
+**Note**: The image `quay.io/camel-tooling/camel-openshift-console-plugin:0.1.0` is published so it can be pulled instead.
 
 ### Deploying the plugin using Helm
 
 ```sh
 oc new-project camel-dashboard
-helm upgrade -i camel-openshift-console-plugin https://github.com/camel-tooling/camel-openshift-console-plugin/raw/refs/heads/main/docs/charts/camel-openshift-console-plugin-0.1.0.tgz --namespace camel-dashboard --set plugin.image=quay.io/camel-tooling/camel-openshift-console-plugin:latest
+helm upgrade -i camel-openshift-console-plugin https://github.com/camel-tooling/camel-openshift-console-plugin/raw/refs/heads/main/docs/charts/camel-openshift-console-plugin-0.1.0.tgz --namespace camel-dashboard --set plugin.image=quay.io/camel-tooling/camel-openshift-console-plugin:0.1.0
 ```
 
 # The Camel Tab
