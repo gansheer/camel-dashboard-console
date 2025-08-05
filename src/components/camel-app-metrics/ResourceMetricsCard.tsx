@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { Card, CardBody, CardHeader, CardTitle } from "@patternfly/react-core";
+import { Card, CardBody, CardHeader, CardTitle } from '@patternfly/react-core';
 import { QueryBrowser } from '@openshift-console/dynamic-plugin-sdk';
-
-
 
 type ResourceMetricsDashboardCardProps = {
   namespace?: string;
