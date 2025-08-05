@@ -70,7 +70,7 @@ To be able to see your Camel integrations in the Camel Dashboard you need for yo
 - apiGroups:
   - "camel.apache.org"
   resources:
-  - apps
+  - camelapps
   verbs:
   - get
   - list
@@ -79,7 +79,7 @@ To be able to see your Camel integrations in the Camel Dashboard you need for yo
 
 You can use the helm script installation with the your values to easily create `Role`/`RoleBinding` pairs: 
 ```yaml
-appsCamelRbac:
+camelAppRbac:
   - namespace: my-project
     subjects:
       - apiGroup: rbac.authorization.k8s.io
