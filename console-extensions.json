@@ -6,7 +6,7 @@
       "model": {
         "group": "camel.apache.org",
         "version": "v1alpha1",
-        "kind": "App"
+        "kind": "CamelApp"
       }
     }
   },

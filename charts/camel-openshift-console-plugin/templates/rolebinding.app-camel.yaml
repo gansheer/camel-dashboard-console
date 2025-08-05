@@ -1,5 +1,5 @@
-{{- if .Values.appsCamelRbac }}
-{{- range .Values.appsCamelRbac }}
+{{- if .Values.camelAppRbac }}
+{{- range .Values.camelAppRbac }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding

@@ -5,7 +5,7 @@ export const HAWTIO_CONSOLE_PLUGIN_NAME = 'hawtio-online-console-plugin';
 export const camelAppGVK: K8sGroupVersionKind = {
   group: 'camel.apache.org',
   version: 'v1alpha1',
-  kind: 'App',
+  kind: 'CamelApp',
 };
 
 export const deploymentGVK: K8sGroupVersionKind = {
