@@ -12,7 +12,6 @@ export enum ResourceUtilizationQuery {
   QUOTA_REQUEST = 'QUOTA_REQUEST',
 }
 
-
 const podControllerMetricsQueries = {
   [ResourceUtilizationQuery.MEMORY]: _.template(
     "sum(container_memory_working_set_bytes{container!=''} * on(pod) group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{workload='<%= name %>', workload_type='<%= type %>'}) by (pod)",
@@ -30,7 +29,6 @@ const podControllerMetricsQueries = {
     "sum(irate(container_network_transmit_bytes_total[5m]) * on (pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{workload='<%= name %>', workload_type='<%= type %>'}) by (pod)",
   ),
 };
-
 
 export const getPodControllerMetricsQueries = (
   name: string,
@@ -53,13 +51,10 @@ export const getPodControllerMetricsQueries = (
   ],
 });
 
-
 export const useResourceMetricsQueries = (obj: K8sResourceKind): { [key: string]: string[] } => {
   const [model] = useK8sModel(deploymentGVK);
   if (model) {
-    return model.id === 'pod'
-      ? null
-      : getPodControllerMetricsQueries(obj.metadata.name, model.id);
+    return model.id === 'pod' ? null : getPodControllerMetricsQueries(obj.metadata.name, model.id);
   }
   return null;
 };

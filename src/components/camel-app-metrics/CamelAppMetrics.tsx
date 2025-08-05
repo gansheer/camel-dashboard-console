@@ -15,49 +15,49 @@ const CamelAppMetrics: React.FC<CamelAppMetricsProps> = ({ obj: camelInt }) => {
 
   return (
     <PageSection>
-    {queries ? (<Grid hasGutter>
-      <GridItem xl={6} lg={12}>
-        <ResourceMetricsCard
-          namespace={camelInt.metadata.namespace}
-          queries={queries[ResourceUtilizationQuery.MEMORY]}
-          title={t('Memory usage')}
-        />
-      </GridItem>
-      <GridItem xl={6} lg={12}>
-        <ResourceMetricsCard
-          namespace={camelInt.metadata.namespace}
-          queries={queries[ResourceUtilizationQuery.CPU]}
-          title={t('CPU usage')}
-        />
-      </GridItem>
-      <GridItem xl={6} lg={12}>
-        <ResourceMetricsCard
-          namespace={camelInt.metadata.namespace}
-          queries={queries[ResourceUtilizationQuery.FILESYSTEM]}
-          title={t('Filesystem')}
-        />
-      </GridItem>
-      <GridItem xl={6} lg={12}>
-        <ResourceMetricsCard
-          namespace={camelInt.metadata.namespace}
-          queries={queries[ResourceUtilizationQuery.NETWORK_IN]}
-          title={t('Network in')}
-        />
-      </GridItem>
-      <GridItem xl={6} lg={12}>
-        <ResourceMetricsCard
-          namespace={camelInt.metadata.namespace}
-          queries={queries[ResourceUtilizationQuery.NETWORK_OUT]}
-          title={t('Network out')}
-        />
-      </GridItem>
-    </Grid>
-    ): (<></>)}
+      {queries ? (
+        <Grid hasGutter>
+          <GridItem xl={6} lg={12}>
+            <ResourceMetricsCard
+              namespace={camelInt.metadata.namespace}
+              queries={queries[ResourceUtilizationQuery.MEMORY]}
+              title={t('Memory usage')}
+            />
+          </GridItem>
+          <GridItem xl={6} lg={12}>
+            <ResourceMetricsCard
+              namespace={camelInt.metadata.namespace}
+              queries={queries[ResourceUtilizationQuery.CPU]}
+              title={t('CPU usage')}
+            />
+          </GridItem>
+          <GridItem xl={6} lg={12}>
+            <ResourceMetricsCard
+              namespace={camelInt.metadata.namespace}
+              queries={queries[ResourceUtilizationQuery.FILESYSTEM]}
+              title={t('Filesystem')}
+            />
+          </GridItem>
+          <GridItem xl={6} lg={12}>
+            <ResourceMetricsCard
+              namespace={camelInt.metadata.namespace}
+              queries={queries[ResourceUtilizationQuery.NETWORK_IN]}
+              title={t('Network in')}
+            />
+          </GridItem>
+          <GridItem xl={6} lg={12}>
+            <ResourceMetricsCard
+              namespace={camelInt.metadata.namespace}
+              queries={queries[ResourceUtilizationQuery.NETWORK_OUT]}
+              title={t('Network out')}
+            />
+          </GridItem>
+        </Grid>
+      ) : (
+        <></>
+      )}
     </PageSection>
   );
 };
 
-
-
 export default CamelAppMetrics;
-
