@@ -19,6 +19,7 @@
     },
     "properties": {
       "exact": false,
+      "name": "camelAppPage",
       "path": "/camel/app/ns/:ns/name/:name",
       "component": {
         "$codeRef": "CamelApp"

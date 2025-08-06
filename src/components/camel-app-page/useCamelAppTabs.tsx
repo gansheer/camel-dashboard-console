@@ -5,6 +5,7 @@ import { NavPage } from '@openshift-console/dynamic-plugin-sdk';
 import CamelAppResources from '../camel-app-resources/CamelAppResources';
 import { CamelAppKind } from '../../types';
 import CamelAppMetrics from '../camel-app-metrics/CamelAppMetrics';
+import CamelAppHawtio from '../camel-app-hawtio/CamelAppHawtio';
 
 export const useCamelAppTabs = (CamelApp: CamelAppKind): NavPage[] => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
@@ -25,5 +26,11 @@ export const useCamelAppTabs = (CamelApp: CamelAppKind): NavPage[] => {
       href: 'metrics',
       name: t('Metrics'),
     },
+    {
+      href: "hawtio",
+      name: t('Hawtio'),
+      component: () => <CamelAppHawtio obj={CamelApp}/>,
+    },
   ];
 };
+
