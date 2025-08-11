@@ -6,6 +6,7 @@ import {
   ListPageHeader,
   NamespaceBar,
   useActiveNamespace,
+  useFlag,
   useListPageFilter,
   VirtualizedTable,
 } from '@openshift-console/dynamic-plugin-sdk';
@@ -14,8 +15,10 @@ import CamelAppRow from './CamelAppRow';
 import useCamelAppColumns from './useCamelAppColumns';
 import { useCamelAppList } from './useCamelAppList';
 import { ALL_NAMESPACES_KEY } from '../../const';
-import CamelImage from '@images/camel.svg';
 import { camelAppRowFilters } from './useCamelAppRowFilters';
+import CamelAppNotAvailable from './CamelAppNotAvailable';
+import CamelAppListEmpty from './CamelAppListEmpty';
+import CamelNewProjectAlert from './CamelNewProjectAlert';
 
 // Note : using this as inspiration for the list: https://github.com/openshift-pipelines/console-plugin/blob/main/src/components/projects-list/ProjectsRow.tsx#L91
 
@@ -41,9 +44,17 @@ const CamelAppList: React.FC<CamelAppProps> = () => {
     camelAppRowFilters(CamelApps),
   );
 
+  const operatorInstalled = useFlag('CAMEL_APP_FLAG');
+
   // TODO add filters
 
-  return (
+  return !operatorInstalled ? (
+    <>
+      <NamespaceBar onNamespaceChange={setActiveNamespace} />
+      <ListPageHeader title={t('Camel Applications')} />
+      <CamelAppNotAvailable />
+    </>
+  ) : (
     <>
       <NamespaceBar onNamespaceChange={setActiveNamespace} />
 
@@ -58,16 +69,7 @@ const CamelAppList: React.FC<CamelAppProps> = () => {
         />
 
         <VirtualizedTable
-          EmptyMsg={() => (
-            <div
-              className="pf-v5-u-text-align-center virtualized-table-empty-msg"
-              id="no-templates-msg"
-            >
-              <img src={CamelImage} alt="Camel" width="50px" height="50px" />
-              <br />
-              {t('No resources found')}
-            </div>
-          )}
+          EmptyMsg={() => <CamelAppListEmpty />}
           columns={columns}
           data={filteredData}
           loaded={loaded}
@@ -75,6 +77,8 @@ const CamelAppList: React.FC<CamelAppProps> = () => {
           Row={CamelAppRow}
           unfilteredData={staticData}
         />
+        <br />
+        {staticData.length > 0 ? <CamelNewProjectAlert isExpandable /> : <></>}
       </ListPageBody>
     </>
   );
