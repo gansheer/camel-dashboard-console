@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, CardBody, CardTitle, Spinner, Content } from '@patternfly/react-core';
+import { Card, CardBody, CardTitle, Spinner, Content, Icon } from '@patternfly/react-core';
 import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import { podGVK } from '../../const';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
@@ -7,6 +7,7 @@ import { useCamelAppPods } from './useCamelAppResources';
 import { getPodStatus } from './podStatus';
 import { useTranslation } from 'react-i18next';
 import { isHawtioEnabled, useHawtioConsolePlugin } from './useHawtio';
+import { HawtioIcon } from './HawtioIcon';
 
 type CamelAppPodsProps = {
   obj: K8sResourceKind;
@@ -94,6 +95,9 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
                           <a
                             href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/hawtio`}
                           >
+                            <Icon size="bodyDefault">
+                              <HawtioIcon />
+                            </Icon>{' '}
                             {t('View Hawtio')}
                           </a>
                         </Content>
