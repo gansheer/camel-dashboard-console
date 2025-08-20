@@ -34,16 +34,14 @@ const CamelNewProjectAlert: React.FC<CamelNewProjectAlertProps> = ({ isExpandabl
               <a href="https://camel.apache.org/camel-core/getting-started/index.html#BookGettingStarted-CreatingYourFirstProject">
                 main Camel distribution
               </a>{' '}
-              or use a guide tailored for popular frameworks like Spring Boot and Quarkus. Each
-              approach is suited for different project needs and development styles. You can start a
-              new Camel projects following the the start guide for the main Camel distribution, as
-              well as the guides for using Camel with popular frameworks like{' '}
+              or use a guide tailored for popular frameworks like{' '}
               <a href="https://camel.apache.org/camel-spring-boot/next/index.html">Spring Boot</a>{' '}
               and{' '}
               <a href="https://camel.apache.org/camel-quarkus/next/user-guide/first-steps.html">
                 Quarkus
               </a>
-              . <br />
+              . Each approach is suited for different project needs and development styles.
+              <br />
               <br />
               You can also use one of the following tools:
             </Trans>
