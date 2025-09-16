@@ -15,7 +15,7 @@ type CamelNewProjectAlertProps = {
 };
 
 const CamelNewProjectAlert: React.FC<CamelNewProjectAlertProps> = ({ isExpandable }) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
   console.log('isExpandable', isExpandable);
 
   return (

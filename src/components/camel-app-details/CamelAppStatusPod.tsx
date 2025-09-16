@@ -41,7 +41,7 @@ const hasObserve = (camelPod: CamelAppStatusPod) =>
 const hasStatusMessage = (camelPod: CamelAppStatusPod) => (camelPod.reason ? true : false);
 
 const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, pod: camelPod }) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
   // Golang time.Time is in nanoseconds
   // TODO: add tooltip with date
   const now = Date.now();

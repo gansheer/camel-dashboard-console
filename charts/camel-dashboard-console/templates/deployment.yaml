@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "camel-openshift-console-plugin.name" . }}
+  name: {{ template "camel-dashboard-console.name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "camel-openshift-console-plugin.labels" . | nindent 4 }}
+    {{- include "camel-dashboard-console.labels" . | nindent 4 }}
     app.openshift.io/runtime-namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.plugin.replicas }}
   selector:
     matchLabels:
-      {{- include "camel-openshift-console-plugin.selectorLabels" . | nindent 6 }}
+      {{- include "camel-dashboard-console.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-            {{- include "camel-openshift-console-plugin.labels" . | nindent 8 }}
+            {{- include "camel-dashboard-console.labels" . | nindent 8 }}
     spec:
       containers:
-        - name: {{ template "camel-openshift-console-plugin.name" . }}
+        - name: {{ template "camel-dashboard-console.name" . }}
           image: {{ required "Plugin image must be specified!" .Values.plugin.image }}
           ports:
             - containerPort: {{ .Values.plugin.port }}
@@ -29,7 +29,7 @@ spec:
           resources:
             {{- toYaml .Values.plugin.resources | nindent 12 }}
           volumeMounts:
-            - name: {{ template "camel-openshift-console-plugin.certificateSecret" . }}
+            - name: {{ template "camel-dashboard-console.certificateSecret" . }}
               readOnly: true
               mountPath: /var/cert
             - name: nginx-conf
@@ -37,13 +37,13 @@ spec:
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
       volumes:
-        - name: {{ template "camel-openshift-console-plugin.certificateSecret" . }}
+        - name: {{ template "camel-dashboard-console.certificateSecret" . }}
           secret:
-            secretName: {{ template "camel-openshift-console-plugin.certificateSecret" . }}
+            secretName: {{ template "camel-dashboard-console.certificateSecret" . }}
             defaultMode: 420
         - name: nginx-conf
           configMap:
-            name: {{ template "camel-openshift-console-plugin.name" . }}
+            name: {{ template "camel-dashboard-console.name" . }}
             defaultMode: 420
       restartPolicy: Always
       dnsPolicy: ClusterFirst

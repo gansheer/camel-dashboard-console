@@ -1,5 +1,5 @@
 apiVersion: v2
-name: camel-openshift-console-plugin
+name: camel-dashboard-console
 description:  A Helm chart for installing the Camel Dashboard OpenShift Console plugin
 type: application
 version: 0.2.1
@@ -10,4 +10,4 @@ keywords:
   - console
   - react
 sources:
-  - https://github.com/camel-tooling/camel-openshift-console-plugin.git
+  - https://github.com/camel-tooling/camel-dashboard-console.git

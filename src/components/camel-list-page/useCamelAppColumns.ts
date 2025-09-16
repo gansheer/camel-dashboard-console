@@ -5,7 +5,7 @@ import { sortResourceByCamelVersion } from './camelAppVersion';
 import { sortResourceByLastMessage } from './lastMessage';
 
 const useCamelAppColumns = (namespace): TableColumn<K8sResourceKind>[] => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
   return [
     {
       title: t('Name'),

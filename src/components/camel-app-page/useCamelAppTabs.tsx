@@ -7,7 +7,7 @@ import { CamelAppKind } from '../../types';
 import CamelAppMetrics from '../camel-app-metrics/CamelAppMetrics';
 
 export const useCamelAppTabs = (CamelApp: CamelAppKind): NavPage[] => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
 
   return [
     {

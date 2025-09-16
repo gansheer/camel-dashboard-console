@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 const CamelAppNotAvailable: React.FC = () => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
 
   return (
     <PageSection className="pf-v6-u-text-align-start">

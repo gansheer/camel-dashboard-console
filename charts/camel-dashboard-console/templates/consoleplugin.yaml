@@ -1,0 +1,18 @@
+apiVersion: console.openshift.io/v1
+kind: ConsolePlugin
+metadata:
+  name: {{ template "camel-dashboard-console.name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "camel-dashboard-console.labels" . | nindent 4 }}
+spec:
+  displayName: {{ default (printf "%s Plugin" (include "camel-dashboard-console.name" .)) .Values.plugin.description }}
+  i18n: 
+    loadType: Preload
+  backend:
+    type: Service
+    service:
+      name: {{ template "camel-dashboard-console.name" . }}
+      namespace: {{ .Release.Namespace }}
+      port: {{ .Values.plugin.port }}
+      basePath: {{ .Values.plugin.basePath }}

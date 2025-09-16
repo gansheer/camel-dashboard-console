@@ -6,7 +6,7 @@ import { CamelIcon, CamelIconAlert } from './CamelIcon';
 import CamelNewProjectAlert from './CamelNewProjectAlert';
 
 const CamelAppListEmpty: React.FC = () => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
 
   return (
     <EmptyState titleText="No Camel Application found" icon={CamelIcon} headingLevel="h2">

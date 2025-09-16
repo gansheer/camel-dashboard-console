@@ -43,17 +43,17 @@ To deploy the console plugin to an actual [OpenShift](https://www.redhat.com/en/
 ### Building the images locally
 
 ```sh
-podman build -t quay.io/camel-tooling/camel-openshift-console-plugin:latest .
-podman push quay.io/camel-tooling/camel-openshift-console-plugin:latest
+podman build -t quay.io/camel-tooling/camel-dashboard-console:latest .
+podman push quay.io/camel-tooling/camel-dashboard-console:latest
 ```
 
-**Note**: The image `quay.io/camel-tooling/camel-openshift-console-plugin:0.2.1` is published so it can be pulled instead.
+**Note**: The image `quay.io/camel-tooling/camel-dashboard-console:0.2.1` is published so it can be pulled instead.
 
 ### Deploying the plugin using Helm
 
 ```sh
 oc new-project camel-dashboard
-helm upgrade -i camel-openshift-console-plugin https://github.com/camel-tooling/camel-openshift-console-plugin/raw/refs/heads/main/docs/charts/camel-openshift-console-plugin-0.2.1.tgz --namespace camel-dashboard --set plugin.image=quay.io/camel-tooling/camel-openshift-console-plugin:latest
+helm upgrade -i camel-dashboard-console https://github.com/camel-tooling/camel-dashboard-console/raw/refs/heads/main/docs/charts/camel-dashboard-console-0.2.1.tgz --namespace camel-dashboard --set plugin.image=quay.io/camel-tooling/camel-dashboard-console:latest
 ```
 
 # The Camel Tab

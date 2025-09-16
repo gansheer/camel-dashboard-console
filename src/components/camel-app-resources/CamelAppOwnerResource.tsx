@@ -17,7 +17,7 @@ const CamelAppOwnerResource: React.FC<CamelAppOwnerResourceProps> = ({
   obj: camelAppOwner,
   gvk: ownerGvk,
 }) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
 
   return (
     <Card>
