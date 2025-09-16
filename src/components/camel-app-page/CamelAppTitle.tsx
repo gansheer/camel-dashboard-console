@@ -24,7 +24,7 @@ export const getUrlList = (namespace): string => {
 };
 
 const CamelAppTitle: React.FC<CamelAppTitleProps> = ({ name, obj }) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
 
   const [activeNamespace] = useActiveNamespace();
 

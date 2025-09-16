@@ -23,7 +23,7 @@ const CamelAppCPUCard: React.FC<CamelAppMetricsProps> = ({ obj: camelInt }) => {
       '", workload_type=~".+"}) by (pod)',
   ];
 
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
   return (
     <Card>
       <CardHeader>

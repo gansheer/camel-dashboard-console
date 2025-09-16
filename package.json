@@ -1,12 +1,12 @@
 {
-  "name": "camel-openshift-console-plugin",
+  "name": "camel-dashboard-console",
   "version": "0.1.1",
-  "description": "Camel OpenShift Console Plugin",
+  "description": "Camel Dashboard Console",
   "private": true,
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gansheer/test-openshift-plugin.git"
+    "url": "https://github.com/camel-tooling/camel-dashboard-console.git"
   },
   "scripts": {
     "clean": "rm -rf dist",
@@ -77,10 +77,10 @@
     "tsconfig-paths-webpack-plugin": "^4.0.0"
   },
   "consolePlugin": {
-    "name": "camel-openshift-console-plugin",
+    "name": "camel-dashboard-console",
     "version": "0.1.1",
-    "displayName": "Camel OpenShift Console Plugin",
-    "description": "Camel OpenShift Console Plugin.",
+    "displayName": "Camel Dashboard Console",
+    "description": "Camel Dashboard - OCP Console Plugin.",
     "exposedModules": {
       "CamelAppList": "./components/camel-list-page/CamelAppList",
       "CamelApp": "./components/camel-app-page/CamelApp"

@@ -21,7 +21,7 @@ const isModifiedEvent = (event: React.MouseEvent<HTMLElement>) => {
 };
 
 const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activeColumnIDs }) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
 
   // Dead code ?
   const handleClick = (e) => {

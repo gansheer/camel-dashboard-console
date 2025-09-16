@@ -46,12 +46,12 @@ jobs:
       - name: Build plugin container
         shell: bash
         run: |
-          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-openshift-console-plugin image
-          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-openshift-console-plugin CUSTOM_PLUGIN_VERSION=latest image
+          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-dashboard-console image
+          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-dashboard-console CUSTOM_PLUGIN_VERSION=latest image
 
       - name: Push plugin container
         if:  github.ref == 'refs/heads/main'
         shell: bash
         run: |
-          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-openshift-console-plugin push
-          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-openshift-console-plugin CUSTOM_PLUGIN_VERSION=latest push
+          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-dashboard-console push
+          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-dashboard-console CUSTOM_PLUGIN_VERSION=latest push

@@ -16,7 +16,7 @@ type Resources = {
 };
 
 const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelAppOwner }) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
 
   const routes: Resources[] = [];
 

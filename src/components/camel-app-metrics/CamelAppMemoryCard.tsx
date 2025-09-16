@@ -8,7 +8,7 @@ const DEFAULT_TIMESPAN = 30 * 60 * 1000;
 const DEFAULT_POLL_INTERVAL = 30 * 1000;
 
 const CamelAppMemoryCard: React.FC<CamelAppMetricsProps> = ({ obj: camelInt }) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
   const ownerReference = camelInt.metadata?.ownerReferences[0];
   const namespace = camelInt.metadata?.namespace;
   const workload = ownerReference ? ownerReference.name : camelInt.metadata?.name;

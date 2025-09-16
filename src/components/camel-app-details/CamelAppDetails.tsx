@@ -62,7 +62,7 @@ const healthyCondition = (camelInt: CamelAppKind) => {
 };
 
 const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
 
   const monitored = monitoredCondition(camelInt);
   const healthy = healthyCondition(camelInt);

@@ -11,10 +11,10 @@ mkdir -p $targetdir
 
 cd $rootdir/charts
 
-helm package ./camel-openshift-console-plugin --version $version
-mv camel-openshift-console-plugin-*.tgz $targetdir/
+helm package ./camel-dashboard-console --version $version
+mv camel-dashboard-console-*.tgz $targetdir/
 # TODO: create https://github.com/camel-tooling/camel-dashboard-charts similar to https://github.com/hawtio/hawtio-charts
-helm repo index $targetdir --url https://camel-tooling.github.io/camel-dashboard-charts/ --merge $helm_index
+helm repo index $targetdir --url https://camel-tooling.github.io/camel-dashboard/charts/ --merge $helm_index
 # Required to prevent https://github.com/helm/helm/issues/7363
 mv $targetdir/* $targetdir/../.
 rm -rf $targetdir

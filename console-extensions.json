@@ -39,7 +39,7 @@
     },
     "properties": {
       "id": "camel",
-      "name": "%plugin__camel-openshift-console-plugin~Camel%",
+      "name": "%plugin__camel-dashboard-console~Camel%",
       "href": "/camel",
       "perspective": "dev",
       "section": "resources",

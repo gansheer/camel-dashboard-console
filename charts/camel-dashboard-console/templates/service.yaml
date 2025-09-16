@@ -3,12 +3,12 @@ kind: Service
 metadata:
   {{- if not .Values.certificateSecretName }}
   annotations:
-    service.alpha.openshift.io/serving-cert-secret-name: {{ template "camel-openshift-console-plugin.certificateSecret" . }}
+    service.alpha.openshift.io/serving-cert-secret-name: {{ template "camel-dashboard-console.certificateSecret" . }}
   {{- end }}
-  name: {{ template "camel-openshift-console-plugin.name" . }}
+  name: {{ template "camel-dashboard-console.name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "camel-openshift-console-plugin.labels" . | nindent 4 }}
+    {{- include "camel-dashboard-console.labels" . | nindent 4 }}
 spec:
   ports:
     - name: {{ .Values.plugin.port }}-tcp
@@ -16,6 +16,6 @@ spec:
       port: {{ .Values.plugin.port }}
       targetPort: {{ .Values.plugin.port }}
   selector:
-    {{- include "camel-openshift-console-plugin.selectorLabels" . | nindent 4 }}
+    {{- include "camel-dashboard-console.selectorLabels" . | nindent 4 }}
   type: ClusterIP
   sessionAffinity: None
