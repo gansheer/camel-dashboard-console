@@ -16,7 +16,7 @@ type Resources = {
 };
 
 const CamelAppServices: React.FC<CamelAppServicesProps> = ({ obj: camelAppOwner }) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
 
   const services: Resources[] = [];
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 TOKEN=""
 SERVER=""
-IMAGE="quay.io/camel-tooling/camel-openshift-console-plugin:latest"
+IMAGE="quay.io/camel-tooling/camel-dashboard-console:latest"
 NAMESPACE="camel-tooling"
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -61,4 +61,4 @@ EXISTING_PROJECT=`oc get projects | grep $NAMESPACE`
 if [ -z "$EXISTING_PROJECT" ]; then
   oc new-project $NAMESPACE
 fi
-helm upgrade -i camel-openshift-console-plugin charts/camel-openshift-console-plugin --namespace $NAMESPACE --set plugin.image=$IMAGE
+helm upgrade -i camel-dashboard-console charts/camel-dashboard-console --namespace $NAMESPACE --set plugin.image=$IMAGE

@@ -10,7 +10,7 @@ export type CamelAppMetricsProps = {
 };
 
 const CamelAppMetrics: React.FC<CamelAppMetricsProps> = ({ obj: camelInt }) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
   const queries = useResourceMetricsQueries(camelInt);
 
   return (

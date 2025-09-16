@@ -9,7 +9,7 @@ module.exports = {
   locales: ['en'],
   namespaceSeparator: '~',
   reactNamespace: false,
-  defaultNamespace: 'plugin__camel-openshift-console-plugin',
+  defaultNamespace: 'plugin__camel-dashboard-console',
   useKeysAsDefaultValue: true,
 
   // see below for more details

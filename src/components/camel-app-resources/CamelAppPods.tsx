@@ -20,7 +20,7 @@ type Resources = {
 };
 
 const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
 
   const pods: Resources[] = [];
 

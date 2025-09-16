@@ -28,7 +28,7 @@ type CamelAppProps = {
 };
 
 const CamelAppList: React.FC<CamelAppProps> = () => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
 
   const [activeNamespace, setActiveNamespace] = useActiveNamespace();
 

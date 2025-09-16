@@ -20,9 +20,9 @@
 SHELL := /bin/bash
 
 PLUGIN_VERSION := 0.2.1
-PLUGIN_NAME := camel-openshift-console-plugin
+PLUGIN_NAME := camel-dashboard-console
 PLUGIN_NAMESPACE := camel-dashboard
-PLUGIN_IMAGE := quay.io/camel-tooling/camel-openshift-console-plugin
+PLUGIN_IMAGE := quay.io/camel-tooling/camel-dashboard-console
 
 # Replace SNAPSHOT with the current timestamp
 DATETIMESTAMP=$(shell date -u '+%Y%m%d-%H%M%S')
@@ -191,7 +191,7 @@ push: podman
 #
 #---
 deploy: oc helm
-	./bin/install-camel-openshift-console-plugin --namespace $(CUSTOM_PLUGIN_NAMESPACE) --image $(CUSTOM_PLUGIN_IMAGE):$(CUSTOM_PLUGIN_VERSION)
+	./bin/install-camel-dashboard-console --namespace $(CUSTOM_PLUGIN_NAMESPACE) --image $(CUSTOM_PLUGIN_IMAGE):$(CUSTOM_PLUGIN_VERSION)
 
 #---
 #
@@ -231,7 +231,7 @@ all: image push deploy
 #
 #---
 helm-release: helm
-	./bin/release-helm-chart-camel-openshift-console-plugin ${CUSTOM_PLUGIN_VERSION}
+	./bin/release-helm-chart-camel-dashboard-console ${CUSTOM_PLUGIN_VERSION}
 
 .PHONY: helm-release
 

@@ -12,7 +12,7 @@ type CamelAppHealthProps = {
 };
 
 const CamelAppHealth: React.FC<CamelAppHealthProps> = ({ health }) => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
   // FIXME: manage undefined
   switch (health?.toLowerCase()) {
     case 'ok':

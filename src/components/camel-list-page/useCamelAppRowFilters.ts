@@ -121,7 +121,7 @@ export function camelHealthFilterItems(CamelApps: CamelAppKind[]): RowFilterItem
 }
 
 export const camelAppRowFilters = (CamelApps: CamelAppKind[]): RowFilter[] => {
-  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
+  const { t } = useTranslation('plugin__camel-dashboard-console');
   return [
     {
       filterGroupName: t('Camel Health'),
