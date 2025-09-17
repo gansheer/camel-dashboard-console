@@ -1,0 +1,39 @@
+name: release-chart
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        type: string
+        required: true
+        description: branch/tag/etc to release
+
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v2
+        with:
+          ref: "${{ github.event.inputs.tag || 'main'}}"
+          path: main
+      - name: Checkout charts repo
+        uses: actions/checkout@v5
+        with:
+          repository: camel-tooling/camel-dashboard
+          path: camel-dashboard
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4.3.0
+
+      - name: Build charts
+        shell: bash
+        run: |
+          cd main
+          make helm-release
+          ls docs/charts
