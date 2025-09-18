@@ -7,6 +7,10 @@ on:
         type: string
         required: true
         description: branch/tag/etc to release
+      version:
+        type: string
+        required: true
+        description: version of the release
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
@@ -38,5 +42,5 @@ jobs:
         shell: bash
         run: |
           cd main
-          make CUSTOM_PLUGIN_VERSION=${{ inputs.ref }} helm-release
+          make CUSTOM_PLUGIN_VERSION=${{ inputs.version }} helm-release
           ls docs/charts
