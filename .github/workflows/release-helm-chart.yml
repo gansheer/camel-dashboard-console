@@ -8,7 +8,6 @@ on:
         required: true
         description: branch/tag/etc to release
 
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
@@ -17,10 +16,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Print inputs
+        run: |
+          echo "Ref: ${{ inputs.ref }}"
+
       - name: Checkout current repo
         uses: actions/checkout@v2
         with:
-          ref: "${{ inputs.tag }}"
+          ref: "${{ inputs.ref }}"
           path: main
       - name: Checkout charts repo
         uses: actions/checkout@v5
@@ -35,5 +38,5 @@ jobs:
         shell: bash
         run: |
           cd main
-          make CUSTOM_PLUGIN_VERSION=${{ inputs.tag }} helm-release
+          make CUSTOM_PLUGIN_VERSION=${{ inputs.ref }} helm-release
           ls docs/charts
