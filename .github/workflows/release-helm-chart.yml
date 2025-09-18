@@ -20,7 +20,7 @@ jobs:
       - name: Checkout current repo
         uses: actions/checkout@v2
         with:
-          ref: "${{ github.event.inputs.tag || 'main'}}"
+          ref: "${{ github.event.inputs.tag }}"
           path: main
       - name: Checkout charts repo
         uses: actions/checkout@v5
@@ -35,5 +35,5 @@ jobs:
         shell: bash
         run: |
           cd main
-          make helm-release
+          make CUSTOM_PLUGIN_VERSION=${{ github.event.inputs.tag }} helm-release
           ls docs/charts
