@@ -14,7 +14,7 @@ cd $rootdir/charts
 
 
 echo "Package camel-dashboard-console helm chart ${version} ..."
-helm package ./camel-dashboard-console --version $version
+helm package ./camel-dashboard-console --version $version --app-version $version
 mv camel-dashboard-console-*.tgz $targetdir/
 echo "Index helm charts helm chart ${version} ..."
 helm repo index $targetdir --url https://camel-tooling.github.io/camel-dashboard/charts/ --merge $helm_index
