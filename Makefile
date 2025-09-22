@@ -20,6 +20,7 @@
 SHELL := /bin/bash
 
 PLUGIN_VERSION := 0.2.1
+PLUGIN_CHART_VERSION := 0.2.1-alpha.1
 PLUGIN_NAME := camel-dashboard-console
 PLUGIN_NAMESPACE := camel-dashboard
 PLUGIN_IMAGE := quay.io/camel-tooling/camel-dashboard-console
@@ -42,6 +43,7 @@ VERSION := $(subst -SNAPSHOT,-$(DATETIMESTAMP),$(VERSION))
 CUSTOM_PLUGIN_NAMESPACE ?= $(PLUGIN_NAMESPACE)
 CUSTOM_PLUGIN_IMAGE ?= $(PLUGIN_IMAGE)
 CUSTOM_PLUGIN_VERSION ?= $(PLUGIN_VERSION)
+CUSTOM_PLUGIN_CHART_VERSION ?= $(PLUGIN_CHART_VERSION)
 
 
 
@@ -227,11 +229,11 @@ all: image push deploy
 #=== Calls: helm
 #
 #* PARAMETERS:
-#** CUSTOM_PLUGIN_VERSION: Set a custom plugin chart version to release
+#** CUSTOM_PLUGIN_CHART_VERSION: Set a custom plugin chart version to install from
 #
 #---
 helm-release: helm
-	./bin/release-helm-chart-camel-dashboard-console ${CUSTOM_PLUGIN_VERSION}
+	./bin/release-helm-chart-camel-dashboard-console $(CUSTOM_PLUGIN_CHART_VERSION)
 
 .PHONY: helm-release
 
