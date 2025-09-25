@@ -1,10 +1,10 @@
 <h1 align="center">
-  <a href="https://camel-tooling.github.io/camel-dashboard/">Camel Dashboard Console</a>
+  <a href="https://camel-tooling.github.io/camel-dashboard/docs/console/">Camel Dashboard Console</a>
 </h1>
 
 <p align=center>
-  <a href="https://github.com/camel-tooling/camel-dashboard-console/blob/main/LICENSE"><img src="https://img.shields.io/github/license/camel-tooling/camel-dashboard-console?color=blue&style=for-the-badge" alt="License"/></a>
-  <a href="https://camel-tooling.github.io/camel-dashboard/docs/console/"><img src="https://img.shields.io/badge/Documentation-Camel_Dashboard_Console-white?color=indigo&style=for-the-badge" alt="Visit"/></a>
+  <a href="https://github.com/camel-tooling/camel-dashboard-console/blob/main/LICENSE"><img src="https://img.shields.io/github/license/camel-tooling/camel-dashboard-console?color=104d92&style=for-the-badge" alt="License"/></a>
+  <a href="https://camel-tooling.github.io/camel-dashboard/docs/console/"><img src="https://img.shields.io/badge/Documentation-Camel_Dashboard_Console-white?color=cf7428&style=for-the-badge" alt="Visit"/></a>
 </p><br/>
 
 <h2 align="center">The UI for <a href="https://github.com/camel-tooling/camel-dashboard">Camel Dashboard</a> on Openshift</h2>
