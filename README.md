@@ -1,4 +1,14 @@
-# Camel Openshift Console Plugin
+<h1 align="center">
+  <a href="https://camel-tooling.github.io/camel-dashboard/">Camel Dashboard Console</a>
+</h1>
+
+<p align=center>
+  <a href="https://github.com/camel-tooling/camel-dashboard-console/blob/main/LICENSE"><img src="https://img.shields.io/github/license/camel-tooling/camel-dashboard-console?color=blue&style=for-the-badge" alt="License"/></a>
+  <a href="https://camel-tooling.github.io/camel-dashboard/docs/console/"><img src="https://img.shields.io/badge/Documentation-Camel_Dashboard_Console-white?color=indigo&style=for-the-badge" alt="Visit"/></a>
+</p><br/>
+
+<h2 align="center">The UI for <a href="https://github.com/camel-tooling/camel-dashboard">Camel Dashboard</a> on Openshift</h2>
+
 
 
 This project provides a [console plugin](https://github.com/openshift/console/tree/master/frontend/packages/console-dynamic-plugin-sdk) for [Camel](https://camel.apache.org).
@@ -13,7 +23,13 @@ It requires:
 
 It can also leverage the [Hawtio Online OpenShift Console Plugin](https://github.com/hawtio/hawtio-online-console-plugin).
 
-# Local Development
+# Installation
+
+To install the Camel Dashboard Console please see the [installation documentation](https://camel-tooling.github.io/camel-dashboard/docs/console/).
+
+# Development
+
+## Local Development
 
 Node.js 20+ and Yarn are required to build and run this locally. To run OpenShift console in a container, [podman 3.2.0+](https://podman.io) or [Docker](https://www.docker.com) is required.
 
@@ -33,7 +49,7 @@ This will run the OpenShift console in a container connected to the cluster
 you've logged into. The plugin HTTP server runs on port 9001 with CORS enabled.
 Navigate to <http://localhost:9000/example> to see the running plugin.
 
-# Deployment to OpenShift
+## Deployment to OpenShift
 
 To deploy the console plugin to an actual [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) cluster the following are needed:
 
@@ -53,10 +69,10 @@ podman push quay.io/camel-tooling/camel-dashboard-console:latest
 
 ```sh
 oc new-project camel-dashboard
-helm upgrade -i camel-dashboard-console https://github.com/camel-tooling/camel-dashboard-console/raw/refs/heads/main/docs/charts/camel-dashboard-console-0.2.1.tgz --namespace camel-dashboard --set plugin.image=quay.io/camel-tooling/camel-dashboard-console:latest
+helm upgrade -i camel-dashboard-console charts/camel-dashboard-console --namespace camel-dashboard --set plugin.image=quay.io/camel-tooling/camel-dashboard-console:latest
 ```
 
-# The Camel Tab
+## The Camel Tab
 
 In the admin perspective, in Workload, the Camel section is available:
 [![The Camel Plugin Home](screenshots/home.png)](screenshots/home.png)
