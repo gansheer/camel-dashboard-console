@@ -27,11 +27,11 @@ const CamelAppListEmpty: React.FC = () => {
                     management and metrics collection
                   </a>{' '}
                   and{' '}
-                  <a href="https://camel-tooling.github.io/camel-dashboard-operator/configuration/import">
+                  <a href="https://camel-tooling.github.io/camel-dashboard/docs/user-guide/">
                     configure
                   </a>{' '}
                   your deployment so it can be discovered by the{' '}
-                  <a href="https://camel-tooling.github.io/camel-dashboard-operator/">
+                  <a href="https://camel-tooling.github.io/camel-dashboard/docs/installation-guide/operator/">
                     Camel Dashboard Operator
                   </a>
                   .
