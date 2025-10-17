@@ -11,7 +11,7 @@ const CamelAppNotAvailable: React.FC = () => {
         <Trans t={t}>
           <p>
             The{' '}
-            <a href="https://camel-tooling.github.io/camel-dashboard-operator/">
+            <a href="https://camel-tooling.github.io/camel-dashboard/docs/installation-guide/operator/">
               Camel Dashboard Operator
             </a>{' '}
             is required because it is responsible for detecting the applications deployed on the
@@ -19,7 +19,7 @@ const CamelAppNotAvailable: React.FC = () => {
           </p>
           <p>
             Please{' '}
-            <a href="https://camel-tooling.github.io/camel-dashboard-operator/installation/">
+            <a href="https://camel-tooling.github.io/camel-dashboard/docs/installation-guide/operator/installation/">
               install
             </a>{' '}
             the operator.
