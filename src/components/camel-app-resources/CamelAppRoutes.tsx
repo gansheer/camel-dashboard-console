@@ -1,5 +1,15 @@
 import * as React from 'react';
-import { Card, CardBody, CardTitle, Spinner } from '@patternfly/react-core';
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  Spinner,
+  DataList,
+  DataListItem,
+  DataListItemRow,
+  DataListItemCells,
+  DataListCell,
+} from '@patternfly/react-core';
 import { useCamelAppRoutes } from './useCamelAppResources';
 import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import { routeGVK } from '../../const';
@@ -52,21 +62,33 @@ const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelAppOwner }) =
     <Card>
       <CardTitle>Routes</CardTitle>
       <CardBody>
-        <ul className="list-group">
+        <DataList aria-label="Routes list" isCompact>
           {routes.map((resource, i) => {
             return (
-              <li key={i} className="list-group-item">
-                <ResourceLink
-                  groupVersionKind={routeGVK}
-                  name={resource.name}
-                  namespace={camelAppOwner.metadata.namespace}
-                />
-                <span className="text-muted">{t('Location:')}</span>
-                <RouteLocation obj={resource.route} />
-              </li>
+              <DataListItem key={i}>
+                <DataListItemRow>
+                  <DataListItemCells
+                    dataListCells={[
+                      <DataListCell key="route">
+                        <ResourceLink
+                          groupVersionKind={routeGVK}
+                          name={resource.name}
+                          namespace={camelAppOwner.metadata.namespace}
+                        />
+                        <div>
+                          <span style={{ color: 'var(--pf-v6-global--Color--200)' }}>
+                            {t('Location:')}
+                          </span>{' '}
+                          <RouteLocation obj={resource.route} />
+                        </div>
+                      </DataListCell>,
+                    ]}
+                  />
+                </DataListItemRow>
+              </DataListItem>
             );
           })}
-        </ul>
+        </DataList>
       </CardBody>
     </Card>
   );

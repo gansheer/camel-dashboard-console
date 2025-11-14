@@ -1,5 +1,17 @@
 import * as React from 'react';
-import { Card, CardBody, CardTitle, Spinner, Content, Icon } from '@patternfly/react-core';
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  Spinner,
+  Content,
+  Icon,
+  DataList,
+  DataListItem,
+  DataListItemRow,
+  DataListItemCells,
+  DataListCell,
+} from '@patternfly/react-core';
 import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import { podGVK } from '../../const';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
@@ -60,65 +72,69 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
     <Card>
       <CardTitle>Pods</CardTitle>
       <CardBody>
-        <ul className="list-group">
+        <DataList aria-label="Pods list" isCompact>
           {pods.map((resource, i) => {
             return (
-              <li key={i} className="list-group-item container-fluid">
-                <div className="row">
-                  <span className="col-xs-5">
-                    <Content>
-                      <ResourceLink
-                        groupVersionKind={podGVK}
-                        name={resource.name}
-                        namespace={camelInt.metadata.namespace}
-                      />
-                    </Content>
-                  </span>
-                  <span className="col-xs-3">
-                    <Content>
-                      <Status title={resource.status || 'N/A'} status={resource.status} />
-                    </Content>
-                  </span>
-                  {resource.hawtioEnabled ? (
-                    <>
-                      <span className="col-xs-2 text-right">
+              <DataListItem key={i}>
+                <DataListItemRow>
+                  <DataListItemCells
+                    dataListCells={[
+                      <DataListCell key="name" width={5}>
                         <Content>
-                          <a
-                            href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}
-                          >
-                            {t('View Logs')}
-                          </a>
+                          <ResourceLink
+                            groupVersionKind={podGVK}
+                            name={resource.name}
+                            namespace={camelInt.metadata.namespace}
+                          />
                         </Content>
-                      </span>
-                      <span className="col-xs-2 text-right">
+                      </DataListCell>,
+                      <DataListCell key="status" width={3}>
                         <Content>
-                          <a
-                            href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/hawtio`}
-                          >
-                            <Icon size="bodyDefault">
-                              <HawtioIcon />
-                            </Icon>{' '}
-                            {t('View Hawtio')}
-                          </a>
+                          <Status title={resource.status || 'N/A'} status={resource.status} />
                         </Content>
-                      </span>
-                    </>
-                  ) : (
-                    <span className="col-xs-4 text-right">
-                      <Content>
-                        <a
-                          href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}
-                        >
-                          {t('View Logs')}
-                        </a>
-                      </Content>
-                    </span>
-                  )}
-                </div>
-              </li>
+                      </DataListCell>,
+                      resource.hawtioEnabled ? (
+                        <DataListCell key="logs" width={2} alignRight>
+                          <Content>
+                            <a
+                              href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}
+                            >
+                              {t('View Logs')}
+                            </a>
+                          </Content>
+                        </DataListCell>
+                      ) : (
+                        <DataListCell key="logs" width={4} alignRight>
+                          <Content>
+                            <a
+                              href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}
+                            >
+                              {t('View Logs')}
+                            </a>
+                          </Content>
+                        </DataListCell>
+                      ),
+                      resource.hawtioEnabled && (
+                        <DataListCell key="hawtio" width={2} alignRight>
+                          <Content>
+                            <a
+                              href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/hawtio`}
+                            >
+                              <Icon size="bodyDefault">
+                                <HawtioIcon />
+                              </Icon>{' '}
+                              {t('View Hawtio')}
+                            </a>
+                          </Content>
+                        </DataListCell>
+                      ),
+                    ].filter(Boolean)}
+                  />
+                </DataListItemRow>
+              </DataListItem>
             );
           })}
-        </ul>
+        </DataList>
       </CardBody>
     </Card>
   );
