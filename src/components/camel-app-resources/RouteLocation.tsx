@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import i18next from 'i18next';
 import { K8sResourceCondition, K8sResourceKind } from '@openshift-console/dynamic-plugin-sdk';
+import { Button } from '@patternfly/react-core';
 
 export type RouteHostnameProps = {
   obj: K8sResourceKind;
@@ -19,11 +20,16 @@ const RouteLocation: React.FC<RouteHostnameProps> = ({ obj }) => {
   if (isWebRoute(obj)) {
     const link = getRouteWebURL(obj);
     return (
-      <div className="co-external-link co-external-link--block">
-        <a href={link} target="_blank" rel="noopener noreferrer">
-          {link}
-        </a>
-      </div>
+      <Button
+        variant="link"
+        isInline
+        component="a"
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {link}
+      </Button>
     );
   } else {
     const label = getRouteLabel(obj);
