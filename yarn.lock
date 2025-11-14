@@ -299,10 +299,10 @@
     semver "6.x"
     webpack "^5.75.0"
 
-"@openshift-console/dynamic-plugin-sdk@4.19.0":
-  version "4.19.0"
-  resolved "https://registry.yarnpkg.com/@openshift-console/dynamic-plugin-sdk/-/dynamic-plugin-sdk-4.19.0.tgz#c9b6c1338b14c174520bff827f4e2be5ab2290a4"
-  integrity sha512-v1pNt2eDCyXwRZX+66QDnaYtrwbLapRMtCQql65pgePsE5/5aoOSGIsTjIB812j+oagAB1yk4r7OUlopA2F8kw==
+"@openshift-console/dynamic-plugin-sdk@4.19.1":
+  version "4.19.1"
+  resolved "https://registry.yarnpkg.com/@openshift-console/dynamic-plugin-sdk/-/dynamic-plugin-sdk-4.19.1.tgz#391416a7b2a3ce1abc3b0cb88a140c7ff3c25003"
+  integrity sha512-4Ond6LRb4nqq03UDio8NHHSC5RHliFK7zaKGb/s86Hf35INdix3F7gayGPfRs3u3Lr9yGCMaT+NaLV79kA7qbg==
   dependencies:
     "@patternfly/react-topology" "^6.2.0"
     classnames "2.x"
