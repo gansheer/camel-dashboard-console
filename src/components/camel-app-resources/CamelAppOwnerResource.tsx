@@ -1,5 +1,15 @@
 import * as React from 'react';
-import { Card, CardBody, CardTitle, Content } from '@patternfly/react-core';
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  Content,
+  DataList,
+  DataListItem,
+  DataListItemRow,
+  DataListItemCells,
+  DataListCell,
+} from '@patternfly/react-core';
 import {
   K8sGroupVersionKind,
   K8sResourceKind,
@@ -23,28 +33,32 @@ const CamelAppOwnerResource: React.FC<CamelAppOwnerResourceProps> = ({
     <Card>
       <CardTitle>{camelAppOwner.kind}</CardTitle>
       <CardBody>
-        <ul className="list-group">
-          <li className="list-group-item">
-            <div className="row">
-              <span className="col-xs-5">
-                <ResourceLink
-                  groupVersionKind={ownerGvk}
-                  name={camelAppOwner.metadata.name}
-                  namespace={camelAppOwner.metadata.namespace}
-                />
-              </span>
-              <span className="col-xs-4 text-right">
-                <Content>
-                  <Link
-                    to={`/dev-monitoring/ns/${camelAppOwner.metadata.namespace}?dashboard=dashboard-k8s-resources-workload&workload=${camelAppOwner.metadata.name}&type=ALL_OPTIONS_KEY`}
-                  >
-                    {t('View dashboards')}
-                  </Link>
-                </Content>
-              </span>
-            </div>
-          </li>
-        </ul>
+        <DataList aria-label={`${camelAppOwner.kind} list`} isCompact>
+          <DataListItem>
+            <DataListItemRow>
+              <DataListItemCells
+                dataListCells={[
+                  <DataListCell key="name" width={3}>
+                    <ResourceLink
+                      groupVersionKind={ownerGvk}
+                      name={camelAppOwner.metadata.name}
+                      namespace={camelAppOwner.metadata.namespace}
+                    />
+                  </DataListCell>,
+                  <DataListCell key="dashboards" width={2} alignRight>
+                    <Content>
+                      <Link
+                        to={`/dev-monitoring/ns/${camelAppOwner.metadata.namespace}?dashboard=dashboard-k8s-resources-workload&workload=${camelAppOwner.metadata.name}&type=ALL_OPTIONS_KEY`}
+                      >
+                        {t('View dashboards')}
+                      </Link>
+                    </Content>
+                  </DataListCell>,
+                ]}
+              />
+            </DataListItemRow>
+          </DataListItem>
+        </DataList>
       </CardBody>
     </Card>
   );

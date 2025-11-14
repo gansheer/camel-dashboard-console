@@ -1,6 +1,16 @@
 import * as React from 'react';
 import { useCamelAppJobs } from './useCamelAppResources';
-import { Card, CardBody, CardTitle, Spinner } from '@patternfly/react-core';
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  Spinner,
+  DataList,
+  DataListItem,
+  DataListItemRow,
+  DataListItemCells,
+  DataListCell,
+} from '@patternfly/react-core';
 import { jobGVK } from '../../const';
 import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
@@ -49,26 +59,30 @@ const CamelAppJobs: React.FC<CamelAppJobsProps> = ({ obj: camelAppOwner }) => {
     <Card>
       <CardTitle>Jobs</CardTitle>
       <CardBody>
-        <ul className="list-group">
+        <DataList aria-label="Jobs list" isCompact>
           {jobs.map((resource, i) => {
             return (
-              <li key={i} className="list-group-item container-fluid">
-                <div className="row">
-                  <span className="col-xs-8">
-                    <ResourceLink
-                      groupVersionKind={jobGVK}
-                      name={resource.name}
-                      namespace={camelAppOwner.metadata.namespace}
-                    />
-                  </span>
-                  <span className="col-xs-4">
-                    <Status title={resource.status || 'N/A'} status={resource.status} />
-                  </span>
-                </div>
-              </li>
+              <DataListItem key={i}>
+                <DataListItemRow>
+                  <DataListItemCells
+                    dataListCells={[
+                      <DataListCell key="name" width={4}>
+                        <ResourceLink
+                          groupVersionKind={jobGVK}
+                          name={resource.name}
+                          namespace={camelAppOwner.metadata.namespace}
+                        />
+                      </DataListCell>,
+                      <DataListCell key="status" width={2}>
+                        <Status title={resource.status || 'N/A'} status={resource.status} />
+                      </DataListCell>,
+                    ]}
+                  />
+                </DataListItemRow>
+              </DataListItem>
             );
           })}
-        </ul>
+        </DataList>
       </CardBody>
     </Card>
   );
