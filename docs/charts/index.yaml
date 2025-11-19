@@ -2,11 +2,11 @@ apiVersion: v1
 entries:
   camel-dashboard-console:
   - apiVersion: v2
-    appVersion: 0.2.3
-    created: "2025-11-19T14:21:01.510266335+01:00"
+    appVersion: 0.3.0
+    created: "2025-11-19T18:50:01.31647555+01:00"
     description: A Helm chart for installing the Camel Dashboard OpenShift Console
       plugin
-    digest: fca11046f5dbc238e7dd5076bfc4895f5f539507ee83adaec938f6eccd3076b1
+    digest: 942382a4f636399ab9891020eed00a0bb4fd2f3c833e2b8fcb45757c2ac708dc
     keywords:
     - camel
     - dashboard
@@ -17,6 +17,6 @@ entries:
     - https://github.com/camel-tooling/camel-dashboard-console.git
     type: application
     urls:
-    - https://camel-tooling.github.io/camel-dashboard/charts/camel-dashboard-console-0.2.3.tgz
-    version: 0.2.3
-generated: "2025-11-19T14:21:01.509870835+01:00"
+    - https://camel-tooling.github.io/camel-dashboard/charts/camel-dashboard-console-0.3.0.tgz
+    version: 0.3.0
+generated: "2025-11-19T18:50:01.315731528+01:00"
