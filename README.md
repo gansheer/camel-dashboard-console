@@ -14,7 +14,7 @@
 This project provides a [console plugin](https://github.com/openshift/console/tree/master/frontend/packages/console-dynamic-plugin-sdk) for [Camel](https://camel.apache.org).
 The project is created using [openshift console plugin template](https://github.com/openshift/console-plugin-template)
 
-**Current version: 0.2.3**
+**Current version: 0.3.0**
 
 It requires:
 * OpenShift 4.19
