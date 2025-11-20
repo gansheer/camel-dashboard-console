@@ -11,6 +11,8 @@ import {
   DataListItemRow,
   DataListItemCells,
   DataListCell,
+  Tooltip,
+  Button,
 } from '@patternfly/react-core';
 import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import { podGVK } from '../../const';
@@ -42,14 +44,14 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
     camelInt.spec.selector,
   );
 
-  const { available: availableHawtioConsolePlugin } = useHawtioConsolePlugin();
+  const { installed: installedHawtioConsolePlugin, activated: activatedHawtioConsolePlugin } = useHawtioConsolePlugin();
 
   if (loadedPods && CamelAppPods.length > 0) {
     CamelAppPods.forEach((pod) => {
       pods.push({
         name: pod.metadata.name,
         status: getPodStatus(pod),
-        hawtioEnabled: availableHawtioConsolePlugin && isHawtioEnabled(pod),
+        hawtioEnabled: isHawtioEnabled(pod),
       });
     });
   }
@@ -114,7 +116,7 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
                           </Content>
                         </DataListCell>
                       ),
-                      resource.hawtioEnabled && (
+                      resource.hawtioEnabled && installedHawtioConsolePlugin && activatedHawtioConsolePlugin && (
                         <DataListCell key="hawtio" width={2} alignRight>
                           <Content>
                             <a
@@ -125,6 +127,26 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
                               </Icon>{' '}
                               {t('View Hawtio')}
                             </a>
+                          </Content>
+                        </DataListCell>
+                      ),
+                      resource.hawtioEnabled && installedHawtioConsolePlugin && !activatedHawtioConsolePlugin && (
+                        <DataListCell key="hawtio" width={2} alignRight>
+                          <Content>
+                            <Tooltip content={t('Hawtio plugin is installed but not enabled. Please enable it in the console settings.')}>
+                              <span>
+                                <Button
+                                  variant="link"
+                                  isInline
+                                  isDisabled
+                                >
+                                  <Icon size="bodyDefault">
+                                    <HawtioIcon />
+                                  </Icon>{' '}
+                                  {t('View Hawtio')}
+                                </Button>
+                              </span>
+                            </Tooltip>
                           </Content>
                         </DataListCell>
                       ),
