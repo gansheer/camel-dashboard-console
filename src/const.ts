@@ -68,7 +68,7 @@ export const consolePluginGVK: K8sGroupVersionKind = {
 };
 
 export const consoleGVK: K8sGroupVersionKind = {
-  group: 'console.openshift.io',
+  group: 'operator.openshift.io',
   version: 'v1',
   kind: 'Console',
 };
