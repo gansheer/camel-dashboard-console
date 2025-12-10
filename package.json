@@ -25,8 +25,8 @@
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.15.5",
-    "@openshift-console/dynamic-plugin-sdk": "4.20.0-prerelease.1",
-    "@openshift-console/dynamic-plugin-sdk-webpack": "4.20.0-prerelease.1",
+    "@openshift-console/dynamic-plugin-sdk": "4.20.0",
+    "@openshift-console/dynamic-plugin-sdk-webpack": "4.20.0",
     "@patternfly/react-component-groups": "^6.2.1",
     "@patternfly/react-core": "^6.3.1",
     "@patternfly/react-icons": "^6.3.1",
