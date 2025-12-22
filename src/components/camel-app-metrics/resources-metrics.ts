@@ -8,6 +8,7 @@ export enum ResourceUtilizationQuery {
   FILESYSTEM = 'FILESYSTEM',
   NETWORK_IN = 'NETWORK_IN',
   NETWORK_OUT = 'NETWORK_OUT',
+  EXCHANGES = 'EXCHANGES',
   QUOTA_LIMIT = 'QUOTA_LIMIT',
   QUOTA_REQUEST = 'QUOTA_REQUEST',
 }
@@ -27,6 +28,9 @@ const podControllerMetricsQueries = {
   ),
   [ResourceUtilizationQuery.NETWORK_OUT]: _.template(
     "sum(irate(container_network_transmit_bytes_total[5m]) * on (pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{workload='<%= name %>', workload_type='<%= type %>'}) by (pod)",
+  ),
+  [ResourceUtilizationQuery.EXCHANGES]: _.template(
+    "sum(rate(camel_exchanges_total{pod=~'<%= name %>-.*'}[5m])) by (pod)",
   ),
 };
 
@@ -48,6 +52,9 @@ export const getPodControllerMetricsQueries = (
   ],
   [ResourceUtilizationQuery.NETWORK_OUT]: [
     podControllerMetricsQueries[ResourceUtilizationQuery.NETWORK_OUT]({ name, type }),
+  ],
+  [ResourceUtilizationQuery.EXCHANGES]: [
+    podControllerMetricsQueries[ResourceUtilizationQuery.EXCHANGES]({ name, type }),
   ],
 });
 

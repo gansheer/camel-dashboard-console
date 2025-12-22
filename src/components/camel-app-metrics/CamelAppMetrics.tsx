@@ -17,6 +17,13 @@ const CamelAppMetrics: React.FC<CamelAppMetricsProps> = ({ obj: camelInt }) => {
     <PageSection>
       {queries ? (
         <Grid hasGutter>
+          <GridItem xl={12} lg={12}>
+            <ResourceMetricsCard
+              namespace={camelInt.metadata.namespace}
+              queries={queries[ResourceUtilizationQuery.EXCHANGES]}
+              title={t('Message exchanges')}
+            />
+          </GridItem>
           <GridItem xl={6} lg={12}>
             <ResourceMetricsCard
               namespace={camelInt.metadata.namespace}
