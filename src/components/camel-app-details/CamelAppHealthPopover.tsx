@@ -1,6 +1,16 @@
 import * as React from 'react';
-import { Button, Popover, PopoverPosition, PopoverProps } from '@patternfly/react-core';
-import { Trans, useTranslation } from 'react-i18next';
+import {
+  Button,
+  DescriptionList,
+  DescriptionListDescription,
+  DescriptionListGroup,
+  DescriptionListTerm,
+  Popover,
+  PopoverPosition,
+  PopoverProps,
+  Title,
+} from '@patternfly/react-core';
+import { useTranslation } from 'react-i18next';
 import CamelAppHealth from '../camel-list-page/CamelAppHealth';
 import {
   K8sResourceCondition,
@@ -36,30 +46,58 @@ export const PopoverCamelHealth: React.FC<PopoverCamelHealthProps> = ({
       position={PopoverPosition.right}
       headerContent={hideHeader ? null : title}
       bodyContent={() => (
-        <div>
-          <div>
-            {condition &&
-            condition?.status &&
-            condition?.status == K8sResourceConditionStatus.False ? (
-              <>
-                <h4>Reason</h4>
-                {condition.reason}
-              </>
-            ) : (
-              <Trans t={t}>
-                <h4>Service Level Indicator</h4>
-                <CamelAppHealth health="error" />: &gt; 10 % failed exchanges
-                <br />
-                <CamelAppHealth health="warning" />: &gt; 5 % failed exchanges
-                <br />
-                <CamelAppHealth health="ok" />: healthy
-                <br />
-                <CamelAppHealth health="unknown" />: no informations
-                <br />
-              </Trans>
-            )}
-          </div>
-        </div>
+        <>
+          {condition &&
+          condition?.status &&
+          condition?.status == K8sResourceConditionStatus.False ? (
+            <>
+              <Title headingLevel="h4" size="md">
+                {t('Reason')}
+              </Title>
+              <p>{condition.reason}</p>
+            </>
+          ) : (
+            <>
+              <Title headingLevel="h4" size="md" style={{ marginBottom: '0.5rem' }}>
+                {t('Service Level Indicator')}
+              </Title>
+              <DescriptionList isCompact>
+                <DescriptionListGroup>
+                  <DescriptionListTerm>
+                    <CamelAppHealth health="ok" />
+                  </DescriptionListTerm>
+                  <DescriptionListDescription>
+                    {t('Healthy (≤ 5% failed exchanges)')}
+                  </DescriptionListDescription>
+                </DescriptionListGroup>
+                <DescriptionListGroup>
+                  <DescriptionListTerm>
+                    <CamelAppHealth health="warning" />
+                  </DescriptionListTerm>
+                  <DescriptionListDescription>
+                    {t('> 5% failed exchanges')}
+                  </DescriptionListDescription>
+                </DescriptionListGroup>
+                <DescriptionListGroup>
+                  <DescriptionListTerm>
+                    <CamelAppHealth health="error" />
+                  </DescriptionListTerm>
+                  <DescriptionListDescription>
+                    {t('> 10% failed exchanges')}
+                  </DescriptionListDescription>
+                </DescriptionListGroup>
+                <DescriptionListGroup>
+                  <DescriptionListTerm>
+                    <CamelAppHealth health="unknown" />
+                  </DescriptionListTerm>
+                  <DescriptionListDescription>
+                    {t('No information')}
+                  </DescriptionListDescription>
+                </DescriptionListGroup>
+              </DescriptionList>
+            </>
+          )}
+        </>
       )}
       aria-label={title}
       onHide={onHide}

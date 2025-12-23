@@ -4,6 +4,7 @@ import {
   YellowExclamationTriangleIcon,
 } from '@openshift-console/dynamic-plugin-sdk';
 import { UnknownIcon } from '@patternfly/react-icons';
+import { Label } from '@patternfly/react-core';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -13,42 +14,31 @@ type CamelAppHealthProps = {
 
 const CamelAppHealth: React.FC<CamelAppHealthProps> = ({ health }) => {
   const { t } = useTranslation('plugin__camel-dashboard-console');
-  // FIXME: manage undefined
   switch (health?.toLowerCase()) {
     case 'ok':
-      return (
-        <>
-          <GreenCheckCircleIcon title={t("OK")} />
-          &nbsp;&nbsp;{t("OK")}
-        </>
-      );
     case 'success':
       return (
-        <>
-          <GreenCheckCircleIcon title={t("Success")} />
-          &nbsp;&nbsp;{t("Success")}
-        </>
+        <Label color="green" icon={<GreenCheckCircleIcon />} isCompact>
+          {t('Healthy')}
+        </Label>
       );
     case 'warning':
       return (
-        <>
-          <YellowExclamationTriangleIcon title={t("Warning")} />
-          &nbsp;&nbsp;{t("Warning")}
-        </>
+        <Label color="orange" icon={<YellowExclamationTriangleIcon />} isCompact>
+          {t('Degraded')}
+        </Label>
       );
     case 'error':
       return (
-        <>
-          <RedExclamationCircleIcon title={t("Error")} />
-          &nbsp;&nbsp;{t("Error")}
-        </>
+        <Label color="red" icon={<RedExclamationCircleIcon />} isCompact>
+          {t('Critical')}
+        </Label>
       );
     default:
       return (
-        <>
-          <UnknownIcon title={t('Unknown')} />
-          &nbsp;&nbsp;{t('Unknown')}
-        </>
+        <Label color="grey" icon={<UnknownIcon />} isCompact>
+          {t('Unknown')}
+        </Label>
       );
   }
 };
