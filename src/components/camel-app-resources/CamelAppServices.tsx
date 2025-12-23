@@ -74,8 +74,8 @@ const CamelAppServices: React.FC<CamelAppServicesProps> = ({ obj: camelAppOwner 
                           />
                         </Content>
                         {resource.ports.length > 0 && (
-                          <List isPlain style={{ marginTop: 'var(--pf-v5-global--spacer--sm)' }}>
-                            {resource.ports.map(({ name, port, protocol, targetPort }) => (
+                          <List isPlain className="camel-margin-top-sm">
+                            {resource.ports.map(({ name, port, protocol, targetPort}) => (
                               <ListItem key={name || `${protocol}/${port}`}>
                                 {t('Service port:')}{' '}
                                 <strong>

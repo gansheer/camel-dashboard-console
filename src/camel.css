@@ -42,3 +42,51 @@
   width: 21px;
   margin-bottom: -2px;
 }
+
+/* Utility classes for consistent spacing and typography */
+.camel-margin-top-sm {
+  margin-top: var(--pf-v5-global--spacer--sm);
+}
+
+.camel-margin-top-md {
+  margin-top: 0.5rem;
+}
+
+.camel-margin-top-lg {
+  margin-top: 1rem;
+}
+
+.camel-margin-bottom-sm {
+  margin-bottom: 0.5rem;
+}
+
+.camel-margin-bottom-lg {
+  margin-bottom: 1rem;
+}
+
+.camel-section-spacing {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.camel-font-monospace {
+  font-family: var(--pf-v5-global--FontFamily--monospace);
+}
+
+.camel-font-small {
+  font-size: var(--pf-v5-global--FontSize--sm);
+}
+
+.camel-text-center {
+  text-align: center;
+}
+
+.camel-text-danger {
+  color: var(--pf-v5-global--danger-color--100);
+}
+
+.camel-inline-timestamp {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}

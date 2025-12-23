@@ -71,7 +71,7 @@ const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelAppOwner }) =
                             namespace={camelAppOwner.metadata.namespace}
                           />
                         </Content>
-                        <div style={{ marginTop: 'var(--pf-v5-global--spacer--sm)' }}>
+                        <div className="camel-margin-top-sm">
                           <RouteLocation obj={resource.route} />
                         </div>
                       </DataListCell>,

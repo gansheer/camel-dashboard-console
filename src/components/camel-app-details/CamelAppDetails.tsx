@@ -92,7 +92,7 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
                     <DescriptionListDescription>
                       {camelInt.status?.image ? (
                         <Tooltip content={camelInt.status.image}>
-                          <span style={{ fontFamily: 'var(--pf-v5-global--FontFamily--monospace)' }}>
+                          <span className="camel-font-monospace">
                             <Truncate content={camelInt.status.image} />
                           </span>
                         </Tooltip>
@@ -130,7 +130,7 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
         <Title headingLevel="h3">
           {t('Pods')} ({camelInt.status?.pods?.length || 0})
         </Title>
-        <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+        <div className="camel-section-spacing">
           <CamelAppPodsSummary obj={camelInt} />
         </div>
         <Grid hasGutter sm={12} md={6} lg={6} xl={6} xl2={4}>
