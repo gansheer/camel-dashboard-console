@@ -3,7 +3,7 @@ import {
   Card,
   CardBody,
   CardTitle,
-  Spinner,
+  Content,
   DataList,
   DataListItem,
   DataListItemRow,
@@ -17,6 +17,7 @@ import { serviceGVK } from '../../const';
 import { useCamelAppServices } from './useCamelAppResources';
 import { LongArrowAltRightIcon } from '@patternfly/react-icons';
 import { useTranslation } from 'react-i18next';
+import ResourceLoadingCard from './ResourceLoadingCard';
 
 type CamelAppServicesProps = {
   obj: K8sResourceKind;
@@ -46,14 +47,7 @@ const CamelAppServices: React.FC<CamelAppServicesProps> = ({ obj: camelAppOwner 
   }
 
   if (!loadedServices) {
-    return (
-      <Card>
-        <CardTitle>Services</CardTitle>
-        <CardBody>
-          <Spinner />
-        </CardBody>
-      </Card>
-    );
+    return <ResourceLoadingCard title={t('Services')} />;
   }
 
   if (loadedServices && services.length == 0) {
@@ -62,9 +56,9 @@ const CamelAppServices: React.FC<CamelAppServicesProps> = ({ obj: camelAppOwner 
 
   return (
     <Card>
-      <CardTitle>Services</CardTitle>
+      <CardTitle>{t('Services')} ({services.length})</CardTitle>
       <CardBody>
-        <DataList aria-label="Services list" isCompact>
+        <DataList aria-label={t('Services list')} isCompact>
           {services.map((resource, i) => {
             return (
               <DataListItem key={i}>
@@ -72,26 +66,26 @@ const CamelAppServices: React.FC<CamelAppServicesProps> = ({ obj: camelAppOwner 
                   <DataListItemCells
                     dataListCells={[
                       <DataListCell key="service">
-                        <ResourceLink
-                          groupVersionKind={serviceGVK}
-                          name={resource.name}
-                          namespace={camelAppOwner.metadata.namespace}
-                        />
+                        <Content>
+                          <ResourceLink
+                            groupVersionKind={serviceGVK}
+                            name={resource.name}
+                            namespace={camelAppOwner.metadata.namespace}
+                          />
+                        </Content>
                         {resource.ports.length > 0 && (
-                          <List isPlain>
+                          <List isPlain style={{ marginTop: 'var(--pf-v5-global--spacer--sm)' }}>
                             {resource.ports.map(({ name, port, protocol, targetPort }) => (
                               <ListItem key={name || `${protocol}/${port}`}>
-                                <span style={{ color: 'var(--pf-v6-global--Color--200)' }}>
-                                  {t('Service port:')}
-                                </span>{' '}
-                                {name || `${protocol}/${port}`}
-                                &nbsp;
+                                {t('Service port:')}{' '}
+                                <strong>
+                                  {name ? `${name} (${port})` : `${protocol}/${port}`}
+                                </strong>
+                                {' '}
                                 <LongArrowAltRightIcon />
-                                &nbsp;
-                                <span style={{ color: 'var(--pf-v6-global--Color--200)' }}>
-                                  {t('Pod port:')}
-                                </span>{' '}
-                                {targetPort}
+                                {' '}
+                                {t('Pod port:')}{' '}
+                                <strong>{targetPort}</strong>
                               </ListItem>
                             ))}
                           </List>

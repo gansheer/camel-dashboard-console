@@ -4,7 +4,6 @@ import {
   Card,
   CardBody,
   CardTitle,
-  Spinner,
   DataList,
   DataListItem,
   DataListItemRow,
@@ -14,6 +13,8 @@ import {
 import { jobGVK } from '../../const';
 import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
+import ResourceLoadingCard from './ResourceLoadingCard';
+import { useTranslation } from 'react-i18next';
 
 type CamelAppJobsProps = {
   obj: K8sResourceKind;
@@ -25,6 +26,7 @@ type Resources = {
 };
 
 const CamelAppJobs: React.FC<CamelAppJobsProps> = ({ obj: camelAppOwner }) => {
+  const { t } = useTranslation('plugin__camel-dashboard-console');
   const jobs: Resources[] = [];
 
   const { CamelAppJobs, loaded: loadedJobs } = useCamelAppJobs(
@@ -41,14 +43,7 @@ const CamelAppJobs: React.FC<CamelAppJobsProps> = ({ obj: camelAppOwner }) => {
     });
   }
   if (!loadedJobs) {
-    return (
-      <Card>
-        <CardTitle>Jobs</CardTitle>
-        <CardBody>
-          <Spinner />
-        </CardBody>
-      </Card>
-    );
+    return <ResourceLoadingCard title={t('Jobs')} />;
   }
 
   if (loadedJobs && jobs.length == 0) {
@@ -57,9 +52,9 @@ const CamelAppJobs: React.FC<CamelAppJobsProps> = ({ obj: camelAppOwner }) => {
 
   return (
     <Card>
-      <CardTitle>Jobs</CardTitle>
+      <CardTitle>{t('Jobs')} ({jobs.length})</CardTitle>
       <CardBody>
-        <DataList aria-label="Jobs list" isCompact>
+        <DataList aria-label={t('Jobs list')} isCompact>
           {jobs.map((resource, i) => {
             return (
               <DataListItem key={i}>

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  Button,
   Card,
   CardBody,
   CardTitle,
@@ -33,25 +34,34 @@ const CamelAppOwnerResource: React.FC<CamelAppOwnerResourceProps> = ({
     <Card>
       <CardTitle>{camelAppOwner.kind}</CardTitle>
       <CardBody>
-        <DataList aria-label={`${camelAppOwner.kind} list`} isCompact>
+        <DataList aria-label={t('{{kind}} list', { kind: camelAppOwner.kind })} isCompact>
           <DataListItem>
             <DataListItemRow>
               <DataListItemCells
                 dataListCells={[
-                  <DataListCell key="name" width={3}>
-                    <ResourceLink
-                      groupVersionKind={ownerGvk}
-                      name={camelAppOwner.metadata.name}
-                      namespace={camelAppOwner.metadata.namespace}
-                    />
-                  </DataListCell>,
-                  <DataListCell key="dashboards" width={2} alignRight>
+                  <DataListCell key="name" width={4}>
                     <Content>
-                      <Link
-                        to={`/dev-monitoring/ns/${camelAppOwner.metadata.namespace}?dashboard=dashboard-k8s-resources-workload&workload=${camelAppOwner.metadata.name}&type=ALL_OPTIONS_KEY`}
+                      <ResourceLink
+                        groupVersionKind={ownerGvk}
+                        name={camelAppOwner.metadata.name}
+                        namespace={camelAppOwner.metadata.namespace}
+                      />
+                    </Content>
+                  </DataListCell>,
+                  <DataListCell key="dashboards" width={3} alignRight>
+                    <Content>
+                      <Button
+                        variant="link"
+                        isInline
+                        component={(props) => (
+                          <Link
+                            {...props}
+                            to={`/dev-monitoring/ns/${camelAppOwner.metadata.namespace}?dashboard=dashboard-k8s-resources-workload&workload=${camelAppOwner.metadata.name}&type=ALL_OPTIONS_KEY`}
+                          />
+                        )}
                       >
                         {t('View dashboards')}
-                      </Link>
+                      </Button>
                     </Content>
                   </DataListCell>,
                 ]}
