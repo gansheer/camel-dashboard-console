@@ -58,7 +58,7 @@ export const PopoverCamelHealth: React.FC<PopoverCamelHealthProps> = ({
             </>
           ) : (
             <>
-              <Title headingLevel="h4" size="md" style={{ marginBottom: '0.5rem' }}>
+              <Title headingLevel="h4" size="md" className="camel-margin-bottom-sm">
                 {t('Service Level Indicator')}
               </Title>
               <DescriptionList isCompact>

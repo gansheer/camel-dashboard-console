@@ -101,25 +101,25 @@ const CamelAppHealthCard: React.FC<CamelAppHealthCardProps> = ({ obj: camelInt }
                   justifyContent={{ default: 'justifyContentSpaceAround' }}
                 >
                   <FlexItem>
-                    <div style={{ textAlign: 'center' }}>
+                    <div className="camel-text-center">
                       <Title headingLevel="h2" size="2xl">
                         {camelInt.status.sliExchangeSuccessRate.samplingIntervalTotal ?? '?'}
                       </Title>
-                      <div style={{ fontSize: 'var(--pf-v5-global--FontSize--sm)' }}>
+                      <div className="camel-font-small">
                         {t('Total exchanges')}
                       </div>
                     </div>
                   </FlexItem>
                   <FlexItem>
-                    <div style={{ textAlign: 'center' }}>
+                    <div className="camel-text-center">
                       <Title
                         headingLevel="h2"
                         size="2xl"
-                        style={{ color: 'var(--pf-v5-global--danger-color--100)' }}
+                        className="camel-text-danger"
                       >
                         {camelInt.status.sliExchangeSuccessRate.samplingIntervalFailed | 0}
                       </Title>
-                      <div style={{ fontSize: 'var(--pf-v5-global--FontSize--sm)' }}>
+                      <div className="camel-font-small">
                         {t('Failed exchanges')}
                       </div>
                     </div>

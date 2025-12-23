@@ -60,7 +60,7 @@ const CamelAppPodsSummary: React.FC<CamelAppPodsSummaryProps> = ({ obj: camelInt
               direction={{ default: 'row' }}
               spaceItems={{ default: 'spaceItemsSm' }}
               flexWrap={{ default: 'wrap' }}
-              style={{ marginTop: '0.5rem' }}
+              className="camel-margin-top-md"
             >
               {Object.entries(podsByStatus).map(([status, count]) => {
                 // Color based on status
@@ -91,7 +91,7 @@ const CamelAppPodsSummary: React.FC<CamelAppPodsSummaryProps> = ({ obj: camelInt
                 direction={{ default: 'row' }}
                 spaceItems={{ default: 'spaceItemsSm' }}
                 flexWrap={{ default: 'wrap' }}
-                style={{ marginTop: '0.5rem' }}
+                className="camel-margin-top-md"
               >
                 <FlexItem>
                   <Label color="green" isCompact>

@@ -157,7 +157,7 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
                     <Flex direction={{ default: 'column' }} spaceItems={{ default: 'spaceItemsSm' }}>
                       {camelPod.runtime.exchange.lastTimestamp && (
                         <FlexItem>
-                          <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: '0.25rem' }}>
+                          <div className="camel-inline-timestamp">
                             <span>{t('Last message')}:</span>
                             <Timestamp timestamp={camelPod.runtime.exchange.lastTimestamp} />
                           </div>
