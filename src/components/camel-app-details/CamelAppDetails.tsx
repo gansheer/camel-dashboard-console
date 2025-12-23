@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { CamelAppKind } from '../../types';
 import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
   DescriptionList,
   DescriptionListDescription,
   DescriptionListGroup,
@@ -8,8 +12,11 @@ import {
   Divider,
   Grid,
   GridItem,
+  Label,
   PageSection,
   Title,
+  Tooltip,
+  Truncate,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import {
@@ -17,15 +24,11 @@ import {
   K8sGroupVersionKind,
   K8sResourceConditionStatus,
   ResourceLink,
-  Timestamp,
   YellowExclamationTriangleIcon,
 } from '@openshift-console/dynamic-plugin-sdk';
 import { camelAppGVK } from '../../const';
 import CamelAppStatusPod from './CamelAppStatusPod';
-import CamelAppHealth from '../camel-list-page/CamelAppHealth';
-import { PopoverCamelHealth } from './CamelAppHealthPopover';
-import { formatDuration } from '../../date-utils';
-import { Table, Tbody } from '@patternfly/react-table';
+import CamelAppHealthCard from './CamelAppHealthCard';
 
 type CamelAppDetailsProps = {
   obj: CamelAppKind;
@@ -53,21 +56,10 @@ const monitoredCondition = (camelInt: CamelAppKind) => {
   }
   return;
 };
-const healthyCondition = (camelInt: CamelAppKind) => {
-  const healthConditions = camelInt.status?.conditions?.filter(
-    (contidition) => contidition.type == 'Healthy',
-  );
-  if (healthConditions.length > 0) {
-    return healthConditions[0];
-  }
-  return;
-};
-
 const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
   const { t } = useTranslation('plugin__camel-dashboard-console');
 
   const monitored = monitoredCondition(camelInt);
-  const healthy = healthyCondition(camelInt);
 
   return (
     <>
@@ -75,107 +67,62 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
         <Title headingLevel="h2">{t('Camel Application Details')}</Title>
       </PageSection>
       <PageSection>
-        <DescriptionList
-          columnModifier={{
-            default: '1Col',
-            md: '2Col',
-            lg: '2Col',
-            xl: '2Col',
-          }}
-        >
-          <DescriptionListGroup>
-            <DescriptionListTerm>{t('Resource')}:</DescriptionListTerm>
-            <DescriptionListDescription>
-              <ResourceLink
-                displayName={camelInt.metadata.name}
-                groupVersionKind={camelAppGVK}
-                name={camelInt.metadata.name}
-                namespace={camelInt.metadata.namespace}
-              />
-            </DescriptionListDescription>
-            <DescriptionListTerm>{t('Image')}:</DescriptionListTerm>
-            <DescriptionListDescription>
-              {camelInt.status?.image ? camelInt.status.image : 'unknown'}
-            </DescriptionListDescription>
-            <DescriptionListTerm>{t('Monitored')}:</DescriptionListTerm>
-            <DescriptionListDescription>
-              {monitored && monitored?.status == K8sResourceConditionStatus.True ? (
-                <>
-                  <GreenCheckCircleIcon />
-                  &nbsp;&nbsp;True
-                </>
-              ) : (
-                <>
-                  <YellowExclamationTriangleIcon />
-                  &nbsp;&nbsp;False&nbsp;&nbsp;({monitored.message})
-                </>
-              )}
-            </DescriptionListDescription>
-          </DescriptionListGroup>
-          <DescriptionListGroup>
-            <DescriptionListTerm>
-              <PopoverCamelHealth popoverBody={t('Health') + ' :'} condition={healthy} />
-            </DescriptionListTerm>
-            <DescriptionListDescription>
-              <CamelAppHealth
-                health={
-                  camelInt.status?.sliExchangeSuccessRate?.status
-                    ? camelInt.status.sliExchangeSuccessRate.status
-                    : ''
-                }
-              />
-              {camelInt.status?.sliExchangeSuccessRate ? (
-                <>
-                  <DescriptionListTerm>{t('Percentage of success rate')}:</DescriptionListTerm>
-                  <DescriptionListDescription>
-                    <Table>
-                      <Tbody>
-                        {camelInt.status?.sliExchangeSuccessRate.lastTimestamp ? (
-                          <tr>
-                            <td>{t('Last message')}:</td>
-                            <td>
-                              <Timestamp
-                                timestamp={camelInt.status.sliExchangeSuccessRate.lastTimestamp}
-                              />
-                            </td>
-                          </tr>
-                        ) : (
-                          <></>
-                        )}
-                        <tr>
-                          <td>{t('Sampling interval')}:</td>
-                          <td>
-                            {formatDuration(
-                              camelInt.status.sliExchangeSuccessRate.samplingInterval / 1000000,
-                              t,
-                              { omitSuffix: true },
-                            )}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>{t('Failed exchanges')}:</td>
-                          <td>
-                            {camelInt.status.sliExchangeSuccessRate.samplingIntervalFailed | 0}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>{t('Total exchanges')}:</td>
-                          <td>{camelInt.status.sliExchangeSuccessRate.samplingIntervalTotal}</td>
-                        </tr>
-                        <tr>
-                          <td>{t('Success percentage')}:</td>
-                          <td>{camelInt.status.sliExchangeSuccessRate.successPercentage} %</td>
-                        </tr>
-                      </Tbody>
-                    </Table>
-                  </DescriptionListDescription>
-                </>
-              ) : (
-                <></>
-              )}
-            </DescriptionListDescription>
-          </DescriptionListGroup>
-        </DescriptionList>
+        <Grid hasGutter>
+          <GridItem md={6} lg={6}>
+            <Card isFullHeight>
+              <CardHeader>
+                <CardTitle>{t('Overview')}</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <DescriptionList>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>{t('Resource')}:</DescriptionListTerm>
+                    <DescriptionListDescription>
+                      <ResourceLink
+                        displayName={camelInt.metadata.name}
+                        groupVersionKind={camelAppGVK}
+                        name={camelInt.metadata.name}
+                        namespace={camelInt.metadata.namespace}
+                      />
+                    </DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>{t('Image')}:</DescriptionListTerm>
+                    <DescriptionListDescription>
+                      {camelInt.status?.image ? (
+                        <Tooltip content={camelInt.status.image}>
+                          <span style={{ fontFamily: 'var(--pf-v5-global--FontFamily--monospace)' }}>
+                            <Truncate content={camelInt.status.image} />
+                          </span>
+                        </Tooltip>
+                      ) : (
+                        'unknown'
+                      )}
+                    </DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup>
+                    <DescriptionListTerm>{t('Monitored')}:</DescriptionListTerm>
+                    <DescriptionListDescription>
+                      {monitored && monitored?.status == K8sResourceConditionStatus.True ? (
+                        <Label color="green" icon={<GreenCheckCircleIcon />} isCompact>
+                          {t('Monitored')}
+                        </Label>
+                      ) : (
+                        <Label color="orange" icon={<YellowExclamationTriangleIcon />} isCompact>
+                          {t('Not Monitored')}
+                          {monitored?.message && ` - ${monitored.message}`}
+                        </Label>
+                      )}
+                    </DescriptionListDescription>
+                  </DescriptionListGroup>
+                </DescriptionList>
+              </CardBody>
+            </Card>
+          </GridItem>
+          <GridItem md={6} lg={6}>
+            <CamelAppHealthCard obj={camelInt} />
+          </GridItem>
+        </Grid>
       </PageSection>
       <PageSection>
         <Divider />
