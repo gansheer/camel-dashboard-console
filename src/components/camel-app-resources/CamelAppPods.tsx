@@ -3,7 +3,6 @@ import {
   Card,
   CardBody,
   CardTitle,
-  Spinner,
   Content,
   Icon,
   DataList,
@@ -22,6 +21,7 @@ import { getPodStatus } from './podStatus';
 import { useTranslation } from 'react-i18next';
 import { isHawtioEnabled, useHawtioConsolePlugin } from './useHawtio';
 import { HawtioIcon } from './HawtioIcon';
+import ResourceLoadingCard from './ResourceLoadingCard';
 
 type CamelAppPodsProps = {
   obj: K8sResourceKind;
@@ -56,14 +56,7 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
     });
   }
   if (!loadedPods) {
-    return (
-      <Card>
-        <CardTitle>Pods</CardTitle>
-        <CardBody>
-          <Spinner />
-        </CardBody>
-      </Card>
-    );
+    return <ResourceLoadingCard title={t('Pods')} />;
   }
 
   if (loadedPods && pods.length == 0) {
@@ -72,7 +65,7 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
 
   return (
     <Card>
-      <CardTitle>Pods</CardTitle>
+      <CardTitle>{t('Pods')} ({pods.length})</CardTitle>
       <CardBody>
         <DataList aria-label="Pods list" isCompact>
           {pods.map((resource, i) => {
@@ -81,7 +74,7 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
                 <DataListItemRow>
                   <DataListItemCells
                     dataListCells={[
-                      <DataListCell key="name" width={5}>
+                      <DataListCell key="name" width={4}>
                         <Content>
                           <ResourceLink
                             groupVersionKind={podGVK}
@@ -90,48 +83,42 @@ const CamelAppPods: React.FC<CamelAppPodsProps> = ({ obj: camelInt }) => {
                           />
                         </Content>
                       </DataListCell>,
-                      <DataListCell key="status" width={3}>
+                      <DataListCell key="status" width={2}>
                         <Content>
                           <Status title={resource.status || 'N/A'} status={resource.status} />
                         </Content>
                       </DataListCell>,
-                      resource.hawtioEnabled ? (
-                        <DataListCell key="logs" width={2} alignRight>
-                          <Content>
-                            <a
-                              href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}
-                            >
-                              {t('View Logs')}
-                            </a>
-                          </Content>
-                        </DataListCell>
-                      ) : (
-                        <DataListCell key="logs" width={4} alignRight>
-                          <Content>
-                            <a
-                              href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}
-                            >
-                              {t('View Logs')}
-                            </a>
-                          </Content>
-                        </DataListCell>
-                      ),
+                      <DataListCell key="logs" width={3} alignRight>
+                        <Content>
+                          <Button
+                            variant="link"
+                            isInline
+                            component="a"
+                            href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/logs`}
+                          >
+                            {t('View Logs')}
+                          </Button>
+                        </Content>
+                      </DataListCell>,
                       resource.hawtioEnabled && installedHawtioConsolePlugin && activatedHawtioConsolePlugin && (
-                        <DataListCell key="hawtio" width={2} alignRight>
+                        <DataListCell key="hawtio" width={3} alignRight>
                           <Content>
-                            <a
+                            <Button
+                              variant="link"
+                              isInline
+                              component="a"
                               href={`/k8s/ns/${camelInt.metadata.namespace}/pods/${resource.name}/hawtio`}
                             >
                               <Icon size="bodyDefault">
                                 <HawtioIcon />
                               </Icon>{' '}
                               {t('View Hawtio')}
-                            </a>
+                            </Button>
                           </Content>
                         </DataListCell>
                       ),
                       resource.hawtioEnabled && installedHawtioConsolePlugin && !activatedHawtioConsolePlugin && (
-                        <DataListCell key="hawtio" width={2} alignRight>
+                        <DataListCell key="hawtio" width={3} alignRight>
                           <Content>
                             <Tooltip content={t('Hawtio plugin is installed but not enabled. Please enable it in the console settings.')}>
                               <span>

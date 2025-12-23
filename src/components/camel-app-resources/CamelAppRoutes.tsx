@@ -3,7 +3,7 @@ import {
   Card,
   CardBody,
   CardTitle,
-  Spinner,
+  Content,
   DataList,
   DataListItem,
   DataListItemRow,
@@ -15,6 +15,7 @@ import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin
 import { routeGVK } from '../../const';
 import RouteLocation from './RouteLocation';
 import { useTranslation } from 'react-i18next';
+import ResourceLoadingCard from './ResourceLoadingCard';
 
 type CamelAppRoutesProps = {
   obj: K8sResourceKind;
@@ -44,14 +45,7 @@ const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelAppOwner }) =
   }
 
   if (!loadedRoutes) {
-    return (
-      <Card>
-        <CardTitle>Routes</CardTitle>
-        <CardBody>
-          <Spinner />
-        </CardBody>
-      </Card>
-    );
+    return <ResourceLoadingCard title={t('Routes')} />;
   }
 
   if (loadedRoutes && routes.length == 0) {
@@ -60,9 +54,9 @@ const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelAppOwner }) =
 
   return (
     <Card>
-      <CardTitle>Routes</CardTitle>
+      <CardTitle>{t('Routes')} ({routes.length})</CardTitle>
       <CardBody>
-        <DataList aria-label="Routes list" isCompact>
+        <DataList aria-label={t('Routes list')} isCompact>
           {routes.map((resource, i) => {
             return (
               <DataListItem key={i}>
@@ -70,15 +64,14 @@ const CamelAppRoutes: React.FC<CamelAppRoutesProps> = ({ obj: camelAppOwner }) =
                   <DataListItemCells
                     dataListCells={[
                       <DataListCell key="route">
-                        <ResourceLink
-                          groupVersionKind={routeGVK}
-                          name={resource.name}
-                          namespace={camelAppOwner.metadata.namespace}
-                        />
-                        <div>
-                          <span style={{ color: 'var(--pf-v6-global--Color--200)' }}>
-                            {t('Location:')}
-                          </span>{' '}
+                        <Content>
+                          <ResourceLink
+                            groupVersionKind={routeGVK}
+                            name={resource.name}
+                            namespace={camelAppOwner.metadata.namespace}
+                          />
+                        </Content>
+                        <div style={{ marginTop: 'var(--pf-v5-global--spacer--sm)' }}>
                           <RouteLocation obj={resource.route} />
                         </div>
                       </DataListCell>,
