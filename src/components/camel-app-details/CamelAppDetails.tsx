@@ -29,6 +29,7 @@ import {
 import { camelAppGVK } from '../../const';
 import CamelAppStatusPod from './CamelAppStatusPod';
 import CamelAppHealthCard from './CamelAppHealthCard';
+import CamelAppPodsSummary from './CamelAppPodsSummary';
 
 type CamelAppDetailsProps = {
   obj: CamelAppKind;
@@ -124,17 +125,23 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
           </GridItem>
         </Grid>
       </PageSection>
+      <Divider />
       <PageSection>
-        <Divider />
-        <PageSection>
-          <Title headingLevel="h3">{t('Pods')}</Title>
-        </PageSection>
+        <Title headingLevel="h3">
+          {t('Pods')} ({camelInt.status?.pods?.length || 0})
+        </Title>
+        <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+          <CamelAppPodsSummary obj={camelInt} />
+        </div>
         <Grid hasGutter sm={12} md={6} lg={6} xl={6} xl2={4}>
           {camelInt.status?.pods
             ? camelInt.status.pods.map((pod, i) => {
                 return (
                   <GridItem key={i}>
-                    <CamelAppStatusPod obj={camelInt} pod={pod} />
+                    <CamelAppStatusPod
+                      obj={camelInt}
+                      pod={pod}
+                    />
                   </GridItem>
                 );
               })

@@ -11,6 +11,10 @@ import {
   Card,
   CardHeader,
   CardBody,
+  Label,
+  Divider,
+  Flex,
+  FlexItem,
 } from '@patternfly/react-core';
 import { podGVK } from '../../const';
 import {
@@ -93,85 +97,123 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
               <DescriptionListGroup>
                 <DescriptionListTerm>{t('Status message')}:</DescriptionListTerm>
                 <DescriptionListDescription>
-                  <Content component={ContentVariants.p}>
-                    <YellowExclamationTriangleIcon />
-                    &nbsp;&nbsp;{camelPod.reason}
-                  </Content>
+                  <Label color="orange" icon={<YellowExclamationTriangleIcon />} isCompact>
+                    {camelPod.reason}
+                  </Label>
                 </DescriptionListDescription>
               </DescriptionListGroup>
             ) : (
               <></>
             )}
 
-            {hasRuntime(camelPod) ? (
+            {(hasRuntime(camelPod) || hasRuntimeExchanges(camelPod) || hasObserve(camelPod)) && (
               <DescriptionListGroup>
-                <DescriptionListTerm>{t('Runtime')}:</DescriptionListTerm>
                 <DescriptionListDescription>
-                  <Table>
-                    <Tbody>
-                      <tr>
-                        <td>{t('Camel Version')}:</td>
-                        <td>{camelPod.runtime.camelVersion}</td>
-                      </tr>
-                      <tr>
-                        <td>{t('Runtime Provider')}:</td>
-                        <td>{camelPod.runtime.runtimeProvider}</td>
-                      </tr>
-                      <tr>
-                        <td>{t('Runtime Version')}:</td>
-                        <td>{camelPod.runtime.runtimeVersion}</td>
-                      </tr>
-                    </Tbody>
-                  </Table>
+                  <Divider />
                 </DescriptionListDescription>
               </DescriptionListGroup>
+            )}
+
+            {hasRuntime(camelPod) ? (
+              <>
+                <DescriptionListGroup>
+                  <DescriptionListTerm>{t('Runtime')}:</DescriptionListTerm>
+                  <DescriptionListDescription>
+                    <Table>
+                      <Tbody>
+                        <tr>
+                          <td>{t('Camel Version')}:</td>
+                          <td>{camelPod.runtime.camelVersion}</td>
+                        </tr>
+                        <tr>
+                          <td>{t('Runtime Provider')}:</td>
+                          <td>{camelPod.runtime.runtimeProvider}</td>
+                        </tr>
+                        <tr>
+                          <td>{t('Runtime Version')}:</td>
+                          <td>{camelPod.runtime.runtimeVersion}</td>
+                        </tr>
+                      </Tbody>
+                    </Table>
+                  </DescriptionListDescription>
+                </DescriptionListGroup>
+                {(hasRuntimeExchanges(camelPod) || hasObserve(camelPod)) && (
+                  <DescriptionListGroup>
+                    <DescriptionListDescription>
+                      <Divider />
+                    </DescriptionListDescription>
+                  </DescriptionListGroup>
+                )}
+              </>
             ) : (
               <></>
             )}
             {hasRuntimeExchanges(camelPod) ? (
-              <DescriptionListGroup>
-                <DescriptionListTerm>{t('Exchange')}:</DescriptionListTerm>
-                <DescriptionListDescription>
-                  <Table>
-                    <Tbody>
-                      <tr>
-                        <td>{t('Last message')}:</td>
-                        <td>
-                          <Timestamp timestamp={camelPod.runtime.exchange.lastTimestamp} />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>{t('succeed')}:</td>
-                        <td>
-                          {camelPod.runtime.exchange.succeed
-                            ? camelPod.runtime.exchange.succeed
-                            : 0}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>{t('pending')}:</td>
-                        <td>
-                          {camelPod.runtime.exchange.pending
-                            ? camelPod.runtime.exchange.pending
-                            : 0}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>{t('failed')}</td>
-                        <td>
-                          {camelPod.runtime.exchange.failed ? camelPod.runtime.exchange.failed : 0}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>{t('total')}:</td>
-                        <td>
-                          {camelPod.runtime.exchange.total ? camelPod.runtime.exchange.total : 0}
-                        </td>
-                      </tr>
-                    </Tbody>
-                  </Table>
-                </DescriptionListDescription>
-              </DescriptionListGroup>
+              <>
+                <DescriptionListGroup>
+                  <DescriptionListTerm>{t('Exchanges')}:</DescriptionListTerm>
+                  <DescriptionListDescription>
+                    
+                    <Flex direction={{ default: 'column' }} spaceItems={{ default: 'spaceItemsSm' }}>
+                      {camelPod.runtime.exchange.lastTimestamp && (
+                        <FlexItem>
+                          <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: '0.25rem' }}>
+                            <span>{t('Last message')}:</span>
+                            <Timestamp timestamp={camelPod.runtime.exchange.lastTimestamp} />
+                          </div>
+                        </FlexItem>
+                      )}
+                      <FlexItem>
+                        <Flex
+                          direction={{ default: 'row' }}
+                          spaceItems={{ default: 'spaceItemsSm' }}
+                          flexWrap={{ default: 'wrap' }}
+                        >
+                          <FlexItem>
+                            <Label color="green" isCompact>
+                              {camelPod.runtime.exchange.succeed
+                                ? camelPod.runtime.exchange.succeed
+                                : 0}{' '}
+                              {t('succeed')}
+                            </Label>
+                          </FlexItem>
+                          <FlexItem>
+                            <Label color="blue" isCompact>
+                              {camelPod.runtime.exchange.pending
+                                ? camelPod.runtime.exchange.pending
+                                : 0}{' '}
+                              {t('pending')}
+                            </Label>
+                          </FlexItem>
+                          <FlexItem>
+                            <Label color="red" isCompact>
+                              {camelPod.runtime.exchange.failed
+                                ? camelPod.runtime.exchange.failed
+                                : 0}{' '}
+                              {t('failed')}
+                            </Label>
+                          </FlexItem>
+                          <FlexItem>
+                            <Label color="grey" isCompact>
+                              {camelPod.runtime.exchange.total
+                                ? camelPod.runtime.exchange.total
+                                : 0}{' '}
+                              {t('total')}
+                            </Label>
+                          </FlexItem>
+                        </Flex>
+                      </FlexItem>
+                    </Flex>
+                  </DescriptionListDescription>
+                </DescriptionListGroup>
+                {hasObserve(camelPod) && (
+                  <DescriptionListGroup>
+                    <DescriptionListDescription>
+                      <Divider />
+                    </DescriptionListDescription>
+                  </DescriptionListGroup>
+                )}
+              </>
             ) : (
               <></>
             )}
