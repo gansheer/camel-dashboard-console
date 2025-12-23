@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { K8sResourceKind, RowProps, TableData } from '@openshift-console/dynamic-plugin-sdk';
+import { K8sResourceKind, RowProps, TableData, Timestamp } from '@openshift-console/dynamic-plugin-sdk';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
 import { getCamelVersionAsString } from './camelAppVersion';
 import CamelImage from '@images/camel.svg';
 import CamelAppHealth from './CamelAppHealth';
-import { getLastMessageAsString, getLastMessageTimestamp } from './lastMessage';
+import { getLastMessageTimestamp } from './lastMessage';
+import { Label } from '@patternfly/react-core';
+import { MinusIcon } from '@patternfly/react-icons';
 
 const getNamespace = (obj) => obj.metadata?.namespace;
 const getStatus = (obj) => (obj.status?.phase ? obj.status.phase : 'Unknown');
@@ -32,7 +34,6 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
   };
 
   const lastMessageDate = getLastMessageTimestamp(camelInt, 'asc');
-  const lastMessageString = getLastMessageAsString(camelInt, 'asc', t);
 
   return (
     <>
@@ -54,7 +55,11 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
       </TableData>
       <TableData id="namespace" activeColumnIDs={activeColumnIDs}>
         <span className="co-break-word co-line-clamp">
-          {getNamespace(camelInt) || <span className="text-muted">{t('No namespace')}</span>}
+          {getNamespace(camelInt) || (
+            <Label color="grey" icon={<MinusIcon />} isCompact>
+              {t('No namespace')}
+            </Label>
+          )}
         </span>
       </TableData>
       <TableData id="status" activeColumnIDs={activeColumnIDs}>
@@ -65,16 +70,20 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
       </TableData>
       <TableData id="runtime" activeColumnIDs={activeColumnIDs}>
         {getRuntimeProvider(camelInt) || (
-          <span className="text-muted">{t('No runtime provider')}</span>
+          <Label color="grey" icon={<MinusIcon />} isCompact>
+            {t('No runtime provider')}
+          </Label>
         )}
       </TableData>
       <TableData id="camel" activeColumnIDs={activeColumnIDs}>
         {getCamelVersionAsString(camelInt, 'asc') || (
-          <span className="text-muted">{t('No camel version')}</span>
+          <Label color="grey" icon={<MinusIcon />} isCompact>
+            {t('No camel version')}
+          </Label>
         )}
       </TableData>
       <TableData id="lastmessage" activeColumnIDs={activeColumnIDs}>
-        <span title={lastMessageDate}>{lastMessageString}</span>
+        {lastMessageDate ? <Timestamp timestamp={lastMessageDate} /> : '-'}
       </TableData>
     </>
   );
