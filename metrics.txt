@@ -1,0 +1,59 @@
+# HELP app_info  
+# TYPE app_info gauge
+app_info{camel_context="camel-1",camel_runtime_provider="Main",camel_runtime_version="4.13.0-SNAPSHOT",camel_version="4.13.0-SNAPSHOT"} 1
+# HELP camel_exchange_event_notifier_seconds  
+# TYPE camel_exchange_event_notifier_seconds summary
+camel_exchange_event_notifier_seconds_count{camelContext="camel-1",endpointName="timer://foo",eventType="ExchangeCompletedEvent",failed="false",kind="CamelExchangeEvent",routeId="route1"} 261
+camel_exchange_event_notifier_seconds_sum{camelContext="camel-1",endpointName="timer://foo",eventType="ExchangeCompletedEvent",failed="false",kind="CamelExchangeEvent",routeId="route1"} 1458.114673175
+camel_exchange_event_notifier_seconds_count{camelContext="camel-1",endpointName="timer://foo",eventType="ExchangeFailedEvent",failed="true",kind="CamelExchangeEvent",routeId="route1"} 30
+camel_exchange_event_notifier_seconds_sum{camelContext="camel-1",endpointName="timer://foo",eventType="ExchangeFailedEvent",failed="true",kind="CamelExchangeEvent",routeId="route1"} 180.341599308
+# HELP camel_exchange_event_notifier_seconds_max  
+# TYPE camel_exchange_event_notifier_seconds_max gauge
+camel_exchange_event_notifier_seconds_max{camelContext="camel-1",endpointName="timer://foo",eventType="ExchangeCompletedEvent",failed="false",kind="CamelExchangeEvent",routeId="route1"} 9.341281159
+camel_exchange_event_notifier_seconds_max{camelContext="camel-1",endpointName="timer://foo",eventType="ExchangeFailedEvent",failed="true",kind="CamelExchangeEvent",routeId="route1"} 6.656646774
+# HELP camel_exchanges_total Total number of processed exchanges
+# TYPE camel_exchanges_total counter
+camel_exchanges_total{camelContext="camel-1",eventType="context",kind="CamelRoute",routeId=""} 291.0
+camel_exchanges_total{camelContext="camel-1",eventType="route",kind="CamelRoute",routeId="route1"} 291.0
+# HELP camel_exchanges_external_redeliveries_total Number of external initiated redeliveries (such as from JMS broker)
+# TYPE camel_exchanges_external_redeliveries_total counter
+camel_exchanges_external_redeliveries_total{camelContext="camel-1",eventType="context",kind="CamelRoute",routeId=""} 0.0
+camel_exchanges_external_redeliveries_total{camelContext="camel-1",eventType="route",kind="CamelRoute",routeId="route1"} 0.0
+# HELP camel_exchanges_failed_total Number of failed exchanges
+# TYPE camel_exchanges_failed_total counter
+camel_exchanges_failed_total{camelContext="camel-1",eventType="context",kind="CamelRoute",routeId=""} 30.0
+camel_exchanges_failed_total{camelContext="camel-1",eventType="route",kind="CamelRoute",routeId="route1"} 30.0
+# HELP camel_exchanges_failures_handled_total Number of failures handled
+# TYPE camel_exchanges_failures_handled_total counter
+camel_exchanges_failures_handled_total{camelContext="camel-1",eventType="context",kind="CamelRoute",routeId=""} 0.0
+camel_exchanges_failures_handled_total{camelContext="camel-1",eventType="route",kind="CamelRoute",routeId="route1"} 0.0
+# HELP camel_exchanges_inflight Route inflight messages
+# TYPE camel_exchanges_inflight gauge
+camel_exchanges_inflight{camelContext="camel-1",kind="CamelExchangeEvent",routeId="route1"} 1.0
+# HELP camel_exchanges_last_timestamp Last exchange processed time in milliseconds since the Unix epoch
+# TYPE camel_exchanges_last_timestamp gauge
+camel_exchanges_last_timestamp 1.766473530269E12
+# HELP camel_exchanges_succeeded_total Number of successfully completed exchanges
+# TYPE camel_exchanges_succeeded_total counter
+camel_exchanges_succeeded_total{camelContext="camel-1",eventType="context",kind="CamelRoute",routeId=""} 261.0
+camel_exchanges_succeeded_total{camelContext="camel-1",eventType="route",kind="CamelRoute",routeId="route1"} 261.0
+# HELP camel_route_policy_seconds Route performance metrics
+# TYPE camel_route_policy_seconds summary
+camel_route_policy_seconds_count{camelContext="camel-1",eventType="context",kind="CamelRoute",routeId=""} 291
+camel_route_policy_seconds_sum{camelContext="camel-1",eventType="context",kind="CamelRoute",routeId=""} 1638.364547131
+camel_route_policy_seconds_count{camelContext="camel-1",eventType="route",kind="CamelRoute",routeId="route1"} 291
+camel_route_policy_seconds_sum{camelContext="camel-1",eventType="route",kind="CamelRoute",routeId="route1"} 1638.370796677
+# HELP camel_route_policy_seconds_max Route performance metrics
+# TYPE camel_route_policy_seconds_max gauge
+camel_route_policy_seconds_max{camelContext="camel-1",eventType="context",kind="CamelRoute",routeId=""} 9.34103685
+camel_route_policy_seconds_max{camelContext="camel-1",eventType="route",kind="CamelRoute",routeId="route1"} 9.341054213
+# HELP camel_routes_added_routes  
+# TYPE camel_routes_added_routes gauge
+camel_routes_added_routes{camelContext="camel-1",eventType="RouteEvent",kind="CamelRoute"} 1.0
+# HELP camel_routes_reloaded_routes  
+# TYPE camel_routes_reloaded_routes gauge
+camel_routes_reloaded_routes{camelContext="camel-1",eventType="RouteEvent",kind="CamelRoute"} 0.0
+# HELP camel_routes_running_routes  
+# TYPE camel_routes_running_routes gauge
+camel_routes_running_routes{camelContext="camel-1",eventType="RouteEvent",kind="CamelRoute"} 1.0
+pod "curl-test" deleted
