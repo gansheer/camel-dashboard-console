@@ -8,6 +8,9 @@ type ResourceMetricsDashboardCardProps = {
   queries: string[];
   xl?: GridItemProps['xl'];
   lg?: GridItemProps['lg'];
+  className?: string;
+  isStack?: boolean;
+  units?: string;
 };
 
 const ResourceMetricsCard: React.FC<ResourceMetricsDashboardCardProps> = ({
@@ -16,6 +19,9 @@ const ResourceMetricsCard: React.FC<ResourceMetricsDashboardCardProps> = ({
   queries,
   xl = 6,
   lg = 12,
+  className,
+  isStack = false,
+  units,
 }) => {
   // Poll for the metric to check if data is available
   const [response, loaded] = usePrometheusPoll({
@@ -34,12 +40,12 @@ const ResourceMetricsCard: React.FC<ResourceMetricsDashboardCardProps> = ({
 
   return (
     <GridItem xl={xl} lg={lg}>
-      <Card className="resource-metrics-dashboard__card">
+      <Card className={`resource-metrics-dashboard__card ${className || ''}`}>
         <CardHeader>
           <CardTitle>{title}</CardTitle>
         </CardHeader>
         <CardBody className="resource-metrics-dashboard__card-body">
-          <QueryBrowser queries={queries} namespace={namespace} disableZoom hideControls />
+          <QueryBrowser queries={queries} namespace={namespace} disableZoom hideControls isStack={isStack} units={units} />
         </CardBody>
       </Card>
     </GridItem>
