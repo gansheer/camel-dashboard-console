@@ -40,6 +40,8 @@
   "Just now": "Just now",
   "Last message": "Last message",
   "Memory usage": "Memory usage",
+  "Message exchanges per minute": "Message exchanges per minute",
+  "Message failure rate": "Message failure rate",
   "Metrics": "Metrics",
   "Monitored": "Monitored",
   "Name": "Name",

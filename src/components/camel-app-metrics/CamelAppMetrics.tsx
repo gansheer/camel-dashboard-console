@@ -19,6 +19,18 @@ const CamelAppMetrics: React.FC<CamelAppMetricsProps> = ({ obj: camelInt }) => {
         <Grid hasGutter>
           <ResourceMetricsCard
             namespace={camelInt.metadata.namespace}
+            queries={queries[ResourceUtilizationQuery.EXCHANGES]}
+            title={t('Message exchanges per minute')}
+            units="exchanges/min"
+          />
+          <ResourceMetricsCard
+            namespace={camelInt.metadata.namespace}
+            queries={queries[ResourceUtilizationQuery.FAILED_EXCHANGES]}
+            title={t('Message failure rate')}
+            units="%"
+          />
+          <ResourceMetricsCard
+            namespace={camelInt.metadata.namespace}
             queries={queries[ResourceUtilizationQuery.MEMORY]}
             title={t('Memory usage')}
           />
