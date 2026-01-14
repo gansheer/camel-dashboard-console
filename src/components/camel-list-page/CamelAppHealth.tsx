@@ -7,6 +7,7 @@ import { UnknownIcon } from '@patternfly/react-icons';
 import { Label } from '@patternfly/react-core';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { HealthStatus, getHealthStatus, getHealthDisplayName } from './camel-health-utils';
 
 type CamelAppHealthProps = {
   health: string;
@@ -14,30 +15,33 @@ type CamelAppHealthProps = {
 
 const CamelAppHealth: React.FC<CamelAppHealthProps> = ({ health }) => {
   const { t } = useTranslation('plugin__camel-dashboard-console');
-  switch (health?.toLowerCase()) {
-    case 'ok':
-    case 'success':
+  const status = getHealthStatus(health);
+  const displayName = getHealthDisplayName(health, t);
+
+  switch (status) {
+    case HealthStatus.HEALTHY:
       return (
         <Label color="green" icon={<GreenCheckCircleIcon />} isCompact>
-          {t('Healthy')}
+          {displayName}
         </Label>
       );
-    case 'warning':
+    case HealthStatus.DEGRADED:
       return (
         <Label color="orange" icon={<YellowExclamationTriangleIcon />} isCompact>
-          {t('Degraded')}
+          {displayName}
         </Label>
       );
-    case 'error':
+    case HealthStatus.CRITICAL:
       return (
         <Label color="red" icon={<RedExclamationCircleIcon />} isCompact>
-          {t('Critical')}
+          {displayName}
         </Label>
       );
+    case HealthStatus.UNKNOWN:
     default:
       return (
         <Label color="grey" icon={<UnknownIcon />} isCompact>
-          {t('Unknown')}
+          {displayName}
         </Label>
       );
   }
