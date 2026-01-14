@@ -2,9 +2,11 @@ import { RowFilter, RowFilterItem } from '@openshift-console/dynamic-plugin-sdk'
 import { useTranslation } from 'react-i18next';
 import { CamelAppKind } from '../../types';
 import { getCamelVersions } from './camelAppVersion';
+import { getHealthDisplayName } from './camel-health-utils';
 
 export function statusFilterReducer(app): string {
-  return app.status?.phase;
+  const status = app.status?.phase;
+  return status ? `status-${status}` : 'status-undefined';
 }
 export function statusFilter(input, app): boolean {
   const reduced = statusFilterReducer(app);
@@ -15,11 +17,11 @@ export function statusFilter(input, app): boolean {
 }
 
 export function statusFilterItems(CamelApps: CamelAppKind[]): RowFilterItem[] {
-  const statuses = [...new Set(CamelApps.map((app) => statusFilterReducer(app)))].sort();
+  const statuses = [...new Set(CamelApps.map((app) => app.status?.phase))].sort();
 
   if (statuses?.length) {
-    return statuses.map((version) => {
-      return { id: version, title: version };
+    return statuses.map((status) => {
+      return { id: `status-${status}`, title: status };
     });
   } else {
     return [];
@@ -28,17 +30,17 @@ export function statusFilterItems(CamelApps: CamelAppKind[]): RowFilterItem[] {
 
 export function runtimeProviderFilterReducer(app): string {
   if (!app.status?.pods) {
-    return 'unknown';
+    return 'runtime-provider-unknown';
   }
   const runtimeProviderLower = app.status.pods[0]?.runtime?.runtimeProvider?.toLowerCase();
   if (runtimeProviderLower === undefined) {
-    return 'unknown';
+    return 'runtime-provider-unknown';
   } else if (runtimeProviderLower.includes('spring')) {
-    return 'spring-boot';
+    return 'runtime-provider-spring-boot';
   } else if (runtimeProviderLower.includes('quarkus')) {
-    return 'quarkus';
+    return 'runtime-provider-quarkus';
   } else {
-    return 'main';
+    return 'runtime-provider-main';
   }
 }
 
@@ -51,15 +53,15 @@ export function runtimeProviderFilter(input, app): boolean {
 }
 
 export const runtimeProviderFilterItems: RowFilterItem[] = [
-  { id: 'spring-boot', title: 'Spring-Boot' },
-  { id: 'quarkus', title: 'Quarkus' },
-  { id: 'main', title: 'Camel Main' },
+  { id: 'runtime-provider-spring-boot', title: 'Spring-Boot' },
+  { id: 'runtime-provider-quarkus', title: 'Quarkus' },
+  { id: 'runtime-provider-main', title: 'Camel Main' },
 ];
 
 export function camelVersionFilterReducer(app): string {
   const versions = getCamelVersions(app, 'asc');
   if (versions) {
-    return versions.join();
+    return versions.map(v => `camel-version-${v}`).join();
   }
   return '';
 }
@@ -68,7 +70,7 @@ export function camelVersionFilter(input, app): boolean {
   const versions = getCamelVersions(app, 'asc');
   if (input.selected?.length) {
     if (versions?.length) {
-      return versions.some((version) => input.selected.includes(version));
+      return versions.some((version) => input.selected.includes(`camel-version-${version}`));
     }
     return false;
   }
@@ -89,7 +91,7 @@ export function camelVersionFilterItems(CamelApps: CamelAppKind[]): RowFilterIte
 
   if (versions?.length) {
     return versions.map((version) => {
-      return { id: version, title: version };
+      return { id: `camel-version-${version}`, title: version };
     });
   } else {
     return [];
@@ -97,7 +99,8 @@ export function camelVersionFilterItems(CamelApps: CamelAppKind[]): RowFilterIte
 }
 
 export function camelHealthFilterReducer(app): string {
-  return app.status?.sliExchangeSuccessRate ? app.status.sliExchangeSuccessRate.status : 'Unknown';
+  const health = app.status?.sliExchangeSuccessRate ? app.status.sliExchangeSuccessRate.status : 'Unknown';
+  return `camel-health-${health}`;
 }
 
 export function camelHealthFilter(input, app): boolean {
@@ -108,12 +111,17 @@ export function camelHealthFilter(input, app): boolean {
   return true;
 }
 
-export function camelHealthFilterItems(CamelApps: CamelAppKind[]): RowFilterItem[] {
-  const camelHealthes = [...new Set(CamelApps.map((app) => camelHealthFilterReducer(app)))].sort();
+export function camelHealthFilterItems(CamelApps: CamelAppKind[], t: (key: string) => string): RowFilterItem[] {
+  const camelHealthes = [...new Set(CamelApps.map((app) =>
+    app.status?.sliExchangeSuccessRate ? app.status.sliExchangeSuccessRate.status : 'Unknown'
+  ))].sort();
 
   if (camelHealthes?.length) {
     return camelHealthes.map((camelHealth) => {
-      return { id: camelHealth, title: camelHealth };
+      return {
+        id: `camel-health-${camelHealth}`,
+        title: getHealthDisplayName(camelHealth, t)
+      };
     });
   } else {
     return [];
@@ -128,7 +136,7 @@ export const camelAppRowFilters = (CamelApps: CamelAppKind[]): RowFilter[] => {
       type: 'camel-health',
       reducer: camelHealthFilterReducer,
       filter: camelHealthFilter,
-      items: camelHealthFilterItems(CamelApps),
+      items: camelHealthFilterItems(CamelApps, t),
     },
     {
       filterGroupName: t('Runtime Provider'),
