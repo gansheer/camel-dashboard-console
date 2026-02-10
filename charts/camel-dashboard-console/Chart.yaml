@@ -6,6 +6,8 @@ description:  A Helm chart for installing the Camel Dashboard OpenShift Console 
 type: application
 version: 0.3.2
 appVersion: 0.3.2
+# follows https://github.com/opdev/getocprange/blob/main/kubeOpenShiftVersionMap.yaml
+kubeVersion: ">= 1.33"
 icon: https://github.com/camel-tooling/camel-dashboard/raw/main/docs/static/images/logo.png
 home: https://camel-tooling.github.io/camel-dashboard/
 keywords:
