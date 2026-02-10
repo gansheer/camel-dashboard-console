@@ -4,7 +4,7 @@ This project provides a [console plugin](https://github.com/openshift/console/tr
 
 ## Prerequisites
 
-* Kubernetes 1.19+
+* Kubernetes 1.33+
 * [Camel Dashboard Operator](https://github.com/camel-tooling/camel-dashboard-operator)
 
 ## Installation procedure
