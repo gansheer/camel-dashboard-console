@@ -1,3 +1,5 @@
+annotations:
+  charts.openshift.io/name: Camel Dashboard OpenShift Console plugin
 apiVersion: v2
 name: camel-dashboard-console
 description:  A Helm chart for installing the Camel Dashboard OpenShift Console plugin
