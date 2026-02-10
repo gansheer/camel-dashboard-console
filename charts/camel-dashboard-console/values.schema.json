@@ -1,0 +1,364 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Camel Dashboard Console Helm Chart Values",
+  "description": "Schema for validating values for the Camel Dashboard OpenShift Console plugin",
+  "type": "object",
+  "properties": {
+    "plugin": {
+      "type": "object",
+      "description": "Plugin configuration",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the plugin"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the plugin"
+        },
+        "image": {
+          "type": "string",
+          "description": "Container image for the plugin"
+        },
+        "imagePullPolicy": {
+          "type": "string",
+          "description": "Image pull policy",
+          "enum": ["Always", "IfNotPresent", "Never"],
+          "default": "IfNotPresent"
+        },
+        "replicas": {
+          "type": "integer",
+          "description": "Number of pod replicas",
+          "minimum": 0,
+          "default": 1
+        },
+        "port": {
+          "type": "integer",
+          "description": "Service port number",
+          "minimum": 1,
+          "maximum": 65535,
+          "default": 9443
+        },
+        "securityContext": {
+          "type": "object",
+          "description": "Security context settings",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enable security context",
+              "default": true
+            }
+          }
+        },
+        "podSecurityContext": {
+          "type": "object",
+          "description": "Pod security context settings",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enable pod security context",
+              "default": true
+            },
+            "runAsNonRoot": {
+              "type": "boolean",
+              "description": "Run as non-root user",
+              "default": true
+            },
+            "seccompProfile": {
+              "type": "object",
+              "description": "Seccomp profile configuration",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Seccomp profile type",
+                  "enum": ["RuntimeDefault", "Unconfined", "Localhost"],
+                  "default": "RuntimeDefault"
+                }
+              }
+            }
+          }
+        },
+        "containerSecurityContext": {
+          "type": "object",
+          "description": "Container security context settings",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enable container security context",
+              "default": true
+            },
+            "allowPrivilegeEscalation": {
+              "type": "boolean",
+              "description": "Allow privilege escalation",
+              "default": false
+            },
+            "capabilities": {
+              "type": "object",
+              "description": "Container capabilities",
+              "properties": {
+                "drop": {
+                  "type": "array",
+                  "description": "Capabilities to drop",
+                  "items": {
+                    "type": "string"
+                  },
+                  "default": ["ALL"]
+                }
+              }
+            }
+          }
+        },
+        "resources": {
+          "type": "object",
+          "description": "Resource requests and limits",
+          "properties": {
+            "requests": {
+              "type": "object",
+              "description": "Resource requests",
+              "properties": {
+                "cpu": {
+                  "type": "string",
+                  "description": "CPU request",
+                  "default": "10m"
+                },
+                "memory": {
+                  "type": "string",
+                  "description": "Memory request",
+                  "default": "50Mi"
+                }
+              }
+            },
+            "limits": {
+              "type": "object",
+              "description": "Resource limits",
+              "properties": {
+                "cpu": {
+                  "type": "string",
+                  "description": "CPU limit"
+                },
+                "memory": {
+                  "type": "string",
+                  "description": "Memory limit"
+                }
+              }
+            }
+          }
+        },
+        "basePath": {
+          "type": "string",
+          "description": "Base path for the plugin",
+          "default": "/"
+        },
+        "certificateSecretName": {
+          "type": "string",
+          "description": "Name of the secret containing TLS certificates"
+        },
+        "serviceAccount": {
+          "type": "object",
+          "description": "Service account configuration",
+          "properties": {
+            "create": {
+              "type": "boolean",
+              "description": "Create a service account",
+              "default": true
+            },
+            "annotations": {
+              "type": "object",
+              "description": "Service account annotations",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "default": {}
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the service account (generated if empty)"
+            }
+          }
+        },
+        "patcherServiceAccount": {
+          "type": "object",
+          "description": "Service account for patcher job",
+          "properties": {
+            "create": {
+              "type": "boolean",
+              "description": "Create a patcher service account",
+              "default": true
+            },
+            "annotations": {
+              "type": "object",
+              "description": "Patcher service account annotations",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "default": {}
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the patcher service account (generated if empty)"
+            }
+          }
+        },
+        "jobs": {
+          "type": "object",
+          "description": "Jobs configuration",
+          "properties": {
+            "patchConsoles": {
+              "type": "object",
+              "description": "Console patching job configuration",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Enable the patch consoles job",
+                  "default": true
+                },
+                "image": {
+                  "type": "string",
+                  "description": "Image for the patcher job"
+                },
+                "podSecurityContext": {
+                  "type": "object",
+                  "description": "Pod security context for the job",
+                  "properties": {
+                    "enabled": {
+                      "type": "boolean",
+                      "description": "Enable pod security context",
+                      "default": true
+                    },
+                    "runAsNonRoot": {
+                      "type": "boolean",
+                      "description": "Run as non-root user",
+                      "default": true
+                    },
+                    "seccompProfile": {
+                      "type": "object",
+                      "description": "Seccomp profile configuration",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "description": "Seccomp profile type",
+                          "enum": ["RuntimeDefault", "Unconfined", "Localhost"],
+                          "default": "RuntimeDefault"
+                        }
+                      }
+                    }
+                  }
+                },
+                "containerSecurityContext": {
+                  "type": "object",
+                  "description": "Container security context for the job",
+                  "properties": {
+                    "enabled": {
+                      "type": "boolean",
+                      "description": "Enable container security context",
+                      "default": true
+                    },
+                    "allowPrivilegeEscalation": {
+                      "type": "boolean",
+                      "description": "Allow privilege escalation",
+                      "default": false
+                    },
+                    "capabilities": {
+                      "type": "object",
+                      "description": "Container capabilities",
+                      "properties": {
+                        "drop": {
+                          "type": "array",
+                          "description": "Capabilities to drop",
+                          "items": {
+                            "type": "string"
+                          },
+                          "default": ["ALL"]
+                        }
+                      }
+                    }
+                  }
+                },
+                "resources": {
+                  "type": "object",
+                  "description": "Resource requests and limits for the job",
+                  "properties": {
+                    "requests": {
+                      "type": "object",
+                      "description": "Resource requests",
+                      "properties": {
+                        "cpu": {
+                          "type": "string",
+                          "description": "CPU request",
+                          "default": "10m"
+                        },
+                        "memory": {
+                          "type": "string",
+                          "description": "Memory request",
+                          "default": "50Mi"
+                        }
+                      }
+                    },
+                    "limits": {
+                      "type": "object",
+                      "description": "Resource limits",
+                      "properties": {
+                        "cpu": {
+                          "type": "string",
+                          "description": "CPU limit"
+                        },
+                        "memory": {
+                          "type": "string",
+                          "description": "Memory limit"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "camelAppRbac": {
+      "type": ["array", "null"],
+      "description": "Configure view permissions to camelapps.camel.apache.org Custom Resources (GET LIST WATCH)",
+      "items": {
+        "type": "object",
+        "description": "RBAC configuration for a specific namespace",
+        "required": ["namespace", "subjects"],
+        "properties": {
+          "namespace": {
+            "type": "string",
+            "description": "The namespace where the Role and RoleBinding will be created"
+          },
+          "subjects": {
+            "type": "array",
+            "description": "List of subjects (Users, Groups, or ServiceAccounts) to bind to the role",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["kind"],
+              "properties": {
+                "apiGroup": {
+                  "type": "string",
+                  "description": "API group (typically rbac.authorization.k8s.io for User and Group)"
+                },
+                "kind": {
+                  "type": "string",
+                  "description": "Subject kind",
+                  "enum": ["User", "Group", "ServiceAccount"]
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the subject"
+                },
+                "namespace": {
+                  "type": "string",
+                  "description": "Namespace of the ServiceAccount (required for ServiceAccount kind)"
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": []
+    }
+  }
+}
