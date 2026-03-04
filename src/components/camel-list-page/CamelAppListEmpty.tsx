@@ -36,7 +36,7 @@ const CamelAppListEmpty: React.FC = () => {
                     configure
                   </a>{' '}
                   your deployment so it can be discovered by the{' '}
-                  <a href="https://camel-tooling.github.io/camel-dashboard/docs/installation-guide/operator/">
+                  <a href="https://camel-tooling.github.io/camel-dashboard/docs/installation-guide/advanced/operator/">
                     Camel Dashboard Operator
                   </a>
                   .
