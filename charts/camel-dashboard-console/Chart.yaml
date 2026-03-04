@@ -7,7 +7,7 @@ type: application
 version: 0.4.0
 appVersion: 0.4.0
 # follows https://github.com/opdev/getocprange/blob/main/kubeOpenShiftVersionMap.yaml
-kubeVersion: ">= 1.33"
+kubeVersion: ">= 1.34"
 icon: https://github.com/camel-tooling/camel-dashboard/raw/main/docs/static/images/logo.png
 home: https://camel-tooling.github.io/camel-dashboard/
 keywords:
