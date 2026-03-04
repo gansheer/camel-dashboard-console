@@ -53,8 +53,10 @@ const CamelAppList: React.FC<CamelAppProps> = () => {
     <>
       <DocumentTitle>{t('Camel Applications')}</DocumentTitle>
       <NamespaceBar onNamespaceChange={setActiveNamespace} />
-      <ListPageHeader title={t('Camel Applications')} />
-      <CamelAppNotAvailable />
+      <div className="co-m-list">
+        <ListPageHeader title={t('Camel Applications')} />
+        <CamelAppNotAvailable />
+      </div>
     </>
   ) : (
     <>
