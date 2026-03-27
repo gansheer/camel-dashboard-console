@@ -26,6 +26,14 @@
           "enum": ["Always", "IfNotPresent", "Never"],
           "default": "IfNotPresent"
         },
+        "imagePullSecrets": {
+          "type": "array",
+          "description": "Image pull secrets for private registries",
+          "items": {
+            "type": "object"
+          },
+          "default": []
+        },
         "replicas": {
           "type": "integer",
           "description": "Number of pod replicas",
