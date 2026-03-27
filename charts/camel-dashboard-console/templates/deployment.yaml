@@ -16,6 +16,10 @@ spec:
       labels:
             {{- include "camel-dashboard-console.labels" . | nindent 8 }}
     spec:
+      {{- with .Values.plugin.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ template "camel-dashboard-console.name" . }}
           image: {{ required "Plugin image must be specified!" .Values.plugin.image }}
