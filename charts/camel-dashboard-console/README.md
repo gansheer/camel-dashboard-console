@@ -1,4 +1,4 @@
-# Camel Dashboard Operator
+# Camel Dashboard Console
 
 This project provides a [console plugin](https://github.com/openshift/console/tree/master/frontend/packages/console-dynamic-plugin-sdk) for [Camel](https://camel.apache.org).
 
