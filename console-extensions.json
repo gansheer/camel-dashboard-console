@@ -11,12 +11,18 @@
     }
   },
   {
+    "type": "console.flag/model",
+    "properties": {
+      "flag": "CAMEL_MONITOR_FLAG",
+      "model": {
+        "group": "camel.apache.org",
+        "version": "v1alpha1",
+        "kind": "CamelMonitor"
+      }
+    }
+  },
+  {
     "type": "console.page/route",
-    "flags": {
-      "required": [
-        "CAMEL_APP_FLAG"
-      ]
-    },
     "properties": {
       "exact": false,
       "path": "/camel/app/ns/:ns/name/:name",
@@ -40,11 +46,6 @@
   },
   {
     "type": "console.navigation/href",
-    "flags": {
-      "required": [
-        "CAMEL_APP_FLAG"
-      ]
-    },
     "properties": {
       "id": "camel-standalone",
       "name": "%plugin__camel-dashboard-console~Camel%",

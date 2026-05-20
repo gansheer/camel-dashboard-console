@@ -38,14 +38,19 @@ const CamelAppList: React.FC<CamelAppProps> = () => {
   };
 
   const columns = useCamelAppColumns(filterCamelAppsNamespace(activeNamespace));
-  const { CamelApps, loaded, error } = useCamelAppList(filterCamelAppsNamespace(activeNamespace));
+  const { CamelApps, loaded, error } = useCamelAppList(
+    filterCamelAppsNamespace(activeNamespace),
+  );
 
   const [staticData, filteredData, onFilterChange] = useListPageFilter(
     CamelApps,
     camelAppRowFilters(CamelApps),
   );
 
-  const operatorInstalled = useFlag('CAMEL_APP_FLAG');
+  // Check if either CRD exists
+  const oldCRDFlagEnabled = useFlag('CAMEL_APP_FLAG');
+  const newCRDFlagEnabled = useFlag('CAMEL_MONITOR_FLAG');
+  const operatorInstalled = oldCRDFlagEnabled || newCRDFlagEnabled;
 
   // TODO add filters
 
