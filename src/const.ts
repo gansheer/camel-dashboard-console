@@ -8,6 +8,12 @@ export const camelAppGVK: K8sGroupVersionKind = {
   kind: 'CamelApp',
 };
 
+export const camelMonitorGVK: K8sGroupVersionKind = {
+  group: 'camel.apache.org',
+  version: 'v1alpha1',
+  kind: 'CamelMonitor',
+};
+
 export const deploymentGVK: K8sGroupVersionKind = {
   group: 'apps',
   version: 'v1',

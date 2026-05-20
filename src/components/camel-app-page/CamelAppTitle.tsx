@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
-import { ALL_NAMESPACES_KEY, camelAppGVK } from '../../const';
+import { ALL_NAMESPACES_KEY } from '../../const';
 import { ResourceStatus, useActiveNamespace } from '@openshift-console/dynamic-plugin-sdk';
 import { PageHeader } from '@patternfly/react-component-groups';
 import { CamelAppKind } from '../../types';
@@ -29,6 +29,11 @@ const CamelAppTitle: React.FC<CamelAppTitleProps> = ({ name, obj }) => {
 
   const [activeNamespace] = useActiveNamespace();
 
+  // Get the actual kind from the resource, fallback to "CamelApp" for compatibility
+  const resourceKind = obj?.kind || 'CamelApp';
+  const resourceGroup = obj?.apiVersion?.split('/')?.[0] || 'camel.apache.org';
+  const resourceTitle = `${resourceKind}.${resourceGroup}`;
+
   return (
     <>
       <PageHeader
@@ -46,7 +51,7 @@ const CamelAppTitle: React.FC<CamelAppTitleProps> = ({ name, obj }) => {
               <span className="pf-v6-u-screen-reader">C</span>
               <span
                 className="co-m-resource-icon co-m-resource-secret co-m-resource-camel--lg co-m-resource-icon--lg"
-                title={camelAppGVK.kind + '.' + camelAppGVK.group}
+                title={resourceTitle}
               >
                 <img src={CamelImage} alt="Camel" className="camel-icon--lg" />
               </span>
