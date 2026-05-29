@@ -7,12 +7,13 @@ import {
   Divider,
   Flex,
   FlexItem,
+  Label,
   Progress,
   ProgressVariant,
   Title,
 } from '@patternfly/react-core';
 import { Table, Tbody } from '@patternfly/react-table';
-import { Timestamp } from '@openshift-console/dynamic-plugin-sdk';
+import { K8sResourceConditionStatus, Timestamp } from '@openshift-console/dynamic-plugin-sdk';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { useTranslation } from 'react-i18next';
 import { CamelAppKind } from '../../types';
@@ -48,10 +49,32 @@ const healthyCondition = (camelInt: CamelAppKind) => {
   return;
 };
 
+const memoryPressureCondition = (camelInt: CamelAppKind) => {
+  const conditions = camelInt.status?.conditions?.filter(
+    (condition) => condition.type == 'MemoryPressure',
+  );
+  if (conditions.length > 0) {
+    return conditions[0];
+  }
+  return;
+};
+
+const cpuPressureCondition = (camelInt: CamelAppKind) => {
+  const conditions = camelInt.status?.conditions?.filter(
+    (condition) => condition.type == 'CPUPressure',
+  );
+  if (conditions.length > 0) {
+    return conditions[0];
+  }
+  return;
+};
+
 const CamelAppHealthCard: React.FC<CamelAppHealthCardProps> = ({ obj: camelInt }) => {
   const { t } = useTranslation('plugin__camel-dashboard-console');
 
   const healthy = healthyCondition(camelInt);
+  const memoryPressure = memoryPressureCondition(camelInt);
+  const cpuPressure = cpuPressureCondition(camelInt);
   const healthStatus = camelInt.status?.sliExchangeSuccessRate?.status || '';
   const successPercentage = Number(camelInt.status?.sliExchangeSuccessRate?.successPercentage) || 0;
 
@@ -158,6 +181,58 @@ const CamelAppHealthCard: React.FC<CamelAppHealthCardProps> = ({ obj: camelInt }
             </>
           ) : (
             <></>
+          )}
+          {(memoryPressure || cpuPressure) && (
+            <>
+              <FlexItem>
+                <Divider />
+              </FlexItem>
+              <FlexItem>
+                <Title headingLevel="h4" size="md">
+                  {t('Resource Pressure')}
+                </Title>
+              </FlexItem>
+              <FlexItem>
+                <Flex
+                  direction={{ default: 'row' }}
+                  spaceItems={{ default: 'spaceItemsSm' }}
+                  flexWrap={{ default: 'wrap' }}
+                >
+                  {memoryPressure && (
+                    <FlexItem>
+                      <Label
+                        color={
+                          memoryPressure.status === K8sResourceConditionStatus.True
+                            ? 'orange'
+                            : 'green'
+                        }
+                        isCompact
+                      >
+                        {memoryPressure.status === K8sResourceConditionStatus.True
+                          ? t('Memory Pressure')
+                          : t('Memory OK')}
+                      </Label>
+                    </FlexItem>
+                  )}
+                  {cpuPressure && (
+                    <FlexItem>
+                      <Label
+                        color={
+                          cpuPressure.status === K8sResourceConditionStatus.True
+                            ? 'orange'
+                            : 'green'
+                        }
+                        isCompact
+                      >
+                        {cpuPressure.status === K8sResourceConditionStatus.True
+                          ? t('CPU Pressure')
+                          : t('CPU OK')}
+                      </Label>
+                    </FlexItem>
+                  )}
+                </Flex>
+              </FlexItem>
+            </>
           )}
         </Flex>
       </CardBody>
