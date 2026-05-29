@@ -7,12 +7,12 @@ const CamelAppNotAvailable: React.FC = () => {
 
   return (
     <PageSection className="pf-v6-u-text-align-start">
-      <Alert title={t('Camel Dashboard Operator is missing')} variant="warning" isInline>
+      <Alert title={t('Camel Monitor Operator is missing')} variant="warning" isInline>
         <Trans t={t}>
           <p>
             The{' '}
             <a href="https://camel-tooling.github.io/camel-dashboard/docs/installation-guide/advanced/operator/">
-              Camel Dashboard Operator
+              Camel Monitor Operator
             </a>{' '}
             is required because it is responsible for detecting the applications deployed on the
             cluster.
