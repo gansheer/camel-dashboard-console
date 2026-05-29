@@ -30,6 +30,10 @@ export type CamelAppStatusPod = {
   status: string;
   /** Format: date-time - in nanoseconds */
   uptimeTimestamp: string;
+  jvmMemoryMax?: number;
+  jvmMemoryUsed?: number;
+  processCPUMax?: string;
+  processCPUUsed?: string;
 };
 
 export type CamelAppObservability = {

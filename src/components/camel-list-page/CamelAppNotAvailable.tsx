@@ -17,7 +17,7 @@ const CamelAppNotAvailable: React.FC = () => {
             is required because it is responsible for detecting the applications deployed on the
             cluster.
           </p>
-          <br/>
+          <br />
           <p>
             Please ensure you{' '}
             <a href="https://camel-tooling.github.io/camel-dashboard/docs/installation-guide/">

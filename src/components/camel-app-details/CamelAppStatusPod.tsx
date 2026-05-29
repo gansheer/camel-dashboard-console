@@ -43,6 +43,10 @@ const hasRuntimeExchanges = (camelPod: CamelAppStatusPod) =>
 const hasObserve = (camelPod: CamelAppStatusPod) =>
   camelPod.observe && Object.keys(camelPod.observe).length > 0;
 const hasStatusMessage = (camelPod: CamelAppStatusPod) => (camelPod.reason ? true : false);
+const hasProcessInfo = (camelPod: CamelAppStatusPod) =>
+  camelPod.jvmMemoryMax !== undefined ||
+  camelPod.jvmMemoryUsed !== undefined ||
+  (camelPod.processCPUUsed !== undefined && camelPod.processCPUUsed !== '');
 
 const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, pod: camelPod }) => {
   const { t } = useTranslation('plugin__camel-dashboard-console');
@@ -54,6 +58,17 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
   const durationFull = formatDuration(duration, t, {
     omitSuffix: false,
   });
+
+  const bytesToMB = (bytes: number) => (bytes / (1024 * 1024)).toFixed(0);
+
+  const formatMemory = () => {
+    if (camelPod.jvmMemoryUsed === undefined) return '';
+    const usedMB = bytesToMB(camelPod.jvmMemoryUsed);
+    if (!camelPod.jvmMemoryMax) return `${usedMB} MB`;
+    const maxMB = bytesToMB(camelPod.jvmMemoryMax);
+    const percentage = ((camelPod.jvmMemoryUsed / camelPod.jvmMemoryMax) * 100).toFixed(1);
+    return `${usedMB} MB / ${maxMB} MB (${percentage}%)`;
+  };
 
   return (
     <>
@@ -106,7 +121,10 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
               <></>
             )}
 
-            {(hasRuntime(camelPod) || hasRuntimeExchanges(camelPod) || hasObserve(camelPod)) && (
+            {(hasRuntime(camelPod) ||
+              hasRuntimeExchanges(camelPod) ||
+              hasObserve(camelPod) ||
+              hasProcessInfo(camelPod)) && (
               <DescriptionListGroup>
                 <DescriptionListDescription>
                   <Divider />
@@ -133,6 +151,48 @@ const CamelAppStatusPod: React.FC<CamelAppStatusPodProps> = ({ obj: camelInt, po
                           <td>{t('Runtime Version')}:</td>
                           <td>{camelPod.runtime.runtimeVersion}</td>
                         </tr>
+                      </Tbody>
+                    </Table>
+                  </DescriptionListDescription>
+                </DescriptionListGroup>
+                {(hasProcessInfo(camelPod) ||
+                  hasRuntimeExchanges(camelPod) ||
+                  hasObserve(camelPod)) && (
+                  <DescriptionListGroup>
+                    <DescriptionListDescription>
+                      <Divider />
+                    </DescriptionListDescription>
+                  </DescriptionListGroup>
+                )}
+              </>
+            ) : (
+              <></>
+            )}
+            {hasProcessInfo(camelPod) ? (
+              <>
+                <DescriptionListGroup>
+                  <DescriptionListTerm>{t('Process')}:</DescriptionListTerm>
+                  <DescriptionListDescription>
+                    <Table>
+                      <Tbody>
+                        {camelPod.jvmMemoryUsed !== undefined && (
+                          <tr>
+                            <td>{t('JVM Memory')}:</td>
+                            <td>{formatMemory()}</td>
+                          </tr>
+                        )}
+                        {camelPod.processCPUUsed !== undefined &&
+                          camelPod.processCPUUsed !== '' && (
+                            <tr>
+                              <td>{t('CPU Usage')}:</td>
+                              <td>
+                                {camelPod.processCPUUsed}
+                                {camelPod.processCPUMax &&
+                                  camelPod.processCPUMax !== '' &&
+                                  ` / ${camelPod.processCPUMax}`}
+                              </td>
+                            </tr>
+                          )}
                       </Tbody>
                     </Table>
                   </DescriptionListDescription>

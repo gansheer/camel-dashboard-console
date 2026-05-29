@@ -72,23 +72,29 @@ export const useCamelApp = (
   const resourceData = hasNewResource
     ? resources.camelMonitor.data
     : hasOldResource
-      ? resources.camelApp.data
-      : ({} as CamelAppKind);
+    ? resources.camelApp.data
+    : ({} as CamelAppKind);
 
   // Loading state: wait for model discovery and data query
-  const dataLoaded = shouldWatchNew
-    ? newCRDLoaded
-    : shouldWatchOld
-    ? oldCRDLoaded
-    : true;
+  const dataLoaded = shouldWatchNew ? newCRDLoaded : shouldWatchOld ? oldCRDLoaded : true;
 
   const isLoading = !modelsLoaded || !dataLoaded;
 
   // Error handling: report real errors, ignore NoModelError and NotFound
   let error = '';
-  if (shouldWatchOld && oldCRDError && !isNoModelError(oldCRDError) && !isNotFoundError(oldCRDError)) {
+  if (
+    shouldWatchOld &&
+    oldCRDError &&
+    !isNoModelError(oldCRDError) &&
+    !isNotFoundError(oldCRDError)
+  ) {
     error = oldCRDError;
-  } else if (shouldWatchNew && newCRDError && !isNoModelError(newCRDError) && !isNotFoundError(newCRDError)) {
+  } else if (
+    shouldWatchNew &&
+    newCRDError &&
+    !isNoModelError(newCRDError) &&
+    !isNotFoundError(newCRDError)
+  ) {
     error = newCRDError;
   } else if (!isLoading && !hasOldResource && !hasNewResource) {
     // Queries completed but resource not found
