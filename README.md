@@ -75,7 +75,7 @@ helm upgrade -i camel-dashboard-console charts/camel-dashboard-console --namespa
 ## The Camel Tab
 
 In the admin perspective, in Workload, the Camel section is available:
-[![The Camel Plugin Home](screenshots/home.png)](screenshots/home.png)
+[![The Camel Plugin Home](https://raw.githubusercontent.com/camel-tooling/camel-dashboard/main/docs/content/docs/installation-guide/advanced/console/oc-console-list-420.png)](https://camel-tooling.github.io/camel-dashboard/docs/installation-guide/advanced/console/)
 
 It is also available in the developer perspective.
 
