@@ -8,6 +8,10 @@ RUN yarn install && yarn build
 
 FROM registry.access.redhat.com/ubi9/nginx-120:latest
 
+USER root
+RUN dnf -y update-minimal --security && \
+    dnf clean all
+
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html
 USER 1001
 
