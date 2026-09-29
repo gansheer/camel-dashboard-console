@@ -76,6 +76,11 @@ yarn test:e2e --project=chrome
 yarn test:e2e --project=firefox
 ```
 
+> **Note:** If Playwright's bundled Chromium cannot be downloaded (e.g. CDN unreachable), set `BROWSER_CHANNEL=chrome` to use your system Chrome for the auth-setup step. This applies to both browser projects since `auth-setup` is a shared dependency:
+> ```bash
+> BROWSER_CHANNEL=chrome yarn test:e2e --project=chrome
+> ```
+
 ### Local Development (Dev Mode)
 
 Dev mode is for testing **uncommitted local source code** without building a container image or deploying to the cluster. It auto-starts two local servers before running tests:
@@ -183,6 +188,7 @@ Specs import `{ test, expect }` from `../fixtures`, **not** from
 | `CLUSTER_IDP` | Identity provider name (e.g. `my_htpasswd_provider`). Auto-detected for `kubeadmin`. | No |
 | `CONSOLE_URL` | Console URL (skips auto-detection) | No |
 | `DEV` | Set to `true` for local dev mode | No |
+| `BROWSER_CHANNEL` | Browser channel for the auth-setup project (e.g. `chrome`). Useful when Playwright's bundled Chromium is not available. | No |
 
 ## CI/CD
 

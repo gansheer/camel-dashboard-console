@@ -77,7 +77,10 @@ export default defineConfig({
     {
       name: 'auth-setup',
       testMatch: /auth\.setup\.ts/,
-      use: { storageState: undefined },
+      use: {
+        storageState: undefined,
+        ...(process.env.BROWSER_CHANNEL ? { channel: process.env.BROWSER_CHANNEL } : {}),
+      },
     },
     {
       name: 'chrome',
