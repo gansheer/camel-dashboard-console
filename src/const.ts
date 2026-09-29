@@ -2,12 +2,6 @@ import { K8sGroupVersionKind } from '@openshift-console/dynamic-plugin-sdk';
 
 export const HAWTIO_CONSOLE_PLUGIN_NAME = 'hawtio-online-console-plugin';
 
-export const camelAppGVK: K8sGroupVersionKind = {
-  group: 'camel.apache.org',
-  version: 'v1alpha1',
-  kind: 'CamelApp',
-};
-
 export const camelMonitorGVK: K8sGroupVersionKind = {
   group: 'camel.apache.org',
   version: 'v1alpha1',

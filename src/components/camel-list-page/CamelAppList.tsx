@@ -40,9 +40,7 @@ const CamelAppList: React.FC = () => {
     filterRef.current?.onSetFilters({ health: [healthValue] });
   }, []);
 
-  const oldCRDFlagEnabled = useFlag('CAMEL_APP_FLAG');
-  const newCRDFlagEnabled = useFlag('CAMEL_MONITOR_FLAG');
-  const operatorInstalled = oldCRDFlagEnabled || newCRDFlagEnabled;
+  const operatorInstalled = useFlag('CAMEL_MONITOR_FLAG');
 
   if (!operatorInstalled) {
     return (
