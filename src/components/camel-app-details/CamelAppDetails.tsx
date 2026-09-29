@@ -26,7 +26,7 @@ import {
   ResourceLink,
   YellowExclamationTriangleIcon,
 } from '@openshift-console/dynamic-plugin-sdk';
-import { camelAppGVK, camelMonitorGVK } from '../../const';
+import { camelMonitorGVK } from '../../const';
 import CamelAppStatusPod from './CamelAppStatusPod';
 import CamelAppHealthCard from './CamelAppHealthCard';
 import CamelAppPodsSummary from './CamelAppPodsSummary';
@@ -58,23 +58,10 @@ const monitoredCondition = (camelInt: CamelAppKind) => {
   return;
 };
 
-// Helper to get the correct GVK for the resource
-const getResourceGVK = (obj: CamelAppKind): K8sGroupVersionKind => {
-  // Determine GVK from the resource's kind
-  if (obj?.kind === 'CamelMonitor') {
-    return camelMonitorGVK;
-  }
-  // Default to camelAppGVK for backward compatibility
-  return camelAppGVK;
-};
-
 const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
   const { t } = useTranslation('plugin__camel-dashboard-console');
 
   const monitored = monitoredCondition(camelInt);
-
-  // Get the correct GVK for this resource
-  const resourceGVK = getResourceGVK(camelInt);
 
   return (
     <>
@@ -95,7 +82,7 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
                     <DescriptionListDescription>
                       <ResourceLink
                         displayName={camelInt.metadata.name}
-                        groupVersionKind={resourceGVK}
+                        groupVersionKind={camelMonitorGVK}
                         name={camelInt.metadata.name}
                         namespace={camelInt.metadata.namespace}
                       />
