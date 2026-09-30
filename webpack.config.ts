@@ -1,6 +1,7 @@
 /* eslint-env node */
 
 import * as path from 'path';
+import * as glob from 'glob';
 
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import svgToMiniDataURI from 'mini-svg-data-uri';
@@ -10,6 +11,15 @@ import { type Configuration as WebpackConfiguration } from 'webpack';
 import { type Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
 import { ConsoleRemotePlugin } from '@openshift-console/dynamic-plugin-sdk-webpack';
+
+// The SDK's ConsoleRemotePlugin aliases top-level @patternfly/react-styles CSS
+// to prevent it from being bundled (the console provides PF styles at runtime).
+// However, nested copies inside transitive deps (react-core, react-table,
+// react-data-view) are missed. Collect all copies so we can alias them too.
+const nestedPfStylesCss = glob.sync(
+  'node_modules/**/node_modules/@patternfly/react-styles/**/*.css',
+  { cwd: __dirname },
+);
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -31,6 +41,9 @@ const config: Configuration = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     plugins: [new TsconfigPathsPlugin()],
+    alias: Object.fromEntries(
+      nestedPfStylesCss.map((cssFile) => [path.resolve(__dirname, cssFile), false]),
+    ),
   },
   module: {
     rules: [
