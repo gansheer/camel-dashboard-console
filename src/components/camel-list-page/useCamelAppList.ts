@@ -17,7 +17,11 @@ export const useCamelAppList = (
   });
 
   let error = '';
-  if (loadError && !loadError?.message?.includes('Model does not exist') && loadError?.name !== 'NoModelError') {
+  if (
+    loadError &&
+    !loadError?.message?.includes('Model does not exist') &&
+    loadError?.name !== 'NoModelError'
+  ) {
     error = loadError;
   }
 
