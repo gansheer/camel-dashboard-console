@@ -21,7 +21,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import {
   GreenCheckCircleIcon,
-  K8sGroupVersionKind,
   K8sResourceConditionStatus,
   ResourceLink,
   YellowExclamationTriangleIcon,
@@ -33,19 +32,6 @@ import CamelAppPodsSummary from './CamelAppPodsSummary';
 
 type CamelAppDetailsProps = {
   obj: CamelAppKind;
-};
-
-type CamelAppDetails = {
-  groupVersionKind: K8sGroupVersionKind;
-  name: string;
-  namespace: string;
-  version: string;
-  buildTimestamp: string;
-  runtimeFramework: string;
-  runtimeVersion: string;
-  frameworkVersion: string;
-  healthEndpoints: string[];
-  metricsEndpoint: string;
 };
 
 const monitoredCondition = (camelInt: CamelAppKind) => {

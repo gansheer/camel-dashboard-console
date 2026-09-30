@@ -29,8 +29,7 @@ const CamelAppTitle: React.FC<CamelAppTitleProps> = ({ name, obj }) => {
 
   const [activeNamespace] = useActiveNamespace();
 
-  // Get the actual kind from the resource, fallback to "CamelApp" for compatibility
-  const resourceKind = obj?.kind || 'CamelApp';
+  const resourceKind = obj?.kind || 'CamelMonitor';
   const resourceGroup = obj?.apiVersion?.split('/')?.[0] || 'camel.apache.org';
   const resourceTitle = `${resourceKind}.${resourceGroup}`;
 
