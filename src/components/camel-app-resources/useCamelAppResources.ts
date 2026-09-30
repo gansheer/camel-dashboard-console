@@ -31,65 +31,43 @@ export const useCamelAppPods = (
   parentKind: string,
   match: Selector,
 ): { CamelAppPods: K8sResourceKind[]; loaded: boolean; error: string } => {
-  if (parentKind == cronJobGVK.kind) {
-    // get pods for cronjob
-    const resources = useK8sWatchResources<{
-      jobs: K8sResourceKind[];
-      pods: K8sResourceKind[];
-    }>({
-      jobs: {
-        isList: true,
-        groupVersionKind: jobGVK,
-        namespaced: true,
-        namespace: namespace,
-        selector: match,
-      },
-      pods: {
-        isList: true,
-        groupVersionKind: podGVK,
-        namespaced: true,
-        namespace: namespace,
-        selector: match,
-      },
-    });
+  const isCronJob = parentKind == cronJobGVK.kind;
 
-    const jobsUids: string[] = [];
+  const resources = useK8sWatchResources<{
+    jobs: K8sResourceKind[];
+    pods: K8sResourceKind[];
+  }>({
+    jobs: {
+      isList: true,
+      groupVersionKind: jobGVK,
+      namespaced: true,
+      namespace: isCronJob ? namespace : undefined,
+      selector: isCronJob ? match : undefined,
+      optional: true,
+    },
+    pods: {
+      isList: true,
+      groupVersionKind: podGVK,
+      namespaced: true,
+      namespace: namespace,
+      selector: match,
+    },
+  });
 
-    if (resources.jobs.loaded && resources.jobs.data.length > 0) {
-      resources.jobs.data.forEach((job) => jobsUids.push(job.metadata.uid));
-    }
+  let pods = resources.pods.data;
 
-    if (resources.pods.data.length > 0) {
-      resources.pods.data = resources.pods.data.filter((pod) =>
-        jobsUids.includes(pod.metadata?.labels['batch.kubernetes.io/controller-uid']),
-      );
-    }
-
-    return {
-      CamelAppPods: resources.pods.data,
-      loaded: resources.pods.loaded,
-      error: resources.pods.loadError,
-    };
-  } else {
-    // get pods default
-    const resources = useK8sWatchResources<{
-      pods: K8sResourceKind[];
-    }>({
-      pods: {
-        isList: true,
-        groupVersionKind: podGVK,
-        namespaced: true,
-        namespace: namespace,
-        selector: match,
-      },
-    });
-
-    return {
-      CamelAppPods: resources.pods.data,
-      loaded: resources.pods.loaded,
-      error: resources.pods.loadError,
-    };
+  if (isCronJob && resources.jobs.loaded && resources.jobs.data.length > 0) {
+    const jobsUids = resources.jobs.data.map((job) => job.metadata.uid);
+    pods = pods.filter((pod) =>
+      jobsUids.includes(pod.metadata?.labels['batch.kubernetes.io/controller-uid']),
+    );
   }
+
+  return {
+    CamelAppPods: pods,
+    loaded: resources.pods.loaded,
+    error: resources.pods.loadError,
+  };
 };
 
 export const useCamelAppJobs = (
@@ -187,14 +165,13 @@ export const useCamelAppRoutes = (
       .forEach((service) => servicesNames.push(service.metadata.name));
   }
 
-  if (resources.routes.data.length > 0) {
-    resources.routes.data = resources.routes.data.filter((route) =>
-      servicesNames.includes(route.spec?.to?.name),
-    );
-  }
+  const routes =
+    servicesNames.length > 0
+      ? resources.routes.data.filter((route) => servicesNames.includes(route.spec?.to?.name))
+      : resources.routes.data;
 
   return {
-    CamelAppRoutes: resources.routes.data,
+    CamelAppRoutes: routes,
     loaded: resources.routes.loaded,
     error: resources.routes.loadError,
   };

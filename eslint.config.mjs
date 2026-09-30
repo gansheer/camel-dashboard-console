@@ -1,6 +1,7 @@
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
 import prettier from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 
@@ -10,6 +11,10 @@ export default tseslint.config(
   },
   eslint.configs.recommended,
   tseslint.configs.recommended,
+  {
+    ...reactHooks.configs.flat['recommended-latest'],
+    files: ['src/**/*.{ts,tsx}'],
+  },
   {
     files: ['src/**/*.{ts,tsx}'],
     plugins: {
