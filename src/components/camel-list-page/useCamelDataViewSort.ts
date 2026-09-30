@@ -57,6 +57,8 @@ export const useCamelDataViewSort = <TData>({
 
   useEffect(() => {
     const newSortState = getInitialSortState();
+    // Sync sort state when URL search params change externally
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSortBy((prev) => {
       if (prev.index === newSortState.index && prev.direction === newSortState.direction) {
         return prev;
