@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
   K8sGroupVersionKind,
   K8sResourceKind,
@@ -54,14 +55,16 @@ export const useCamelAppPods = (
     },
   });
 
-  let pods = resources.pods.data;
-
-  if (isCronJob && resources.jobs.loaded && resources.jobs.data.length > 0) {
-    const jobsUids = resources.jobs.data.map((job) => job.metadata.uid);
-    pods = pods.filter((pod) =>
-      jobsUids.includes(pod.metadata?.labels['batch.kubernetes.io/controller-uid']),
-    );
-  }
+  const pods = useMemo(() => {
+    let result = resources.pods.data;
+    if (isCronJob && resources.jobs.loaded && resources.jobs.data.length > 0) {
+      const jobsUids = resources.jobs.data.map((job) => job.metadata.uid);
+      result = result.filter((pod) =>
+        jobsUids.includes(pod.metadata?.labels['batch.kubernetes.io/controller-uid']),
+      );
+    }
+    return result;
+  }, [isCronJob, resources.jobs.loaded, resources.jobs.data, resources.pods.data]);
 
   return {
     CamelAppPods: pods,
@@ -108,17 +111,20 @@ export const useCamelAppServices = (
     },
   });
 
-  // Selector only works on labels, so we need to filter
-  const filteredData = resources.services.data.filter((service) => {
-    const selector = service.spec.selector as ServiceSelector;
-    const serviceLabel = service.metadata?.labels['app.kubernetes.io/name'];
-    if (selector && appName == selector.app) {
-      return true;
-    } else if (serviceLabel && serviceLabel == appName) {
-      return true;
-    }
-    return false;
-  });
+  const filteredData = useMemo(
+    () =>
+      resources.services.data.filter((service) => {
+        const selector = service.spec.selector as ServiceSelector;
+        const serviceLabel = service.metadata?.labels['app.kubernetes.io/name'];
+        if (selector && appName == selector.app) {
+          return true;
+        } else if (serviceLabel && serviceLabel == appName) {
+          return true;
+        }
+        return false;
+      }),
+    [resources.services.data, appName],
+  );
 
   return {
     CamelAppServices: filteredData,
@@ -148,27 +154,28 @@ export const useCamelAppRoutes = (
     },
   });
 
-  const servicesNames: string[] = [];
+  const routes = useMemo(() => {
+    const servicesNames: string[] = [];
 
-  if (resources.services.loaded && resources.services.data.length > 0) {
-    resources.services.data
-      .filter((service) => {
-        const selector = service.spec.selector as ServiceSelector;
-        const serviceLabel = service.metadata?.labels['app.kubernetes.io/name'];
-        if (selector && appName == selector.app) {
-          return true;
-        } else if (serviceLabel && serviceLabel == appName) {
-          return true;
-        }
-        return false;
-      })
-      .forEach((service) => servicesNames.push(service.metadata.name));
-  }
+    if (resources.services.loaded && resources.services.data.length > 0) {
+      resources.services.data
+        .filter((service) => {
+          const selector = service.spec.selector as ServiceSelector;
+          const serviceLabel = service.metadata?.labels['app.kubernetes.io/name'];
+          if (selector && appName == selector.app) {
+            return true;
+          } else if (serviceLabel && serviceLabel == appName) {
+            return true;
+          }
+          return false;
+        })
+        .forEach((service) => servicesNames.push(service.metadata.name));
+    }
 
-  const routes =
-    servicesNames.length > 0
+    return servicesNames.length > 0
       ? resources.routes.data.filter((route) => servicesNames.includes(route.spec?.to?.name))
       : resources.routes.data;
+  }, [resources.services.loaded, resources.services.data, resources.routes.data, appName]);
 
   return {
     CamelAppRoutes: routes,

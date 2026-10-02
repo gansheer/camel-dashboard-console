@@ -14,7 +14,7 @@ const CamelApp: React.FC = () => {
 
   const { CamelApp, isLoading, error } = useCamelApp(name, namespace);
 
-  const pages = useCamelAppTabs(CamelApp);
+  const pages = useCamelAppTabs();
 
   // TODO A common loading spinner component
   if (isLoading) {
