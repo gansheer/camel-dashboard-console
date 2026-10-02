@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { K8sResourceKind, useK8sModel } from '@openshift-console/dynamic-plugin-sdk';
 import * as _ from 'lodash';
 import { deploymentGVK } from '../../const';
@@ -67,8 +68,12 @@ export const getPodControllerMetricsQueries = (
 
 export const useResourceMetricsQueries = (obj: K8sResourceKind): { [key: string]: string[] } => {
   const [model] = useK8sModel(deploymentGVK);
-  if (model) {
-    return model.id === 'pod' ? null : getPodControllerMetricsQueries(obj.metadata.name, model.id);
-  }
-  return null;
+  return useMemo(() => {
+    if (model) {
+      return model.id === 'pod'
+        ? null
+        : getPodControllerMetricsQueries(obj.metadata.name, model.id);
+    }
+    return null;
+  }, [model, obj.metadata.name]);
 };

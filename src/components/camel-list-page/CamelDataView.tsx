@@ -186,12 +186,19 @@ export const CamelDataView = <TData, TFilters extends BaseFilters>({
     return filteredData;
   }, [dataViewColumns, filteredData, sortBy.direction, sortBy.index]);
 
-  const paginatedData = sortedData.slice(
-    (pagination.page - 1) * pagination.perPage,
-    pagination.page * pagination.perPage,
+  const paginatedData = useMemo(
+    () =>
+      sortedData.slice(
+        (pagination.page - 1) * pagination.perPage,
+        pagination.page * pagination.perPage,
+      ),
+    [sortedData, pagination.page, pagination.perPage],
   );
 
-  const dataViewRows = getDataViewRows(paginatedData, dataViewColumns);
+  const dataViewRows = useMemo(
+    () => getDataViewRows(paginatedData, dataViewColumns),
+    [getDataViewRows, paginatedData, dataViewColumns],
+  );
 
   const columnsWithSort = useMemo(
     () =>
