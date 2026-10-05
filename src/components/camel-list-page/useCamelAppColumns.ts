@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { SortByDirection } from '@patternfly/react-table';
 import { CamelAppKind } from '../../types';
 import { CamelDataViewColumn, nameColumnProps } from './CamelDataView';
+import { getUpgradeFilterValue } from './camelAppAccessors';
 import { sortResourceByCamelVersion } from './camelAppVersion';
 import { sortResourceByLastMessage } from './lastMessage';
 
@@ -31,6 +32,15 @@ export const useCamelAppColumns = (showNamespace: boolean) => {
         id: 'camel',
         sortFunction: (data: CamelAppKind[], direction: SortByDirection) =>
           [...data].sort(sortResourceByCamelVersion(direction)),
+      },
+      {
+        title: t('Upgrade'),
+        id: 'upgrade',
+        sortFunction: (data: CamelAppKind[], direction: SortByDirection) =>
+          [...data].sort((a, b) => {
+            const result = getUpgradeFilterValue(a).localeCompare(getUpgradeFilterValue(b));
+            return direction === SortByDirection.asc ? result : -result;
+          }),
       },
       {
         title: t('Time since the last message'),

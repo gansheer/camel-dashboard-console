@@ -1,3 +1,4 @@
+import { K8sResourceCondition } from '@openshift-console/dynamic-plugin-sdk';
 import { CamelAppKind } from '../../types';
 import { HealthStatus, getHealthStatus } from './camel-health-utils';
 
@@ -11,6 +12,23 @@ export const getCamelHealth = (obj: CamelAppKind): string =>
 
 export const getHealthFilterValue = (health: string): HealthStatus => {
   return getHealthStatus(health);
+};
+
+export const getUpgradeAvailableCondition = (
+  obj: CamelAppKind,
+): K8sResourceCondition | undefined => {
+  const conditions = obj.status?.conditions?.filter(
+    (condition) => condition.type === 'UpgradeAvailable',
+  );
+  return conditions?.length > 0 ? conditions[0] : undefined;
+};
+
+export const getUpgradeFilterValue = (obj: CamelAppKind): string => {
+  const condition = getUpgradeAvailableCondition(obj);
+  if (!condition) return 'Unknown';
+  if (condition.status === 'True') return 'Available';
+  if (condition.status === 'False') return 'Up to date';
+  return 'Unknown';
 };
 
 export const getRuntimeFilterValue = (obj: CamelAppKind): string => {
