@@ -9,6 +9,7 @@ import {
   getCamelHealth,
   getHealthFilterValue,
   getRuntimeFilterValue,
+  getUpgradeFilterValue,
 } from './camelAppAccessors';
 import { getCamelVersions } from './camelAppVersion';
 
@@ -18,6 +19,7 @@ export type CamelFilters = {
   runtime: string[];
   version: string[];
   status: string[];
+  upgrade: string[];
 };
 
 export const initialFilters: CamelFilters = {
@@ -26,6 +28,7 @@ export const initialFilters: CamelFilters = {
   runtime: [],
   version: [],
   status: [],
+  upgrade: [],
 };
 
 export const useCamelAppFilters = (data: CamelAppKind[]) => {
@@ -59,6 +62,11 @@ export const useCamelAppFilters = (data: CamelAppKind[]) => {
     return statuses.map((s) => ({ value: s, label: s }));
   }, [data]);
 
+  const upgradeFilterOptions = useMemo<DataViewFilterOption[]>(() => {
+    const values = [...new Set(data.map((app) => getUpgradeFilterValue(app)))].sort();
+    return values.map((v) => ({ value: v, label: v }));
+  }, [data]);
+
   const additionalFilterNodes = useMemo<React.ReactNode[]>(
     () => [
       React.createElement(DataViewCheckboxFilter, {
@@ -89,8 +97,22 @@ export const useCamelAppFilters = (data: CamelAppKind[]) => {
         placeholder: t('Filter by status'),
         options: statusFilterOptions,
       }),
+      React.createElement(DataViewCheckboxFilter, {
+        key: 'upgrade',
+        filterId: 'upgrade',
+        title: t('Upgrade'),
+        placeholder: t('Filter by upgrade'),
+        options: upgradeFilterOptions,
+      }),
     ],
-    [t, healthFilterOptions, runtimeFilterOptions, versionFilterOptions, statusFilterOptions],
+    [
+      t,
+      healthFilterOptions,
+      runtimeFilterOptions,
+      versionFilterOptions,
+      statusFilterOptions,
+      upgradeFilterOptions,
+    ],
   );
 
   const matchesAdditionalFilters = useCallback((resource: CamelAppKind, filters: CamelFilters) => {
@@ -109,6 +131,10 @@ export const useCamelAppFilters = (data: CamelAppKind[]) => {
     if (filters.status.length > 0) {
       const statusValue = getStatus(resource);
       if (!filters.status.includes(statusValue)) return false;
+    }
+    if (filters.upgrade.length > 0) {
+      const upgradeValue = getUpgradeFilterValue(resource);
+      if (!filters.upgrade.includes(upgradeValue)) return false;
     }
     return true;
   }, []);

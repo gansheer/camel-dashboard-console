@@ -1,16 +1,26 @@
 import * as React from 'react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Timestamp } from '@openshift-console/dynamic-plugin-sdk';
+import { K8sResourceConditionStatus, Timestamp } from '@openshift-console/dynamic-plugin-sdk';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
-import { Label } from '@patternfly/react-core';
-import { MinusIcon } from '@patternfly/react-icons';
+import { Label, Tooltip } from '@patternfly/react-core';
+import {
+  ArrowCircleUpIcon,
+  CheckCircleIcon,
+  MinusIcon,
+  UnknownIcon,
+} from '@patternfly/react-icons';
 import { Link } from 'react-router';
 import { CamelAppKind } from '../../types';
 import { CamelDataViewColumn, CamelDataViewTd, nameCellProps } from './CamelDataView';
 import CamelAppHealth from './CamelAppHealth';
 import CamelImage from '@images/camel.svg';
-import { getStatus, getRuntimeProvider, getCamelHealth } from './camelAppAccessors';
+import {
+  getStatus,
+  getRuntimeProvider,
+  getCamelHealth,
+  getUpgradeAvailableCondition,
+} from './camelAppAccessors';
 import { getCamelVersionAsString } from './camelAppVersion';
 import { getLastMessageTimestamp } from './lastMessage';
 
@@ -24,6 +34,7 @@ export const useCamelAppRows = () => {
     ): CamelDataViewTd[][] => {
       return data.map((obj) => {
         const lastMessageDate = getLastMessageTimestamp(obj, 'asc');
+        const upgradeCondition = getUpgradeAvailableCondition(obj);
 
         const rowCells: Record<string, { cell: React.ReactNode; props?: Record<string, unknown> }> =
           {
@@ -75,6 +86,24 @@ export const useCamelAppRows = () => {
                   {t('No camel version')}
                 </Label>
               ),
+            },
+            upgrade: {
+              cell:
+                upgradeCondition?.status === K8sResourceConditionStatus.True ? (
+                  <Tooltip content={upgradeCondition.message}>
+                    <Label color="blue" icon={<ArrowCircleUpIcon />} isCompact>
+                      {t('Available')}
+                    </Label>
+                  </Tooltip>
+                ) : upgradeCondition?.status === K8sResourceConditionStatus.False ? (
+                  <Label color="green" icon={<CheckCircleIcon />} isCompact>
+                    {t('Up to date')}
+                  </Label>
+                ) : (
+                  <Label color="grey" icon={<UnknownIcon />} isCompact>
+                    {t('Unknown')}
+                  </Label>
+                ),
             },
             lastmessage: {
               cell: lastMessageDate ? <Timestamp timestamp={lastMessageDate} /> : '-',

@@ -15,8 +15,6 @@ import {
   Label,
   PageSection,
   Title,
-  Tooltip,
-  Truncate,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import {
@@ -25,6 +23,7 @@ import {
   ResourceLink,
   YellowExclamationTriangleIcon,
 } from '@openshift-console/dynamic-plugin-sdk';
+import { ArrowCircleUpIcon } from '@patternfly/react-icons';
 import { camelMonitorGVK } from '../../const';
 import CamelAppStatusPod from './CamelAppStatusPod';
 import CamelAppHealthCard from './CamelAppHealthCard';
@@ -44,10 +43,21 @@ const monitoredCondition = (camelInt: CamelAppKind) => {
   return;
 };
 
+const upgradeAvailableCondition = (camelInt: CamelAppKind) => {
+  const conditions = camelInt.status?.conditions?.filter(
+    (condition) => condition.type === 'UpgradeAvailable',
+  );
+  if (conditions?.length > 0) {
+    return conditions[0];
+  }
+  return;
+};
+
 const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
   const { t } = useTranslation('plugin__camel-dashboard-console');
 
   const monitored = monitoredCondition(camelInt);
+  const upgradeAvailable = upgradeAvailableCondition(camelInt);
 
   return (
     <>
@@ -78,11 +88,9 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
                     <DescriptionListTerm>{t('Image')}:</DescriptionListTerm>
                     <DescriptionListDescription>
                       {camelInt.status?.image ? (
-                        <Tooltip content={camelInt.status.image}>
-                          <span className="camel-font-monospace">
-                            <Truncate content={camelInt.status.image} />
-                          </span>
-                        </Tooltip>
+                        <div className="co-break-all co-select-to-copy">
+                          {camelInt.status.image}
+                        </div>
                       ) : (
                         'unknown'
                       )}
@@ -103,6 +111,17 @@ const CamelAppDetails: React.FC<CamelAppDetailsProps> = ({ obj: camelInt }) => {
                       )}
                     </DescriptionListDescription>
                   </DescriptionListGroup>
+                  {upgradeAvailable &&
+                    upgradeAvailable.status === K8sResourceConditionStatus.True && (
+                      <DescriptionListGroup>
+                        <DescriptionListTerm>{t('Runtime Update')}:</DescriptionListTerm>
+                        <DescriptionListDescription>
+                          <Label color="blue" icon={<ArrowCircleUpIcon />} isCompact>
+                            {upgradeAvailable.message}
+                          </Label>
+                        </DescriptionListDescription>
+                      </DescriptionListGroup>
+                    )}
                 </DescriptionList>
               </CardBody>
             </Card>
