@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+# origin-console:5.0 image is missing OCPBUGS-111929 fix (plugin entrypoint failing to load)
 CONSOLE_IMAGE=${CONSOLE_IMAGE:="quay.io/openshift/origin-console:4.22"}
 CONSOLE_PORT=${CONSOLE_PORT:=9000}
 CONSOLE_IMAGE_PLATFORM=${CONSOLE_IMAGE_PLATFORM:="linux/amd64"}

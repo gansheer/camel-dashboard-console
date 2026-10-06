@@ -24,7 +24,7 @@ import {
   YellowExclamationTriangleIcon,
 } from '@openshift-console/dynamic-plugin-sdk';
 import { useTranslation } from 'react-i18next';
-import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
+import Status from '../shared/Status';
 import { formatDuration } from '../../date-utils';
 import { Table, Tbody } from '@patternfly/react-table';
 

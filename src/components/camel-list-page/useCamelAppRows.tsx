@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { K8sResourceConditionStatus, Timestamp } from '@openshift-console/dynamic-plugin-sdk';
-import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
+import Status from '../shared/Status';
 import { Label, Tooltip } from '@patternfly/react-core';
 import {
   ArrowCircleUpIcon,

@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { jobGVK } from '../../const';
 import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
-import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
+import Status from '../shared/Status';
 import ResourceLoadingCard from './ResourceLoadingCard';
 import { useTranslation } from 'react-i18next';
 

@@ -15,7 +15,7 @@ import {
 } from '@patternfly/react-core';
 import { K8sResourceKind, ResourceLink } from '@openshift-console/dynamic-plugin-sdk';
 import { podGVK } from '../../const';
-import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
+import Status from '../shared/Status';
 import { useCamelAppPods } from './useCamelAppResources';
 import { getPodStatus } from './podStatus';
 import { useTranslation } from 'react-i18next';
