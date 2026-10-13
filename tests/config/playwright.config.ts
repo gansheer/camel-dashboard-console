@@ -36,8 +36,9 @@ function resolveBaseUrl(): string {
       ['login', clusterUrl, '-u', user, '-p', password, '--insecure-skip-tls-verify'],
       { stdio: 'pipe', env },
     );
-  } catch (e: any) {
-    throw new Error(`oc login to ${clusterUrl} failed: ${e.stderr || e.message}`);
+  } catch (e: unknown) {
+    const err = e as Error & { stderr?: string };
+    throw new Error(`oc login to ${clusterUrl} failed: ${err.stderr || err.message}`);
   }
 
   const url = execFileSync(

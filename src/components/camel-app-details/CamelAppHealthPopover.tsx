@@ -24,7 +24,7 @@ type PopoverCamelHealthProps = {
   title?: string;
   hideHeader?: boolean;
   isVisible?: boolean;
-  shouldClose?: (hideFunction: any) => void;
+  shouldClose?: PopoverProps['shouldClose'];
   shouldOpen?: PopoverProps['shouldOpen'];
   condition?: K8sResourceCondition;
 };
