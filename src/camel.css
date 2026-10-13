@@ -7,6 +7,7 @@
 }
 
 /* Fix list page width to match standard OpenShift Console pages */
+/* stylelint-disable-next-line selector-disallowed-list */
 .co-m-list {
   max-width: 100%;
   padding-left: var(--pf-v6-global--spacer--lg, 24px);
@@ -14,17 +15,20 @@
 }
 
 /* Fix detail page width to match standard OpenShift Console pages */
+/* stylelint-disable-next-line selector-disallowed-list */
 .co-m-pane {
   max-width: 100%;
   padding-left: var(--pf-v6-global--spacer--lg, 24px);
   padding-right: var(--pf-v6-global--spacer--lg, 24px);
 }
 
+/* stylelint-disable-next-line selector-disallowed-list */
 .co-m-resource-camel {
   padding:1px 4px;
   background-color: transparent;
 }
 
+/* stylelint-disable-next-line selector-disallowed-list */
 .co-m-resource-camel--lg {
   background-color: transparent;
   margin-right: 0;

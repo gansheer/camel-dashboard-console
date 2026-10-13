@@ -6,8 +6,9 @@ export function execOc(command: string): string {
       encoding: 'utf-8',
       stdio: 'pipe',
     }).trim();
-  } catch (error: any) {
-    throw new Error(`oc execution failed: ${error.stderr || error.message}`);
+  } catch (error: unknown) {
+    const err = error as Error & { stderr?: string };
+    throw new Error(`oc execution failed: ${err.stderr || err.message}`);
   }
 }
 
@@ -18,8 +19,9 @@ export function ocApplyYaml(yamlContent: string): string {
       encoding: 'utf-8',
       stdio: ['pipe', 'pipe', 'pipe'],
     }).trim();
-  } catch (error: any) {
-    throw new Error(`oc apply failed: ${error.stderr || error.message}`);
+  } catch (error: unknown) {
+    const err = error as Error & { stderr?: string };
+    throw new Error(`oc apply failed: ${err.stderr || err.message}`);
   }
 }
 
@@ -30,7 +32,8 @@ export function ocDelete(resource: string, name: string, namespace?: string): st
       encoding: 'utf-8',
       stdio: 'pipe',
     }).trim();
-  } catch (error: any) {
-    throw new Error(`oc delete failed: ${error.stderr || error.message}`);
+  } catch (error: unknown) {
+    const err = error as Error & { stderr?: string };
+    throw new Error(`oc delete failed: ${err.stderr || err.message}`);
   }
 }
