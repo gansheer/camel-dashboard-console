@@ -15,7 +15,14 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - runner: ubuntu-latest
+            arch: amd64
+          - runner: ubuntu-24.04-arm
+            arch: arm64
+    runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -43,27 +50,59 @@ jobs:
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_ROBOT_TOKEN }}
 
+      - name: Get version
+        id: version
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
       - name: Build plugin container
         shell: bash
         run: |
-          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-dashboard-console image
+          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-dashboard-console CUSTOM_PLUGIN_VERSION=${{ steps.version.outputs.VERSION }}-${{ matrix.arch }} image
 
       - name: Push plugin container
         if: startsWith(github.ref, 'refs/heads/release-')
         shell: bash
         run: |
-          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-dashboard-console push
+          make CUSTOM_PLUGIN_IMAGE=quay.io/camel-tooling/camel-dashboard-console CUSTOM_PLUGIN_VERSION=${{ steps.version.outputs.VERSION }}-${{ matrix.arch }} push
+
+  manifest:
+    if: startsWith(github.ref, 'refs/heads/release-')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Log in to registry
+        uses: redhat-actions/podman-login@v2
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_ROBOT_TOKEN }}
+
+      - name: Create and push multi-arch manifests
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          IMAGE=quay.io/camel-tooling/camel-dashboard-console
+
+          podman manifest create ${IMAGE}:${VERSION} \
+            ${IMAGE}:${VERSION}-amd64 \
+            ${IMAGE}:${VERSION}-arm64
+          podman manifest push ${IMAGE}:${VERSION} docker://${IMAGE}:${VERSION}
 
       - name: Generate SBOM
-        if: startsWith(github.ref, 'refs/heads/release-')
         run: npx @cyclonedx/cdxgen -o sbom.json -t yarn
 
       - name: Install ORAS
-        if: startsWith(github.ref, 'refs/heads/release-')
         uses: oras-project/setup-oras@v2
 
       - name: Attach application SBOM to container image
-        if: startsWith(github.ref, 'refs/heads/release-')
         shell: bash
         run: |
           VERSION=$(node -p "require('./package.json').version")
@@ -74,11 +113,9 @@ jobs:
             sbom.json:application/vnd.cyclonedx+json
 
       - name: Install Syft
-        if: startsWith(github.ref, 'refs/heads/release-')
         uses: anchore/sbom-action/download-syft@v0
 
       - name: Generate and attach image SBOM
-        if: startsWith(github.ref, 'refs/heads/release-')
         shell: bash
         run: |
           VERSION=$(node -p "require('./package.json').version")
