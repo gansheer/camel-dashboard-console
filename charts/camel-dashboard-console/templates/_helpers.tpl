@@ -54,6 +54,22 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
+Patcher labels — uses patcherName as app.kubernetes.io/name so the
+network policy podSelector (which matches the plugin name) does not
+apply to the short-lived patcher job.
+*/}}
+{{- define "camel-dashboard-console.patcherLabels" -}}
+helm.sh/chart: {{ include "camel-dashboard-console.chart" . }}
+app.kubernetes.io/name: {{ include "camel-dashboard-console.patcherName" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/part-of: {{ include "camel-dashboard-console.name" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
 Create the name of the patcher
 */}}
 {{- define "camel-dashboard-console.patcherName" -}}

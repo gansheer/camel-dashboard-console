@@ -5,7 +5,7 @@ metadata:
   name: {{ template "camel-dashboard-console.patcherName" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "camel-dashboard-console.labels" . | nindent 4 }}
+    {{- include "camel-dashboard-console.patcherLabels" . | nindent 4 }}
   annotations:
     helm.sh/hook: post-install,post-upgrade
     helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "camel-dashboard-console.labels" . | nindent 8 }}
+        {{- include "camel-dashboard-console.patcherLabels" . | nindent 8 }}
     spec:
       restartPolicy: OnFailure
       serviceAccountName: {{ template "camel-dashboard-console.patcherServiceAccountName" . }}
