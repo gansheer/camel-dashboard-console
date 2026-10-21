@@ -4,8 +4,13 @@ This project provides a [console plugin](https://github.com/openshift/console/tr
 
 ## Prerequisites
 
-* Kubernetes 1.33+
+* Kubernetes 1.34+
 * [Camel Dashboard Operator](https://github.com/camel-tooling/camel-dashboard-operator)
+
+## Supported architectures
+
+The plugin container image is published as a multi-arch manifest supporting `amd64` and `arm64`.
+Development mode only supports `amd64`.
 
 ## Installation procedure
 
@@ -18,6 +23,5 @@ Install chart
 ```
 $ helm install camel-dashboard-console camel-dashboard/camel-dashboard-console --version <version> --namespace camel-dashboard --set plugin.image=quay.io/camel-tooling/camel-dashboard-console:<version>
 ```
-
 
 For more installation configuration on the Camel Dashboard Console please see the [installation documentation](https://camel-tooling.github.io/camel-dashboard/docs/installation-guide/console/).
